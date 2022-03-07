@@ -51,11 +51,11 @@ componentDidMount(){
         this.setState({ railingType: type });
 }
     picker(type){
-        ImagePicker.openPicker({
-          width: 300,
-          height: 400,
-          cropping: true
-        }).then(image => {
+         ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
         
             switch(type){
             case 0:
@@ -104,7 +104,7 @@ isFormFilled() {
 Pass() {
     if (this.isFormFilled()) {
 
-        this.props.navigation.navigate('Framing',{...this.state.data, DeckSurface_id:1, DeckSurfaceMaintainance_id:this.state.DeckSurfaceMaintainance_id ,DeckSurfaceFinding: this.state.DeckSurfaceFinding, DeckCloseImg: this.state.closeFImg, DeckLocImg: this.state.LocFImg})
+        this.props.navigation.navigate('Framing',{...this.state.data, DeckSurface_id:1, DeckSurfaceMaintainance_id:this.state.DeckSurfaceMaintainance_id ,DeckSurfaceFinding: this.state.DeckSurfaceFinding, DeckCloseImg: this.state.closeFImg, DeckLocImg: this.state.LocFImg,inspectionId: this?.props?.route?.params?.inspectionId})
     }
 
 }

@@ -36,7 +36,9 @@ class PropertiesforInspection extends Component {
         await Get_Inspection_List(token).then(response => {
             if (response.status === 200 && !response.data.error) {
                 console.log(response.data)
-                this.setState({ data: [response.data.data.inspection] });
+                this.setState({ data: response.data.data.inspection },() =>{
+                    console.log(this.state.data)
+                });
 
             }
             else {
@@ -56,7 +58,7 @@ class PropertiesforInspection extends Component {
                 <SafeAreaView style={{ flex: 1 }}>
                     <Text style={[styles.itemTxt, { fontSize: 26, textAlign: 'center', fontWeight: "bold", marginTop: 15 }]}>Properties for inspection</Text>
 
-
+                    
                     <View style={{ flex: 1 }}>
                         {this.state.data.length > 0 ?
                             <View style={{ height: '100%', alignSelf: 'center', position: 'absolute', marginTop: 20 }}>
@@ -64,11 +66,14 @@ class PropertiesforInspection extends Component {
                                     data={this.state.data}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
-                                        <TouchableOpacity style={styles.itemView} onPress={() => this.props.navigation.navigate("Inspection")}
+                                        <TouchableOpacity style={styles.itemView} 
+                                        onPress={() => this.props.navigation.navigate("Inspection", {dataToSend: item, inspectionId: item?.prepared_for?.inspection_id })}
                                         >
                                             <Image
                                                 style={{ width: '90%', marginTop: 20, height: 121, alignSelf: 'center', resizeMode: "stretch" }}
-                                                source={require('../../assets/pic3.png')} />
+                                                source={item?.image?.image_url ? {uri: 'http://3.143.107.15/images/'+item?.image?.image_url}: require('../../assets/pic3.png')} 
+                                                // source={require('../../assets/pic3.png')} 
+                                                />
 
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
                                                 <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item.txt}</Text>

@@ -99,7 +99,7 @@ class Inspection extends Component {
     
             <View style={{flex:1, justifyContent:'flex-end'}}>
             <TouchableOpacity
-            onPress={()=> this.props.navigation.navigate("Content")}
+            onPress={()=> this.props.navigation.navigate("Review")}
             style={[styles.itemView,{backgroundColor:'#c9c8db', height: 45,paddingHorizontal:15,marginBottom:10}]}>
             <Text style={styles.itemTxt}>View complete report</Text>
             <Image
@@ -114,7 +114,7 @@ class Inspection extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity 
-            onPress={()=> this.props.navigation.navigate('AddLocation')}
+            onPress={()=> this.props.navigation.navigate('AddLocation',{inspectionId: this?.props?.route?.params?.inspectionId})}
             style={[styles.Btn]}>
             <Text style={[styles.itemTxt,{fontSize: 12, color:'white'}]}>Add location for this inspection</Text>
 

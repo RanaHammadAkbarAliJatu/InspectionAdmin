@@ -39,11 +39,11 @@ class Flashing extends Component {
         };
     }
     picker(type){
-        ImagePicker.openPicker({
-          width: 300,
-          height: 400,
-          cropping: true
-        }).then(image => {
+         ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
         
             switch(type){
             case 0:
@@ -72,7 +72,7 @@ componentDidMount(){
     console.log(data);
     this.setState({data: data});
     const type = []
-    data.data.flashing.forEach(el => {
+    data?.data?.flashing && data.data.flashing.forEach(el => {
         type.push({ label: el.title, value: el.id })
     })
     this.setState({ flasgin_type: type });
@@ -102,7 +102,7 @@ isFormFilled() {
 
 Pass() {
     if (this.isFormFilled()) {
-        this.props.navigation.navigate('DeckSurface',{...this.state.data, flashing_id:this.state.flashing_id ,flashingMaintainacne_id:this.state.flashingMaintainacne_id,flashingFinding: this.state.flashingFinding, flashCloseImg: this.state.closeFImg,flashLocImg: this.state.LocFImg})
+        this.props.navigation.navigate('DeckSurface',{...this.state.data, flashing_id:this.state.flashing_id ,flashingMaintainacne_id:this.state.flashingMaintainacne_id,flashingFinding: this.state.flashingFinding, flashCloseImg: this.state.closeFImg,flashLocImg: this.state.LocFImg,inspectionId: this?.props?.route?.params?.inspectionId})
     }
 
 }

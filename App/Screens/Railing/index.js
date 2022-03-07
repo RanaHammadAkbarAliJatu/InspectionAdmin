@@ -40,11 +40,11 @@ class Railing extends Component {
         };
     }
     picker(type) {
-        ImagePicker.openPicker({
+        ImagePicker.openCamera({
             width: 300,
             height: 400,
-            cropping: true
-        }).then(image => {
+            cropping: true,
+          }).then(image => {
 
             switch (type) {
                 case 0:
@@ -74,7 +74,7 @@ class Railing extends Component {
         console.log(data)
         this.setState({ data: data });
         const type = []
-        data.data.railing.forEach(el => {
+        data.data.railing && data.data.railing.forEach(el => {
             type.push({ label: el.title, value: el.id })
         })
         this.setState({ railingType: type });
@@ -93,9 +93,9 @@ class Railing extends Component {
         else if (this.state.railingMaintainance_id === 0) {
             alert('Invalid Maintainance Id');
         }
-        else if (this.state.railing_id === undefined) {
-            alert('Invalid Raling Id');
-        }
+        // else if (this.state.railing_id === undefined) {
+        //     alert('Invalid Raling Id');
+        // }
         else{
             return true
         }
@@ -104,7 +104,7 @@ class Railing extends Component {
 
     Pass() {
         if (this.isFormFilled()) {
-            this.props.navigation.navigate('Flashing', {...this.state.data, railing_id: this.state.railing_id, railingMaintainance_id: 1, railing_fining: this.state.railfin, railClosImg: this.state.closeFImg, raillocImg: this.state.LocFImg })
+            this.props.navigation.navigate('Flashing', {...this.state.data, railing_id: this.state.railing_id, railingMaintainance_id: 1, railing_fining: this.state.railfin, railClosImg: this.state.closeFImg, raillocImg: this.state.LocFImg,inspectionId: this?.props?.route?.params?.inspectionId })
         }
 
     }

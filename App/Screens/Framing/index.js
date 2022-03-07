@@ -45,17 +45,17 @@ class Framing extends Component {
         console.log(data)
         this.setState({data: data});
         const type = []
-        data.data.framing.forEach(el => {
+        data?.data?.framing && data.data.framing.forEach(el => {
             type.push({ label: el.title, value: el.id })
         })
         this.setState({ framingType: type });
 }
     picker(type){
-        ImagePicker.openPicker({
-          width: 300,
-          height: 400,
-          cropping: true
-        }).then(image => {
+         ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
         
             switch(type){
             case 0:
@@ -104,7 +104,7 @@ isFormFilled() {
 Pass() {
     if (this.isFormFilled()) {
 
-        this.props.navigation.navigate('Stairs',{...this.state.data, Framing_id:this.state.Framing_id, FramingMaintainacne_id:this.state.FramingMaintainacne_id,FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.closeFImg, FramingLocImg: this.state.LocFImg})
+        this.props.navigation.navigate('Stairs',{...this.state.data, Framing_id:this.state.Framing_id, FramingMaintainacne_id:this.state.FramingMaintainacne_id,FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.closeFImg, FramingLocImg: this.state.LocFImg,inspectionId: this?.props?.route?.params?.inspectionId})
     }
 
 }
