@@ -24,6 +24,7 @@ import Header from '../../Components/Headder/header';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RNFS from 'react-native-fs';
 class Framing extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +38,8 @@ class Framing extends Component {
             framingType:'',
             loading: false,
             modal: false,
+            sendcloseFImg: '',
+sendLocFImg: '',
             checkBox: false,
         };
     }
@@ -56,9 +59,14 @@ class Framing extends Component {
       height: 400,
       cropping: true,
     }).then(image => {
-        
+  
             switch(type){
             case 0:
+                RNFS.readFile(image.path, 'base64')
+                .then(res =>{
+                  console.log(res);
+                  this.setState({sendcloseFImg: res});
+                });
                 let image_data1 = {
                 uri: image.path,
                 type: image.mime,
@@ -67,6 +75,11 @@ class Framing extends Component {
                 this.setState({closeFImg: image_data1});
                 break;
             case 1:
+                RNFS.readFile(image.path, 'base64')
+                .then(res =>{
+                  console.log(res);
+                  this.setState({sendLocFImg: res});
+                });
                 let image_data = {
                     uri: image.path,
                     type: image.mime,
@@ -104,7 +117,7 @@ isFormFilled() {
 Pass() {
     if (this.isFormFilled()) {
 
-        this.props.navigation.navigate('Stairs',{...this.state.data, Framing_id:this.state.Framing_id, FramingMaintainacne_id:this.state.FramingMaintainacne_id,FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.closeFImg, FramingLocImg: this.state.LocFImg,inspectionId: this?.props?.route?.params?.inspectionId})
+        this.props.navigation.navigate('Stairs',{...this.state.data, Framing_id:this.state.Framing_id, FramingMaintainacne_id:this.state.FramingMaintainacne_id,FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg,inspectionId: this?.props?.route?.params?.inspectionId})
     }
 
 }
@@ -213,18 +226,18 @@ Pass() {
                                     <TouchableOpacity
                                         onPress={() => this.setState({ FramingMaintainacne_id: 3 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, backgroundColor: this.state.FramingMaintainacne_id === 3 ? '#2F80ED' : null, borderColor: '#2F80ED', borderWidth: 1, }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#2F80ED' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#2F80ED' }]}>Maintenance is required as soon as possible.</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', marginTop: 20 }}>
                                     <TouchableOpacity
                                         onPress={() => this.setState({ FramingMaintainacne_id: 4 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.FramingMaintainacne_id === 4 ? '#219653' : null, borderColor: '#219653' }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>No problems were found.</Text>
                                 </View>
                         </View>
 
-                        <Text style={[styles.greytxt,{marginTop: 20}]}>Stairs inspection</Text>
+                        {/* <Text style={[styles.greytxt,{marginTop: 20}]}>Stairs inspection</Text>
 
                     
                         <View style={{marginTop: 15,flexDirection:'row', alignItems:'center'}}>
@@ -240,7 +253,7 @@ Pass() {
                         </TouchableOpacity>
 
                         <Text style={[styles.itemTxt,{fontWeight:"500", marginLeft: 10}]}>Does this location have stairs?</Text>
-                        </View>
+                        </View> */}
                         
                         <View style={{marginTop: 30 }}>
                         {this.state.closeFImg=== '' ? <TouchableOpacity
@@ -267,14 +280,14 @@ Pass() {
                                 style={{ width: SCREEN.width - 40, height: 300, marginBottom:10 ,borderRadius: 10, resizeMode:"cover"}}
                                 source={{uri: this.state.LocFImg.uri}}/>
                             )}
-                            <TouchableOpacity 
+                            {/* <TouchableOpacity 
                             onPress={()=> this.setState({modal: true})}
                             style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
                                 <Text style={styles.itemTxt}>Add another Framing finding</Text>
                                 <Image
                                     style={{ width: 11.5, height: 11.5 }}
                                     source={require('../../assets/plus2.png')} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                             <TouchableOpacity
                                 onPress={() => this.Pass()}

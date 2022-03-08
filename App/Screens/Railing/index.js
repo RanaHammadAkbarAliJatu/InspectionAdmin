@@ -24,6 +24,7 @@ import Header from '../../Components/Headder/header';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RNFS from 'react-native-fs';
 class Railing extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +32,8 @@ class Railing extends Component {
             data: '',
             railfin: '',
             closeFImg: '',
+            sendcloseFImg: '',
+            sendLocFImg: '',
             LocFImg: '',
             loading: false,
             modal: false,
@@ -44,10 +47,17 @@ class Railing extends Component {
             width: 300,
             height: 400,
             cropping: true,
-          }).then(image => {
+        }).then(image => {
 
             switch (type) {
                 case 0:
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            console.log(res);
+                            this.setState({ sendcloseFImg: res });
+                        }).catch((err) => {
+                            console.log(err.message);
+                          });;
                     let image_data1 = {
                         uri: image.path,
                         type: image.mime,
@@ -56,6 +66,13 @@ class Railing extends Component {
                     this.setState({ closeFImg: image_data1 });
                     break;
                 case 1:
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            console.log(res);
+                            this.setState({ sendLocFImg: res });
+                        }).catch((err) => {
+                            console.log(err.message);
+                          });;
                     let image_data = {
                         uri: image.path,
                         type: image.mime,
@@ -96,15 +113,15 @@ class Railing extends Component {
         // else if (this.state.railing_id === undefined) {
         //     alert('Invalid Raling Id');
         // }
-        else{
+        else {
             return true
         }
-    
+
     }
 
     Pass() {
         if (this.isFormFilled()) {
-            this.props.navigation.navigate('Flashing', {...this.state.data, railing_id: this.state.railing_id, railingMaintainance_id: 1, railing_fining: this.state.railfin, railClosImg: this.state.closeFImg, raillocImg: this.state.LocFImg,inspectionId: this?.props?.route?.params?.inspectionId })
+            this.props.navigation.navigate('Flashing', { ...this.state.data, railing_id: this.state.railing_id, railingMaintainance_id: 1, railing_fining: this.state.railfin, railClosImg: this.state.sendcloseFImg, raillocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
         }
 
     }
@@ -162,7 +179,7 @@ class Railing extends Component {
                                     }}
                                     placeholder={{
                                         label: 'Vehicle Categories',
-                                  
+
                                     }}
 
                                     onValueChange={(itemValue, itemIndex) => {
@@ -210,16 +227,16 @@ class Railing extends Component {
                                     <TouchableOpacity
                                         onPress={() => this.setState({ railingMaintainance_id: 3 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, backgroundColor: this.state.railingMaintainance_id === 3 ? '#2F80ED' : null, borderColor: '#2F80ED', borderWidth: 1, }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#2F80ED' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#2F80ED' }]}>Maintenance is required as soon as possible.</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', marginTop: 20 }}>
                                     <TouchableOpacity
                                         onPress={() => this.setState({ railingMaintainance_id: 4 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.railingMaintainance_id === 4 ? '#219653' : null, borderColor: '#219653' }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>No problems were found.</Text>
                                 </View>
-                                
+
                             </View>
                             <View style={{ marginTop: 30 }}>
                                 {this.state.closeFImg === '' ? <TouchableOpacity
@@ -232,7 +249,9 @@ class Railing extends Component {
                                 </TouchableOpacity> : (
                                     <Image
                                         style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.closeFImg.uri }} />
+                                        source={{ uri: this.state.closeFImg.uri }} 
+
+                                         />
                                 )}
                                 {this.state.LocFImg === '' ? <TouchableOpacity
                                     onPress={() => this.picker(1)}
@@ -244,16 +263,17 @@ class Railing extends Component {
                                 </TouchableOpacity> : (
                                     <Image
                                         style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.LocFImg.uri }} />
+                                        source={{ uri: this.state.LocFImg.uri }} 
+                                        />
                                 )}
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
                                     <Text style={styles.itemTxt}>Add another railing finding</Text>
                                     <Image
                                         style={{ width: 11.5, height: 11.5 }}
                                         source={require('../../assets/plus2.png')} />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
                                 <TouchableOpacity
                                     onPress={() => this.Pass()}

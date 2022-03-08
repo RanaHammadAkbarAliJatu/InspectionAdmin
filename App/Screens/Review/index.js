@@ -80,7 +80,7 @@ class Review extends Component {
 
                             <Image
                                 style={{ width: SCREEN.width - 40, height: SCREEN.height / 3, marginTop: 30, borderRadius: 10 }}
-                                source={image ?  {uri: 'http://3.143.107.15/images/'+image}:require('../../assets/pic3.png')} />
+                                source={image ?  {uri: 'http://3.143.107.15'+image}:require('../../assets/pic3.png')} />
 
 
                             <Text style={{ fontSize: 12, color: '#828282', fontWeight: 'bold', marginTop: 20 }}>Property location</Text>

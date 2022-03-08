@@ -25,6 +25,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import { LoginForm } from '../../helper/api';
+import RNFS from 'react-native-fs';
 class UpdateCurrentReport extends Component {
     constructor(props) {
         super(props);
@@ -61,20 +62,28 @@ class UpdateCurrentReport extends Component {
 
             switch (type) {
                 case 0:
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ StaircloseFImg: image_data1 });
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            this.setState({ StaircloseFImg: res });
+                        });
+                    // let image_data1 = {
+                    //     uri: image.path,
+                    //     type: image.mime,
+                    //     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    // };
+                    // this.setState({ StaircloseFImg: image_data1 });
                     break;
                 case 1:
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ StairLocFImg: image_data });
+                    RNFS.readFile(image.path, 'base64')
+                    .then(res => {
+                        this.setState({ StairLocFImg: res });
+                    });
+                    // let image_data = {
+                    //     uri: image.path,
+                    //     type: image.mime,
+                    //     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    // };
+                    // this.setState({ StairLocFImg: image_data });
                     break;
             }
         });
@@ -231,14 +240,14 @@ class UpdateCurrentReport extends Component {
 
                             <View>
 
-                                <View style={{ flexDirection: 'row', marginTop: 10}}>
-                                    <View style={{ flexDirection: 'row', marginTop: 10}}>
+                                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                         <TouchableOpacity
                                             onPress={() => this.setState({ StairsMaintaince_id: 1 })}
                                             style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 1 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
                                         <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#0D2A37' }]}>Railing</Text>
                                     </View>
-                                    <View style={{ flexDirection: 'row', marginTop: 10,  marginLeft: 86 }}>
+                                    <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 86 }}>
 
                                         <TouchableOpacity
                                             onPress={() => this.setState({ StairsMaintaince_id: 1 })}
@@ -252,7 +261,7 @@ class UpdateCurrentReport extends Component {
 
                             <View>
 
-                                <View style={{ flexDirection: 'row', marginTop: 10}}>
+                                <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                         <TouchableOpacity
                                             onPress={() => this.setState({ StairsMaintaince_id: 1 })}

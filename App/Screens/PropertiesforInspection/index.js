@@ -48,8 +48,13 @@ class PropertiesforInspection extends Component {
         this.setState({ loading: false });
     }
     componentDidMount() {
-        this.getInspection()
 
+        this.getInspection()
+        this.focusListener = this.props.navigation.addListener('focus', () => {
+            this.getInspection()
+
+            //Put your Data loading function here instead of my this.loadData()
+          });
     }
     render() {
         return (
@@ -71,7 +76,7 @@ class PropertiesforInspection extends Component {
                                         >
                                             <Image
                                                 style={{ width: '90%', marginTop: 20, height: 121, alignSelf: 'center', resizeMode: "stretch" }}
-                                                source={item?.image?.image_url ? {uri: 'http://3.143.107.15/images/'+item?.image?.image_url}: require('../../assets/pic3.png')} 
+                                                source={item?.image?.image_url ? {uri: 'http://3.143.107.15'+item?.image?.image_url}: require('../../assets/pic3.png')} 
                                                 // source={require('../../assets/pic3.png')} 
                                                 />
 

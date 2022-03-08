@@ -68,7 +68,7 @@ class Main extends Component {
                   source={require('../../assets/update.png')} />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("CContent")}
+                // onPress={() => this.props.navigation.navigate("CContent")}
                 style={styles.itemView}
               >
                 <Text style={styles.itemTxt}>Maintainance Library</Text>

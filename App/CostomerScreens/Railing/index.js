@@ -17,6 +17,8 @@ import { FONT, SCREEN } from '../../helper/Constant';
 
 class Railing extends Component {
     render() {
+    const data = this.props.route.params.dataToSend
+
         return (
             <View style={styles.wrapperView}>
                 <SafeAreaView style={{ flex: 1 }}>

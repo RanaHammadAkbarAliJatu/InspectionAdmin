@@ -21,7 +21,7 @@ import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import Header from '../../Components/Headder/header';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import RNFS from 'react-native-fs';
 class TakePicture extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +30,7 @@ class TakePicture extends Component {
       state: true,
       loading: false,
       Image: '',
+      showImage: '',
     };
   }
   picker() {
@@ -38,15 +39,27 @@ class TakePicture extends Component {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image,"image")
-      let image_data = {
-        uri: image.path,
-        type: image.mime,
-        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-      };
-      this.setState({
-        Image: image_data,
-      });
+      console.log(image, "image")
+      RNFS.readFile(image.path, 'base64')
+        .then(res => {
+          console.log(res);
+          this.setState({
+            Image: res,
+            showImage: {
+                uri: image.path,
+                type: image.mime,
+                name: image.path.substring(image.path.lastIndexOf('/') + 1),
+              }
+          });
+        });
+      // let image_data = {
+      //   uri: image.path,
+      //   type: image.mime,
+      //   name: image.path.substring(image.path.lastIndexOf('/') + 1),
+      // };
+      // this.setState({
+      //   Image: image_data,
+      // });
     });
     // ImagePicker.openPicker({
     //   width: 300,
@@ -71,7 +84,7 @@ class TakePicture extends Component {
   componentDidMount() {
     const data = this?.props?.route?.params.data;
     console.log(data);
-    this.setState({BackData:data});
+    this.setState({ BackData: data });
   }
 
 
@@ -81,9 +94,9 @@ class TakePicture extends Component {
       <View style={styles.wrapperView}>
         <ImageBackground
           // source={{ uri: "https://reactjs.org/logo-og.png" }}
-          source={this.state.state ? require('../../assets/Pic.png') : { uri: this.state.Image.uri }}
+          source={this.state.state ? require('../../assets/Pic.png') : { uri: this.state.showImage.uri }}
           resizeMode="cover"
-          style={{ flex: 1, justifyContent: 'space-between', width: SCREEN.width, height: SCREEN.height, resizeMode: "contain",paddingVertical: 12 }}>
+          style={{ flex: 1, justifyContent: 'space-between', width: SCREEN.width, height: SCREEN.height, resizeMode: "contain", paddingVertical: 12 }}>
           <View style={{ alignItems: "center" }}>
 
             <Text style={styles.itemTxt}>Take picture</Text>

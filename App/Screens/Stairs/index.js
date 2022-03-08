@@ -25,6 +25,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import { LoginForm } from '../../helper/api';
+import RNFS from 'react-native-fs';
 class Stairs extends Component {
     constructor(props) {
         super(props);
@@ -32,6 +33,8 @@ class Stairs extends Component {
             data: '',
             StaircloseFImg: '',
             StairLocFImg: '',
+            sendStaircloseFImg: '',
+            sendStairLocFImg: '',
             Stairs_id: 0,
             StairsFinding: '',
             StairsMaintaince_id: 0,
@@ -61,6 +64,10 @@ class Stairs extends Component {
 
             switch (type) {
                 case 0:
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            this.setState({ sendStaircloseFImg: res });
+                        });
                     let image_data1 = {
                         uri: image.path,
                         type: image.mime,
@@ -69,6 +76,10 @@ class Stairs extends Component {
                     this.setState({ StaircloseFImg: image_data1 });
                     break;
                 case 1:
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            this.setState({ sendStairLocFImg: res });
+                        });
                     let image_data = {
                         uri: image.path,
                         type: image.mime,
@@ -104,7 +115,7 @@ class Stairs extends Component {
     }
 
     async AddLocation() {
-        // this.setState({loading: true});
+        this.setState({ loading: true });
         const dataToSend = new FormData();
         const token = this.props.userToken;
         console.log(token)
@@ -175,45 +186,100 @@ class Stairs extends Component {
         // dataToSend.append("stairs[]", stairs)
         // stairs.forEach(tag =>  dataToSend.append("stairs[]", tag))
 
-        dataToSend.append("title", data.title)
-        dataToSend.append("inspection_id",this?.props?.route?.params?.inspectionId)
-        dataToSend.append("railing_id",data.railing_id)
-        dataToSend.append("railing_finding",data.railing_fining)
-        dataToSend.append("flashing_id",data.flashing_id)
-        dataToSend.append("flashing_finding",data.flashingFinding)
-        dataToSend.append("deck_surface_id",data.DeckSurface_id)
-        dataToSend.append("deck_surface_finding",data.DeckSurfaceFinding)
-        dataToSend.append("framing_id",data.Framing_id)
-        dataToSend.append("framing_maintainence_id",data.FramingMaintainacne_id)
-        dataToSend.append("deck_maintainence_id",data.DeckSurfaceMaintainance_id)
-        dataToSend.append("railing_maintainence_id",data.railingMaintainance_id)
-        dataToSend.append("flashing_maintainence_id",data.flashingMaintainacne_id)
-        dataToSend.append("stairs_maintainence_id", this.state.StairsMaintaince_id)
-        dataToSend.append("railing_closeup", data.railClosImg)
-        dataToSend.append("railing_photo",data.raillocImg )
-        dataToSend.append("flashing_closeup", data.flashCloseImg)
-        dataToSend.append("flashing_photo", data.flashCloseImg)
-        dataToSend.append("deck_surface_closeup", data.DeckCloseImg)
-        dataToSend.append("deck_surface_photo", data.DeckLocImg)
-        dataToSend.append("deck_surface_closeup", data.FramingCloseImg)
-        dataToSend.append("deck_surface_closeup",data.FramingLocImg)
-        dataToSend.append("stairs_id", this.state.Stairs_id)
-        dataToSend.append("maintainence_id",this.state.StairsMaintaince_id)
-        dataToSend.append("stairs_finding", this.state.StairsFinding)
-        dataToSend.append("stairs_closeup", this.state.StaircloseFImg)
-        dataToSend.append("stairs_photo",this.state.StairLocFImg)
-        console.log(dataToSend,"dataToSend")
-
-        await CreateLocationInspection(dataToSend, token).then(response => {
+        // dataToSend.append("title", data.title)
+        // dataToSend.append("inspection_id", this?.props?.route?.params?.inspectionId)
+        // dataToSend.append("railing_id", data.railing_id)
+        // dataToSend.append("railing_finding", data.railing_fining)
+        // dataToSend.append("flashing_id", data.flashing_id)
+        // dataToSend.append("flashing_finding", data.flashingFinding)
+        // dataToSend.append("deck_surface_id", data.DeckSurface_id)
+        // dataToSend.append("deck_surface_finding", data.DeckSurfaceFinding)
+        // dataToSend.append("framing_id", data.Framing_id)
+        // dataToSend.append("framing_maintainence_id", data.FramingMaintainacne_id)
+        // dataToSend.append("deck_maintainence_id", data.DeckSurfaceMaintainance_id)
+        // dataToSend.append("railing_maintainence_id", data.railingMaintainance_id)
+        // dataToSend.append("flashing_maintainence_id", data.flashingMaintainacne_id)
+        // dataToSend.append("stairs_maintainence_id", this.state.StairsMaintaince_id)
+        // dataToSend.append("railing_closeup", data.railClosImg)
+        // dataToSend.append("railing_photo", data.raillocImg)
+        // dataToSend.append("flashing_closeup", data.flashCloseImg)
+        // dataToSend.append("flashing_photo", data.flashCloseImg)
+        // dataToSend.append("deck_surface_closeup", data.DeckCloseImg)
+        // dataToSend.append("deck_surface_photo", data.DeckLocImg)
+        // dataToSend.append("deck_surface_closeup", data.FramingCloseImg)
+        // dataToSend.append("deck_surface_closeup", data.FramingLocImg)
+        // dataToSend.append("stairs_id", this.state.Stairs_id)
+        // dataToSend.append("maintainence_id", this.state.StairsMaintaince_id)
+        // dataToSend.append("stairs_finding", this.state.StairsFinding)
+        // dataToSend.append("stairs_closeup", this.state.StaircloseFImg)
+        // dataToSend.append("stairs_photo", this.state.StairLocFImg)
+        // console.log(dataToSend, "dataToSend")
+        let sendData = {
+            "title": data.title,
+            "inspection_id": this?.props?.route?.params?.inspectionId,
+            "railings": [
+                {
+                    "railing_id": data.railing_id,
+                    "railing_finding": data.railing_fining,
+                    "railing_maintainence_id": data.railingMaintainance_id,
+                    "railing_closeup": data.railClosImg,
+                    "railing_photo": data.raillocImg 
+                }
+            ],
+            "flashings": [
+                {
+                    "flashing_id": data.flashing_id,
+                    "flashing_finding": data.flashingFinding,
+                    "flashing_maintainence_id": data.flashingMaintainacne_id,
+                    "flashing_closeup": data.flashCloseImg,
+                    "flashing_photo": data.flashCloseImg
+                }
+            ],
+            "deckSurfaces": [
+                {
+                    "deck_surface_id": data.DeckSurface_id,
+                    "deck_surface_finding": data.DeckSurfaceFinding,
+                    "deck_maintainence_id": data.DeckSurfaceMaintainance_id,
+                    "deck_surface_closeup": data.FramingCloseImg,
+                    "deck_surface_photo": data.FramingLocImg
+                }
+            ],
+            "framings": [
+                {
+                    "framing_id": data.Framing_id,
+                    "framing_maintainence_id": data.FramingMaintainacne_id,
+                    "framing_finding": data.FramingFinding ? data.FramingFinding : "2",
+                    "framing_closeup": data.FramingCloseImg,
+                    "framing_photo": data.FramingLocImg
+                }
+            ],
+            "stairs_maintainence_id": this.state.StairsMaintaince_id,
+            "stairs": [
+                {
+                    "stairs_id": this.state.Stairs_id,
+                    "stairs_maintainence_id": this.state.StairsMaintaince_id,
+                    "stairs_finding": this.state.StairsFinding,
+                    "stairs_closeup": this.state.sendStaircloseFImg,
+                    "stairs_photo": this.state.sendStairLocFImg
+                }
+            ]
+        }
+        await CreateLocationInspection(sendData, token).then(response => {
             console.log(response)
+            this.setState({ loading: false });
             if (response.status === 200 && !response.data.error) {
 
-                console.log(response,"response")
+                this.props.navigation.navigate('PropertiesforInspection')
+                console.log(response, "response")
 
             }
             else {
                 alert("Some thing Went Wrong")
             }
+        }).catch((err) => {
+            console.log(err.message);
+            this.setState({ loading: false });
+
         });
     }
     render() {
@@ -321,14 +387,14 @@ class Stairs extends Component {
                                     <TouchableOpacity
                                         onPress={() => this.setState({ StairsMaintaince_id: 3 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, backgroundColor: this.state.StairsMaintaince_id === 3 ? '#2F80ED' : null, borderColor: '#2F80ED', borderWidth: 1, }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#2F80ED' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#2F80ED' }]}>Maintenance is required as soon as possible.</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', marginTop: 20 }}>
                                     <TouchableOpacity
                                         onPress={() => this.setState({ StairsMaintaince_id: 4 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 4 ? '#219653' : null, borderColor: '#219653' }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>No problems were found.</Text>
                                 </View>
                             </View>
 
@@ -360,14 +426,14 @@ class Stairs extends Component {
                                         style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
                                         source={{ uri: this.state.StairLocFImg.uri }} />
                                 )}
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
                                     <Text style={styles.itemTxt}>Add another Stairs finding</Text>
                                     <Image
                                         style={{ width: 11.5, height: 11.5 }}
                                         source={require('../../assets/plus2.png')} />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
                                 <TouchableOpacity
                                     onPress={() => this.AddLocation()}
