@@ -89,14 +89,14 @@ class PreparedBy extends Component {
         management_address: this.state.data.backEnd.manage_address,
         management_phone: this.state.data.backEnd.manage_phone,
         management_email: this.state.data.backEnd.manage_email,
-        image_url: this.state.data.image.type,
+        image_url: this.state.data.image,
         pfor_buisness_name: this.state.pforBusinessName,
         pfor_phone: this.state.pforNumber,
         pfor_email: this.state.pforEmail,
         pfor_date: this.state.pforDate,
         pfor_name: this.state.pforName
       }
-      console.log(dataToSend);
+      console.log(dataToSend,"dataToSend");
       const token = this.props.userToken;
       
       if(this.isFormFilled()){
@@ -105,7 +105,7 @@ class PreparedBy extends Component {
           if (response.status === 200 && !response.data.error) {
             if(response.data.success){
               this.props.callApi(response.data)
-              this.props.navigation.navigate("Review",{dataToSend})
+              this.props.navigation.navigate("Review",{dataToSend: response.data.data})
               this.setState({loading: false});
             }
             else{

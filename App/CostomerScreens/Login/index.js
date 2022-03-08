@@ -21,6 +21,8 @@ import {FONT, isIphoneXorAbove, SCREEN} from '../../helper/Constant';
 import Header from '../../Components/Headder/header';
 import Validations from '../../helper/Validations'
 
+
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,7 @@ class Login extends Component {
   }
 
   isFormFilled() {
-    let check_email = Validations.checkEmail(this.state.email.replace(/\s/g, ''));
+    let check_email = Validations.checkEmail(this.state.email);
     let check_Password = Validations.checkrequired(this.state.password);
   
 
@@ -53,20 +55,15 @@ class Login extends Component {
   }
 
   async Login() {
-    const {role} = this?.props?.route?.params
-
     this.setState({loading: true});
     let dataToSend = {
       email: this.state.email,
       password: this.state.password,
-      role: role == 1 ? 'inspection' : 'customer'
+  
     };
     if (this.isFormFilled()) {
-      try {
-      
       await LoginForm(dataToSend).then(response => {
-        console.log(response,"response")
-        if (response?.status === 200 && !response.data.error) {
+        if (response.status === 200 && !response.data.error) {
 
           if(response.data.message === "This Email Address Does Not Exist In Our System."){
             alert("Email Does Not Exist")
@@ -74,50 +71,35 @@ class Login extends Component {
           else if(response.data.message ==="Login Failed, Password Is Incorrect."){
             alert("Password is Incorrect")
           }
-          else if(response.data.message ==="Role is not found"){
-            alert("Role is not found")
-          }
           else{
             this.props.callApi(
             response.data.user,
             response.data.token.accessToken,
           );
-          if(role == 1){
-           this.props.navigation.navigate('PropertiesforInspection') 
-          }else{
-            this.props.navigation.navigate('CMain', {dataToSend: response.data.data}) 
+           this.props.navigation.navigate('Properties') 
           }
-          }
-          this.setState({loading: false});
+    
         } 
         else{
           alert("Some thing Went Wrong")
         }
       });
-    } catch (e) {
-    console.log('Error')
-    this.setState({loading: false});
-
-    }
-
     }
     this.setState({loading: false});
   }
   
   render() {
-    const {role} = this?.props?.route?.params
-    console.log(role)
     return (
-      <SafeAreaView style={{flex: 1}}>
       <View
     
         style={styles.wrapperView}>
             <Header
             leftPress={()=> this.props.navigation.goBack()}
             />
+        <SafeAreaView style={{flex: 1}}>
         <View style={{flex:1,paddingHorizontal:20 ,borderTopRightRadius: 10,borderTopLeftRadius:10}}>
 
-        <Text style={[styles.itemTxt,{marginTop: 30}]}>{role == 1 ?  "Inspection" : "Customer"} Login</Text>
+        <Text style={[styles.itemTxt,{marginTop: 30}]}>Login</Text>
         <View style={{height:2, width: 42, backgroundColor:PURPLE.dark, marginTop: 13}}/>
         <Text style={{fontSize: 12, color: '#828282', fontWeight:'500', marginTop: 20}}>Lorem ipsum dolor sit consteur</Text>
         
@@ -143,25 +125,28 @@ class Login extends Component {
         onChangeText={(value)=> this.setState({password: value})}
         placeholder='Password'
         secureTextEntry={true}
-        placeholderTextColor={'lightgrey'}
+        placeholderTextColor={' '}
         />
         </View>
+          
+            
+    
+
+
         <View style={{flex:1, justifyContent:'flex-end'}}>
             <TouchableOpacity
-            onPress={()=> {
-              this.Login()
-            }}
+            onPress={()=> this.Login()}
             style={styles.Btn}>
             <Text style={[styles.itemTxt,{fontSize: 12, color:'white'}]}>Login</Text>
             </TouchableOpacity>
 
-            <Text style={{fontSize: 12,marginBottom: 20 ,textAlign:'center',color: '#828282', fontWeight:'500', marginTop: 20}}>Don’t have an account? <Text onPress={()=> this.props.navigation.navigate("SignUp",{role: role})} style={[styles.itemTxt,{fontSize:12}]}>Sign up.</Text></Text>
+            <Text style={{fontSize: 12,marginBottom: 20 ,textAlign:'center',color: '#828282', fontWeight:'500', marginTop: 20}}>Don’t have an account? <Text onPress={()=> this.props.navigation.navigate("SignUp")} style={[styles.itemTxt,{fontSize:12}]}>Sign up.</Text></Text>
         </View> 
         </View>
 
+        </SafeAreaView>
         {this.state.loading && <Loader loading={this.state.loading} />}
       </View>
-        </SafeAreaView>
     );
   }
 }
@@ -199,7 +184,6 @@ function mapStateToProps(state, props) {
   return {
     userDetail: state.user.userDetail,
     userToken: state.user.userToken,
-    Ins_id: state.user.Ins_id
   };
 }
 const mapDispatchToProps = dispatch => {

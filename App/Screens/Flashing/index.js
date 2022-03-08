@@ -203,7 +203,7 @@ Pass() {
                                     <TouchableOpacity
                                         onPress={() => this.setState({ flashingMaintainacne_id: 2 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.flashingMaintainacne_id === 2 ? '#F2994A' : null, borderColor: '#F2994A' }} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#F2994A' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#F2994A' }]}>Repairs are required as soon as possible.</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', marginTop: 20 }}>

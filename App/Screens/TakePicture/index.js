@@ -38,6 +38,7 @@ class TakePicture extends Component {
       height: 400,
       cropping: true,
     }).then(image => {
+      console.log(image,"image")
       let image_data = {
         uri: image.path,
         type: image.mime,

@@ -38,7 +38,7 @@ class SignUp extends Component {
   isFormFilled() {
     let check_first_name = Validations.checkrequired(this.state.first_name);
     let check_last_name = Validations.checkrequired(this.state.last_name);
-    let check_email = Validations.checkEmail(this.state.email);
+    let check_email = Validations.checkEmail(this.state.email.replace(/\s/g, ''));
     let check_Phone_number = Validations.checkrequired(this.state.number);
     // let check_Country_Code = Validations.check_Country_Code(this.state.country_code);
     let check_Country_Code = this.state.country_code
@@ -101,8 +101,12 @@ class SignUp extends Component {
             response.data.user,
             response.data.response.token.accessToken,
           );
-          this.props.navigation.navigate('start')
-
+          // this.props.navigation.navigate('start')
+          if(role == 1){
+            this.props.navigation.navigate('PropertiesforInspection') 
+           }else{
+             this.props.navigation.navigate('CMain') 
+           }
         }
         else {
           alert("Some Thing Went Wrong")
