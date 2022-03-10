@@ -282,6 +282,47 @@ class Stairs extends Component {
 
         });
     }
+
+    getSelectedMaintainance() {
+        const { StairsMaintaince_id } = this.state
+        let railingMaintainance_id = StairsMaintaince_id
+        if (railingMaintainance_id == 1) {
+            return "Immediate action is required."
+
+        } else if (railingMaintainance_id == 2) {
+            return "Repairs are required as soon as possible."
+
+        } else if (railingMaintainance_id == 3) {
+            return "Maintenance is required as soon as possible."
+
+        } else if (railingMaintainance_id == 4) {
+            return "No problems were found."
+
+        } else {
+            return "Immediate action is required."
+        }
+    }
+    getSelectedMaintainanceColor() {
+
+        const { StairsMaintaince_id } = this.state
+        let railingMaintainance_id = StairsMaintaince_id
+
+        if (railingMaintainance_id == 1) {
+            return "#EB5757"
+
+        } else if (railingMaintainance_id == 2) {
+            return "#F2994A"
+
+        } else if (railingMaintainance_id == 3) {
+            return "#2F80ED"
+
+        } else if (railingMaintainance_id == 4) {
+            return "#219653"
+
+        } else {
+            return "'#EB5757'"
+        }
+    }
     render() {
         return (
             <View style={styles.wrapperView}>
@@ -361,7 +402,7 @@ class Stairs extends Component {
                                 />
                                 <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
                                     <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#EB5757' }]}>Immediate action is required.</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400',color: this. getSelectedMaintainanceColor() }]}>{this. getSelectedMaintainance()}</Text>
                                 </View>
                             </View>
 
