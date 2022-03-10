@@ -38,6 +38,7 @@ import UpdateCurrentReport from '../CostomerScreens/UpdateCurrentReport';
 import CReport from '../CostomerScreens/Report';
 import CContent from '../CostomerScreens/Content';
 import CInspection from '../CostomerScreens/Inspection';
+import CPropertiesforInspection from '../CostomerScreens/PropertiesforInspection';
 import CSummary from '../CostomerScreens/Summary';
 import CRailing from '../CostomerScreens/Railing';
 import CFlashing from '../CostomerScreens/Flashing';
@@ -82,6 +83,7 @@ function AuthNavigator(props) {
       <Stack.Screen name="UpdateCurrentReport" component={UpdateCurrentReport} />
       <Stack.Screen name="CReport" component={CReport} />
       <Stack.Screen name="CContent" component={CContent} />
+      <Stack.Screen name="CPropertiesforInspection" component={CPropertiesforInspection} />
       <Stack.Screen name="CInspection" component={CInspection} />
       <Stack.Screen name="CSummary" component={CSummary} />
       <Stack.Screen name="CRailing" component={CRailing} />

@@ -17,7 +17,7 @@ import { FONT, SCREEN } from '../../helper/Constant';
 
 class Content extends Component {
   render() {
-    const data = this.props.route.params.dataToSend
+    const data = this?.props?.route?.params?.dataToSend
     console.log(data,"framing")
     return (
       <View style={styles.wrapperView}>
@@ -50,19 +50,19 @@ class Content extends Component {
             <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Table of contents</Text>
 
             <TouchableOpacity style={styles.tableItem}
-              onPress={() => this.props.navigation.navigate("CInspection")}
+              onPress={() => this.props.navigation.navigate("CInspection",{dataToSend: data})}
             >
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Inspection and report guide</Text>
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Page 1</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.tableItem}
-                onPress={() => this.props.navigation.navigate("CSummary")}
+                onPress={() => this.props.navigation.navigate("CSummary",{dataToSend: data})}
                 >
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Summary report</Text>
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Page 2</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.tableItem}
-                onPress={() => this.props.navigation.navigate("CRequirementsGuide")}
+                onPress={() => this.props.navigation.navigate("CRequirementsGuide",{dataToSend: data})}
                 >
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>SB-721 Requirements guide</Text>
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Page 3</Text>

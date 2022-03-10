@@ -16,22 +16,23 @@ import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
 import { FONT, SCREEN } from '../../helper/Constant';
 
 class Stairs extends Component {
-  render() {
-    return (
-        <View style={styles.wrapperView}>
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
-                <View style={{ width: '85%', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack()}>
-                        <Image
-                            style={{ width: 7, height: 13, }}
-                            source={require('../../assets/back.png')} />
+    render() {
+        const data = this.props.route.params.dataToSend
+        return (
+            <View style={styles.wrapperView}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
+                        <View style={{ width: '85%', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.goBack()}>
+                                <Image
+                                    style={{ width: 7, height: 13, }}
+                                    source={require('../../assets/back.png')} />
 
-                    </TouchableOpacity>
-                    <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection findings</Text>
-                </View>
-                <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
+                            </TouchableOpacity>
+                            <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection findings</Text>
+                        </View>
+                        {/* <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
                 <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
                  <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
@@ -47,30 +48,63 @@ class Stairs extends Component {
                         <Text style={[styles.itemTxt, { fontWeight: '400', color: '#EB5757' }]}>Immediate action is required.</Text>
                     </View>
                 </View>
-                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar lectus pellentesque varius ac laoreet. Pharetra purus at integer semper tortor, elementum congue vestibulum. Tellus tortor in dolor, semper curabitur urna. Risus sagittis quis semper tincidunt.</Text>
+                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar lectus pellentesque varius ac laoreet. Pharetra purus at integer semper tortor, elementum congue vestibulum. Tellus tortor in dolor, semper curabitur urna. Risus sagittis quis semper tincidunt.</Text> */}
+                        {data?.stairs?.map((item) =>
+                            <View>
+                                <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
 
-                <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate("CRequirementsGuide")}
-                        style={[styles.itemView, { backgroundColor: '#282461', height: 45, justifyContent:'center' ,marginBottom: 30}]}>
-                        <Text style={[styles.itemTxt,{color:'white'}]}>Finish report and proceed</Text>
-                    </TouchableOpacity>
+                                <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.type?.title}</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
+                                    <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
+                                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
+                                </View>
+
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                                    <View>
+                                        <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.stairs_closeup ? { uri: 'http://3.143.107.15' + item?.stairs_closeup } : require('../../assets/Pic.png')} />
+                                        <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
+                                    </View>
+
+                                    <View>
+                                        <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.stairs_photo ? { uri: 'http://3.143.107.15' + item?.stairs_photo } : require('../../assets/pic2.png')} />
+                                        <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
+                                    </View>
+
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 50, justifyContent: 'space-between' }}>
+                                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#828282' }}>Stairs findings</Text>
+
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} />
+                                        <Text style={[styles.itemTxt, { fontWeight: '400', color: item?.maintenance?.level ? item?.maintenance?.level : '#EB5757' }]}>{item?.maintenance?.maintainence_title}</Text>
+                                    </View>
+                                </View>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.stairs_finding}</Text>
+                            </View>
+                        )}
+                        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate("CRequirementsGuide", { dataToSend: data })}
+                                style={[styles.itemView, { backgroundColor: '#282461', height: 45, justifyContent: 'center', marginBottom: 30 }]}>
+                                <Text style={[styles.itemTxt, { color: 'white' }]}>Finish report and proceed</Text>
+                            </TouchableOpacity>
 
 
-                    <Text style={[styles.itemTxt, { marginBottom: 10, }]}>Previous page</Text>
-                </View>
+                            <Text style={[styles.itemTxt, { marginBottom: 10, }]}>Previous page</Text>
+                        </View>
+                    </View>
+
+
+
+
+                    <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
+                    </View>
+                </SafeAreaView>
             </View>
-
-
-
-
-            <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
-            </View>
-        </SafeAreaView>
-    </View>
-    );
-  }
+        );
+    }
 }
 const styles = StyleSheet.create({
     wrapperView: {

@@ -17,6 +17,7 @@ import { FONT, SCREEN } from '../../helper/Constant';
 
 class Summary extends Component {
     render() {
+    const data = this?.props?.route?.params?.dataToSend
         return (
             <View style={styles.wrapperView}>
                 <SafeAreaView style={{ flex: 1 }}>
@@ -168,7 +169,7 @@ class Summary extends Component {
                             <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
 
                                 <TouchableOpacity
-                                    onPress={() => this.props.navigation.navigate("CRailing")}
+                                    onPress={() => this.props.navigation.navigate("CRailing",{dataToSend: data})}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 30, marginTop: 50 }]}>
                                     <Text style={styles.itemTxt}>Next page</Text>
                                     <Image

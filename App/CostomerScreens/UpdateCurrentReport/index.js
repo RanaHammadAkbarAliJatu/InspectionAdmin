@@ -15,7 +15,7 @@ import {
     Modal
 } from 'react-native';
 import Loader from '../../Components/Loader';
-import { CreateLocationInspection } from '../../helper/api';
+import { locationUpdate } from '../../helper/api';
 import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
@@ -37,22 +37,16 @@ class UpdateCurrentReport extends Component {
             StairsFinding: '',
             StairsMaintaince_id: 0,
             StairType: '',
+            street_address: '',
+            location_for: '',
             loading: false,
             modal: false,
             checkBox: false,
+            sendStaircloseFImg: '',
+            sendStairLocFImg: '',
         };
     }
 
-    componentDidMount() {
-        const data = this?.props?.route?.params;
-        console.log(data);
-        this.setState({ data: data });
-        const type = []
-        data?.data?.stairs && data.data.stairs.forEach(el => {
-            type.push({ label: el.title, value: el.id })
-        })
-        this.setState({ StairType: type });
-    }
     picker(type) {
         ImagePicker.openCamera({
             width: 300,
@@ -64,47 +58,50 @@ class UpdateCurrentReport extends Component {
                 case 0:
                     RNFS.readFile(image.path, 'base64')
                         .then(res => {
-                            this.setState({ StaircloseFImg: res });
+                            this.setState({ sendStaircloseFImg: res });
                         });
-                    // let image_data1 = {
-                    //     uri: image.path,
-                    //     type: image.mime,
-                    //     name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    // };
-                    // this.setState({ StaircloseFImg: image_data1 });
+                    let image_data1 = {
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    };
+                    this.setState({ StaircloseFImg: image_data1 });
                     break;
                 case 1:
                     RNFS.readFile(image.path, 'base64')
-                    .then(res => {
-                        this.setState({ StairLocFImg: res });
-                    });
-                    // let image_data = {
-                    //     uri: image.path,
-                    //     type: image.mime,
-                    //     name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    // };
-                    // this.setState({ StairLocFImg: image_data });
+                        .then(res => {
+                            this.setState({ sendStairLocFImg: res });
+                        });
+                    let image_data = {
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    };
+                    this.setState({ StairLocFImg: image_data });
                     break;
             }
         });
     }
-
     isFormFilled() {
-
-        if (this.state.StairsFinding.length === 0) {
-            alert('Invalid Railing Finding');
+        const { street_address,
+            location_for,
+            StairsMaintaince_id,
+            sendStaircloseFImg,
+            sendStairLocFImg } = this.state
+        if (!street_address) {
+            alert('please enter Street address');
         }
-        else if (this.state.closeFImg === '') {
+        else if (!location_for) {
+            alert('please enter Apartment number');
+        }
+        else if (!StairsMaintaince_id) {
+            alert('select work on');
+        }
+        else if (!sendStaircloseFImg) {
             alert('Invlalid Close Image');
         }
-        else if (this.state.LocFImg === '') {
+        else if (!sendStairLocFImg) {
             alert('Invlalid Location Image');
-        }
-        else if (this.state.StairsMaintaince_id === 0) {
-            alert('Invalid Maintainance Id');
-        }
-        else if (this.state.Stairs_id === undefined) {
-            alert('Invalid Raling Id');
         }
         else {
             return true
@@ -112,90 +109,40 @@ class UpdateCurrentReport extends Component {
 
     }
 
-    async AddLocation() {
-        // this.setState({loading: true});
-        const dataToSend = new FormData();
-        const token = this.props.userToken;
-        console.log(token)
-        // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOTI1Mjk3NzM1MDliZjg2NGNjMmMzMTQ4OWE2MjliMTBiNjBhMWMwY2Q3NDdkNzQzOTFmNzQzMWY1OTllNzM0ZDcwMjE5NzBiN2JhOTA0MjUiLCJpYXQiOjE2NDU5MDUxNDQsIm5iZiI6MTY0NTkwNTE0NCwiZXhwIjoxNjc3NDQxMTQ0LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.sJ9d1ROipOCxgilWX6Ymz8oG8pL8ZEicn_6kGEgZsrSvdJLvVagSYaw--DRxru8HulbwVVwgaAlRsV13HDFuYyf55A3D87Ky9qDbtIo9guKbX3PGwzif42DmkaUpufpfe8gTSk3NnJS5m3UYIRumQTyh3kk1LSY6evt4yAGUTv6LO3nD3AceKKh3_75xm8sJRdqeaAXgxAexK3C8m1E08sBiW-tgJLkfwE0a1Mxi3PdIajHrSksAI7paRt98ipcjWT_ZAEAdSxcfUanct7fYDWAQv3uHMq9oGmZejHI1sXM1VI2kZWq_x1-35HCDLm4-LZzOVFnMqBpAEtnNJXIxouvU6UKYzDjzPUSYT7Wn1HdHGuuNYSE-korifnefSt_4FeGnPbiCDERjYrngEgJ2WeTNaXNC7s2DAWxVZ3mMEU4noKc-KZy50BNBPT6RTHNMsovYUfXGrgfyDP2Wy2YMyYYEuac4UCq7wKNlLR5RRZKG0zXpWpd8QcZJe2i3WkGJh0zt9Z9d5JY9KZPiUa4hSXbCJ4seMKm9XsUjL9NzsX7NNTgHumicvOzRwGyb2UMntRjkiVMNjWwO3EjzvxPwhkEkxa7OPZZjA5WY-MNt51zGi_orJzbUsGT4DjCELoQ-Qb--dzMPBRvPe-fC2dbWh3Tr9REwci40xr_sUfjiuXo';
-        const Ins_id = 15;
-        const data = {
-            ...this.state.data,
-        }
-        console.log(data, "data data", this?.props?.route?.params?.inspectionId)
-        const railings = [{
-            railing_id: data.railing_id,
-            railing_finding: data.railing_fining,
-            railing_closeup: data.railClosImg,
-            railing_photo: data.raillocImg
-        }];
-        const flashings = [{
-            flashing_id: data.flashing_id,
-            flashing_finding: data.flashingFinding,
-            flashing_closeup: data.flashCloseImg,
-            flashing_photo: data.flashCloseImg
-        }];
-        const deckSurfaces = [{
-            deck_surface_id: data.DeckSurface_id,
-            deck_surface_finding: data.DeckSurfaceFinding,
-            deck_surface_closeup: data.DeckCloseImg,
-            deck_surface_photo: data.DeckLocImg,
-            deck_maintainence_id: data.DeckSurfaceMaintainance_id
-        }];
-        const framings = [{
-            framing_id: data.Framing_id,
-            framing_maintainence_id: data.FramingMaintainacne_id,
-            deck_surface_closeup: data.FramingCloseImg,
-            deck_surface_closeup: data.FramingLocImg
-        }];
-        const stairs = [{
-            stairs_id: this.state.Stairs_id,
-            maintainence_id: this.state.StairsMaintaince_id,
-            stairs_finding: this.state.StairsFinding,
-            stairs_closeup: this.state.StaircloseFImg,
-            stairs_photo: this.state.StairLocFImg
-        }];
-        const railing = [{
-            railing_maintainence_id: data.railingMaintainance_id
-        }];
-        const flashing = [{
-            flashing_maintainence_id: data.flashingMaintainacne_id
-        }];
-        dataToSend.append("title", data.title)
-        dataToSend.append("inspection_id", this?.props?.route?.params?.inspectionId)
-        railings.forEach(tag => dataToSend.append("railings[]", tag))
-        // dataToSend.append("railings[]", railings)
-        // dataToSend.append("flashings[]", flashings)
-        flashings.forEach(tag => dataToSend.append("flashings[]", tag))
+    async updateLocation() {
+        const { street_address,
+            location_for,
+            StairsMaintaince_id,
+            sendStaircloseFImg,
+            sendStairLocFImg } = this.state
+        console.log(location_for,
+            StairsMaintaince_id,
+            sendStaircloseFImg,
+            sendStairLocFImg)
+            if (this.isFormFilled()) {
+                this.setState({ loading: true });
+                const token = this.props.userToken;
+                let sendData = {
+                    "street_address": street_address,
+                    "location_for": location_for,
+                    "location": StairsMaintaince_id,
+                    "photo_closeup": sendStaircloseFImg,
+                    "photo_finding": sendStairLocFImg
+                }
+                await locationUpdate(sendData, token).then(response => {
+                    console.log(response)
+                    this.setState({ loading: false });
+                    if (response.status === 200 && !response.data.error) {
 
-        // dataToSend.append("deckSurfaces[]", deckSurfaces)
-        deckSurfaces.forEach(tag => dataToSend.append("deckSurfaces[]", tag))
+                        console.log(response)
+                        this.props.navigation.goBack()
 
-        // dataToSend.append("framings[]", framings)
-        framings.forEach(tag => dataToSend.append("framings[]", tag))
-
-        // dataToSend.append("railing[]", railing)
-        railing.forEach(tag => dataToSend.append("railing[]", tag))
-
-        // dataToSend.append("flashing[]", flashing)
-        flashing.forEach(tag => dataToSend.append("flashing[]", tag))
-
-        dataToSend.append("stairs_maintainence_id", this.state.StairsMaintaince_id)
-        dataToSend.append("stairs[]", stairs)
-        stairs.forEach(tag => dataToSend.append("stairs[]", tag))
-
-        console.log(dataToSend);
-        await CreateLocationInspection(dataToSend, token).then(response => {
-            console.log(response)
-            if (response.status === 200 && !response.data.error) {
-
-                console.log(response)
-
+                    }
+                    else {
+                        alert("Some thing Went Wrong")
+                    }
+                });
             }
-            else {
-                alert("Some thing Went Wrong")
-            }
-        });
     }
     render() {
         return (
@@ -219,7 +166,7 @@ class UpdateCurrentReport extends Component {
                             <View>
 
                                 <TextInput
-                                    onChangeText={(val) => this.setState({ StairsFinding: val })}
+                                    onChangeText={(val) => this.setState({ street_address: val })}
                                     multiline={true}
                                     numberOfLines={4}
                                     placeholder='Street address'
@@ -229,7 +176,7 @@ class UpdateCurrentReport extends Component {
                             <View>
 
                                 <TextInput
-                                    onChangeText={(val) => this.setState({ StairsFinding: val })}
+                                    onChangeText={(val) => this.setState({ location_for: val })}
                                     multiline={true}
                                     numberOfLines={4}
                                     placeholder='Apartment number or location of work performed'
@@ -250,8 +197,8 @@ class UpdateCurrentReport extends Component {
                                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 86 }}>
 
                                         <TouchableOpacity
-                                            onPress={() => this.setState({ StairsMaintaince_id: 1 })}
-                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 1 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
+                                            onPress={() => this.setState({ StairsMaintaince_id: 2 })}
+                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 2 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
                                         <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#0D2A37' }]}>Flasshing/Caulking</Text>
 
                                     </View>
@@ -264,15 +211,15 @@ class UpdateCurrentReport extends Component {
                                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                         <TouchableOpacity
-                                            onPress={() => this.setState({ StairsMaintaince_id: 1 })}
-                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 1 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
+                                            onPress={() => this.setState({ StairsMaintaince_id: 3 })}
+                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 3 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
                                         <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#0D2A37' }]}>Deck surface</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 50, justifyContent: 'space-between' }}>
 
                                         <TouchableOpacity
-                                            onPress={() => this.setState({ StairsMaintaince_id: 1 })}
-                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 1 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
+                                            onPress={() => this.setState({ StairsMaintaince_id: 4 })}
+                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 4 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
                                         <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#0D2A37' }]}>Frame</Text>
 
                                     </View>
@@ -280,8 +227,8 @@ class UpdateCurrentReport extends Component {
                                 <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                     <View style={{ flexDirection: 'row', marginTop: 10, justifyContent: 'space-between' }}>
                                         <TouchableOpacity
-                                            onPress={() => this.setState({ StairsMaintaince_id: 1 })}
-                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 1 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
+                                            onPress={() => this.setState({ StairsMaintaince_id: 5 })}
+                                            style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.StairsMaintaince_id === 5 ? '#0D2A37' : null, borderColor: '#0D2A37' }} />
                                         <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#0D2A37' }]}>Stairs</Text>
                                     </View>
                                 </View>
@@ -317,7 +264,7 @@ class UpdateCurrentReport extends Component {
                                 )}
 
                                 <TouchableOpacity
-                                    onPress={() => this.AddLocation()}
+                                    onPress={() => this.updateLocation()}
                                     style={[styles.Btn, { width: '100%' }]}>
                                     <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Update</Text>
                                 </TouchableOpacity>

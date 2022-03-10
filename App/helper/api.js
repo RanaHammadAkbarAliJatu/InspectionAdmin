@@ -65,6 +65,27 @@ export async function get_all_Types(token) {
   return GetResponse;
 }
 
+export async function locationUpdate(data,token) {
+  var config = {
+    method: 'post',
+    url: `${Server}/api/send/update/request`,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: data,
+  };
+
+  const GetResponse = await axios(config)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+  return GetResponse;
+}
 export async function CreateInspection(token, data) {
   var config = {
     method: 'post',

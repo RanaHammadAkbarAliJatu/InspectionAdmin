@@ -16,64 +16,82 @@ import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
 import { FONT, SCREEN } from '../../helper/Constant';
 
 class DeckSurface extends Component {
-  render() {
-    return (
-        <View style={styles.wrapperView}>
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
-                <View style={{ width: '85%', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack()}>
-                        <Image
-                            style={{ width: 7, height: 13, }}
-                            source={require('../../assets/back.png')} />
+    render() {
+        const data = this.props.route.params.dataToSend
+        return (
+            <View style={styles.wrapperView}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
+                        <View style={{ width: '85%', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.goBack()}>
+                                <Image
+                                    style={{ width: 7, height: 13, }}
+                                    source={require('../../assets/back.png')} />
 
-                    </TouchableOpacity>
-                    <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection findings</Text>
-                </View>
-                <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Deck surface</Text>
-                <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Deck surface type</Text>
-                 <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
-                    <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
-                </View>
+                            </TouchableOpacity>
+                            <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection findings</Text>
+                        </View>
+                        {data?.decksurface?.map((item) =>
+                            <View>
+                                <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Deck surface</Text>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#828282' }}>Deck surface findings</Text>
+                                <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Deck surface type</Text>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.type?.title}</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
+                                    <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
+                                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
+                                </View>
 
-                    <View style={{ flexDirection: 'row' }}>
-                        <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
-                        <Text style={[styles.itemTxt, { fontWeight: '400', color: '#EB5757' }]}>Immediate action is required.</Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                                    <View>
+                                        <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.deck_surface_closeup ? { uri: 'http://3.143.107.15' + item?.deck_surface_closeup } : require('../../assets/Pic.png')} />
+                                        <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
+                                    </View>
+
+                                    <View>
+                                        <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.deck_surface_photo ? { uri: 'http://3.143.107.15' + item?.deck_surface_photo } : require('../../assets/pic2.png')} />
+                                        <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
+                                    </View>
+
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 50, justifyContent: 'space-between' }}>
+                                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#828282' }}>Deck surface findings</Text>
+
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} />
+                                        <Text style={[styles.itemTxt, { fontWeight: '400', color: item?.maintenance?.level ? item?.maintenance?.level : '#EB5757' }]}>{item?.maintenance?.maintainence_title}</Text>
+                                    </View>
+                                </View>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.deck_surface_finding}</Text>
+                            </View>
+                        )}
+                        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate("CFraming", { dataToSend: data })}
+
+                                style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 30, marginTop: 50 }]}>
+                                <Text style={styles.itemTxt}>Next page</Text>
+                                <Image
+                                    style={{ width: 11, height: 8 }}
+                                    source={require('../../assets/forward.png')} />
+                            </TouchableOpacity>
+
+
+                            <Text style={[styles.itemTxt, { marginBottom: 10, }]}>Previous page</Text>
+                        </View>
                     </View>
-                </View>
-                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar lectus pellentesque varius ac laoreet. Pharetra purus at integer semper tortor, elementum congue vestibulum. Tellus tortor in dolor, semper curabitur urna. Risus sagittis quis semper tincidunt.</Text>
-
-                <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate("CFraming")}
-                        style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 30, marginTop: 50 }]}>
-                        <Text style={styles.itemTxt}>Next page</Text>
-                        <Image
-                            style={{ width: 11, height: 8 }}
-                            source={require('../../assets/forward.png')} />
-                    </TouchableOpacity>
 
 
-                    <Text style={[styles.itemTxt, { marginBottom: 10, }]}>Previous page</Text>
-                </View>
+
+
+                    <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
+                    </View>
+                </SafeAreaView>
             </View>
-
-
-
-
-            <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
-            </View>
-        </SafeAreaView>
-    </View>
-    );
-  }
+        );
+    }
 }
 const styles = StyleSheet.create({
     wrapperView: {

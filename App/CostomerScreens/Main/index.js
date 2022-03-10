@@ -44,7 +44,7 @@ class Main extends Component {
                 style={{ width: '100%', height: SCREEN.height / 2, borderRadius: 10, marginBottom: 10 }}
                 source={require('../../assets/Pic.png')} />
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("CReport", {dataToSend: draft})}
+                onPress={() => this.props.navigation.navigate("CPropertiesforInspection", {dataToSend: draft})}
                 style={styles.itemView}>
                 <Text style={styles.itemTxt}>View / Download my current report</Text>
                 <Image
@@ -52,7 +52,7 @@ class Main extends Component {
                   source={require('../../assets/eye.png')} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.itemView}
-                onPress={() => this.props.navigation.navigate("CReport", {dataToSend: done})}
+                onPress={() => this.props.navigation.navigate("CPropertiesforInspection", {dataToSend: done})}
                 >
                 <Text style={styles.itemTxt}>View / Download my previous report</Text>
                 <Image

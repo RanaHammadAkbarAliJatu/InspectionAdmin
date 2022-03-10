@@ -17,6 +17,8 @@ import { FONT, SCREEN } from '../../helper/Constant';
 
 class RequirementsGuide extends Component {
     render() {
+    const data = this?.props?.route?.params?.dataToSend
+
         return (
             <View style={styles.wrapperView}>
                 <SafeAreaView style={{ flex: 1 }}>
@@ -151,7 +153,7 @@ class RequirementsGuide extends Component {
                         </Text>
 
                         <Text
-                        onPress={()=> this.props.navigation.navigate("CContent")}
+                        onPress={()=> this.props.navigation.navigate("CContent",{dataToSend: data})}
                         style={{fontSize:12, color:'#282461', textDecorationLine:'underline', fontWeight:"bold", marginTop: 50, marginBottom: 20, alignSelf:'center'}}>Return to table of contents</Text>
                         </View>
                     </ScrollView>

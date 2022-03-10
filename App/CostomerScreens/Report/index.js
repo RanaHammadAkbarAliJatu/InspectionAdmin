@@ -17,7 +17,8 @@ import { FONT, SCREEN } from '../../helper/Constant';
 
 class Report extends Component {
   render() {
-    const location = this.props.route.params.dataToSend
+    const { location } = this.props.route.params.dataToSend
+    console.log(location,"loca")
     return (
       <View style={styles.wrapperView}>
         <SafeAreaView style={{ flex: 1 }}>
@@ -35,8 +36,7 @@ class Report extends Component {
             </View>
 
             <Text style={{ fontSize: 12, fontWeight: '700', color: '#828282', marginTop: 20 }}>Inspections</Text>
-
-            {location[0]?.location?.length > 0 ? location[0]?.location.map((item, i) => (
+            {location.length > 0 ? location.map((item, i) => (
               <View style={[styles.itemView, { marginTop: 10 }]}>
                 <View style={styles.round}>
                   <Text style={styles.itemTxt}>{i + 1}</Text>
@@ -46,9 +46,7 @@ class Report extends Component {
                   <View style={[styles.oval, { marginRight: 12 }]}>
                     <Image style={{ width: 10, height: 13 }} source={require('../../assets/document.png')} />
                   </View>
-                  <TouchableOpacity style={styles.oval}
-                    onPress={() => this.props.navigation.navigate("CContent", { dataToSend:  item  })}
-                  >
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate("CContent", { dataToSend:  item  })} style={styles.oval}>
                     <Image style={{ width: 14, height: 10.5 }} source={require('../../assets/eye.png')} />
                   </TouchableOpacity>
                 </View>
