@@ -33,8 +33,8 @@ class DeckSurface extends Component {
             data: '',
             DeckSurfaceFinding: '',
             closeFImg: '',
-            sendcloseFImg:'',
-sendLocFImg:'',
+            sendcloseFImg: '',
+            sendLocFImg: '',
             LocFImg: '',
             DeckSurfaceMaintainance_id: 0,
             DeckSurface_id: 0,
@@ -46,13 +46,13 @@ sendLocFImg:'',
 
     componentDidMount() {
         const data = this?.props?.route?.params;
-        console.log(data)
+        console.log(data,"one")
         this.setState({ data: data });
         const type = []
-        // data.data.railing.forEach(el => {
-        //     type.push({ label: el.title, value: el.id })
-        // })
-        this.setState({ railingType: type });
+        data?.data?.deckSurface.forEach(el => {
+            type.push({ label: el.title, value: el.id })
+        })
+        this.setState({ DeckSurfaceType: type });
     }
     picker(type) {
         ImagePicker.openCamera({
@@ -68,11 +68,11 @@ sendLocFImg:'',
                             this.setState({ sendcloseFImg: res });
                         });
                     let image_data1 = {
-                    uri: image.path,
-                    type: image.mime,
-                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
                     };
-                    this.setState({closeFImg: image_data1});
+                    this.setState({ closeFImg: image_data1 });
                     break;
                 case 1:
                     RNFS.readFile(image.path, 'base64')
@@ -83,8 +83,8 @@ sendLocFImg:'',
                         uri: image.path,
                         type: image.mime,
                         name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                        };
-                        this.setState({LocFImg: image_data});
+                    };
+                    this.setState({ LocFImg: image_data });
                     break;
             }
         });
@@ -239,7 +239,7 @@ sendLocFImg:'',
                                 />
                                 <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
                                     <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: this. getSelectedMaintainanceColor() }]}>{this. getSelectedMaintainance()}</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: this.getSelectedMaintainanceColor() }]}>{this.getSelectedMaintainance()}</Text>
                                 </View>
                             </View>
 

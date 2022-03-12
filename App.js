@@ -15,12 +15,13 @@
    Text,
    StatusBar,
    StyleSheet,
+   LogBox
  } from 'react-native';
  
  import HomeNavigation from './App/Navigations/homeNavigation';
  import {Provider} from 'react-redux';
  import store from './App/redux/store';
- 
+ LogBox.ignoreAllLogs();//Ignore all log notifications
  class App extends Component {
    constructor(props) {
      super(props);

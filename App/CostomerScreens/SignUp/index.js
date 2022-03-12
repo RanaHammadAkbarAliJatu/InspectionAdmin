@@ -29,8 +29,8 @@ class SignUp extends Component {
       password: '',
       first_name:'',
       last_name:'',
-      number:'',
-      country_code:'',
+      number: '3341577888',
+      country_code: '92',
       confirmPassword:'',
       loading: false,
     };
@@ -39,7 +39,7 @@ class SignUp extends Component {
     let check_first_name = Validations.checkrequired(this.state.first_name);
     let check_last_name = Validations.checkrequired(this.state.last_name);
     let check_email = Validations.checkEmail(this.state.email);
-    let check_Phone_number = Validations.checkrequired(this.state.number);
+    let check_Phone_number = this.state.number
     let check_Country_Code = this.state.country_code;
     let check_Password = Validations.checkPassword(this.state.password);
     let check_confirmmPassword = Validations.checkPassword(

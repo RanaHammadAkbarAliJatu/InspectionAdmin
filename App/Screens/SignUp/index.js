@@ -29,8 +29,8 @@ class SignUp extends Component {
       password: '',
       first_name: '',
       last_name: '',
-      number: '',
-      country_code: '',
+      number: '3341577888',
+      country_code: '92',
       confirmPassword: '',
       loading: false,
     };
@@ -39,9 +39,6 @@ class SignUp extends Component {
     let check_first_name = Validations.checkrequired(this.state.first_name);
     let check_last_name = Validations.checkrequired(this.state.last_name);
     let check_email = Validations.checkEmail(this.state.email.replace(/\s/g, ''));
-    let check_Phone_number = Validations.checkrequired(this.state.number);
-    // let check_Country_Code = Validations.check_Country_Code(this.state.country_code);
-    let check_Country_Code = this.state.country_code
     let check_Password = Validations.checkPassword(this.state.password);
     let check_confirmmPassword = Validations.checkPassword(
       this.state.confirmPassword,
@@ -51,10 +48,8 @@ class SignUp extends Component {
       check_first_name &&
       check_last_name &&
       check_email &&
-      check_Phone_number &&
       check_Password &&
       check_confirmmPassword &&
-      check_Country_Code &&
       this.state.password === this.state.confirmPassword
     ) {
       return true;
@@ -65,10 +60,6 @@ class SignUp extends Component {
       alert('Invalid Last Name');
     } else if (!check_email) {
       alert('Invalid Email');
-    } else if (!check_Phone_number) {
-      alert('Invalid Phone Number');
-    } else if (!check_Country_Code) {
-      alert('Invalid Country Code');
     }
     else if (!check_Password) {
       alert('Password Lenght should be Gretaer than 3');
@@ -89,8 +80,6 @@ class SignUp extends Component {
       last_name: this.state.last_name,
       email: this.state.email,
       password: this.state.password,
-      country_code: this.state.country_code,
-      number: this.state.phone_number,
       role: role == 1 ? 'inspection' : 'customer'
     };
     if (this.isFormFilled()) {
@@ -164,7 +153,7 @@ class SignUp extends Component {
                   />
                 </View>
 
-                <View style={[styles.TextInput, { marginTop: 20, paddingLeft: 10, flexDirection: 'row' }]}>
+                {/* <View style={[styles.TextInput, { marginTop: 20, paddingLeft: 10, flexDirection: 'row' }]}>
 
                   <TextInput
                     style={{ width: 30 }}
@@ -184,7 +173,7 @@ class SignUp extends Component {
                     onChangeText={(value) => this.setState({ number: value })}
                     placeholderTextColor={'lightgrey'}
                   />
-                </View>
+                </View> */}
 
 
                 <View style={{ marginTop: 20 }}>

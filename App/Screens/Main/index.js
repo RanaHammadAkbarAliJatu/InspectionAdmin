@@ -35,7 +35,7 @@ class Main extends Component {
         style={styles.wrapperView}>
             <View style={{flex:1 , alignItems:'center'}}>
             <Image style={{width: SCREEN.width - 40, height: SCREEN.height/1.8,resizeMode:"stretch"}} source={require('../../assets/Pic.png')}/>
-            <Text style={[styles.itemTxt,{marginTop: 30, width: SCREEN.width / 1.9, textAlign:'center'}]}>Inspection Application</Text>
+            <Text style={[styles.itemTxt,{marginTop: 30,  textAlign:'center'}]}>Inspection Application</Text>
             <Text style={{
               fontSize:12,
               fontWeight:'500',
