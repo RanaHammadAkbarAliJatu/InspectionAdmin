@@ -11,7 +11,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import { LoginForm } from '../../helper/api';
@@ -92,6 +93,22 @@ class TakePicture extends Component {
   render() {
     return (
       <View style={styles.wrapperView}>
+         <Header
+              leftPress={() =>{
+                Alert.alert(
+                    "Alert",
+                    "Are you sure you want to re enter data",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      },
+                      { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                    ]
+                  );
+                }}
+            />
         <ImageBackground
           // source={{ uri: "https://reactjs.org/logo-og.png" }}
           source={this.state.state ? require('../../assets/Pic.png') : { uri: this.state.showImage.uri }}
@@ -115,7 +132,7 @@ class TakePicture extends Component {
               <TouchableOpacity
                 onPress={() => this.picker()}
                 style={styles.Btn}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: PURPLE.dark }]}>Retake photo</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: PURPLE.dark }]}>Take photo</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('PreparedBy', {
@@ -125,7 +142,7 @@ class TakePicture extends Component {
                   }
                 })}
                 style={[styles.Btn, { backgroundColor: '#282461' }]}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Keep image</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Next</Text>
               </TouchableOpacity>
             </View>
           </View>

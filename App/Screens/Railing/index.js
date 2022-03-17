@@ -12,7 +12,9 @@ import {
     TouchableOpacity,
     ScrollView,
     TextInput,
-    Modal
+    Modal,
+  Alert
+
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import { LoginForm } from '../../helper/api';
@@ -166,7 +168,20 @@ getSelectedMaintainanceColor(){
         return (
             <View style={styles.wrapperView}>
                 <Header
-                    leftPress={() => this.props.navigation.goBack()}
+                    leftPress={() =>{
+                        Alert.alert(
+                            "Alert",
+                            "Are you sure you want to re enter data",
+                            [
+                              {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel"
+                              },
+                              { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                            ]
+                          );
+                        }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
                     <ScrollView
@@ -214,7 +229,7 @@ getSelectedMaintainanceColor(){
                                         },
                                     }}
                                     placeholder={{
-                                        label: 'Vehicle Categories',
+                                        label: 'Rail Types',
 
                                     }}
 
@@ -232,6 +247,7 @@ getSelectedMaintainanceColor(){
                                     onChangeText={(val) => this.setState({ railfin: val })}
                                     multiline={true}
                                     numberOfLines={4}
+                                    value={this.state.railfin}
                                     placeholder='Enter railing findings'
                                     style={styles.textInput}
                                 />

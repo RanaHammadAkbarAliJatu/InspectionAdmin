@@ -21,7 +21,7 @@ class Splash extends Component {
   };
 
   componentWillUnmount() {
-    this._unsubscribe();
+    // this._unsubscribe();
   }
 
   render() {

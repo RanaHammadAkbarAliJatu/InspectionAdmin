@@ -10,7 +10,8 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import {CreateInspection} from '../../helper/api';
@@ -125,7 +126,20 @@ class PreparedBy extends Component {
       <View
         style={styles.wrapperView}>
             <Header
-              leftPress={()=> this.props.navigation.goBack()}
+              leftPress={() =>{
+                Alert.alert(
+                    "Alert",
+                    "Are you sure you want to re enter data",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      },
+                      { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                    ]
+                  );
+                }}
             />
         <SafeAreaView style={{flex: 1}}>
         <View style={{flex:1,paddingHorizontal:20 ,borderTopRightRadius: 10,borderTopLeftRadius:10}}>
@@ -147,16 +161,19 @@ class PreparedBy extends Component {
         <TextInput
         onChangeText={(val)=> this.setState({pforBusinessName: val})}
         placeholder='Deck and Balcony Inspection Inc.'
+        value={this.state.pforBusinessName}
         style={[styles.TextInput,{marginTop: 30}]}
         />
           <TextInput
           onChangeText={(val)=> this.setState({pforNumber: val})}
+        value={this.state.pforNumber}
         placeholder='(916) 238-0618'
         style={styles.TextInput}
         />
 
         <TextInput
         onChangeText={(val)=> this.setState({pforEmail: val})}
+        value={this.state.pforEmail}
         placeholder='dan@deckandbalconyinspections.com'
         style={styles.TextInput}
         />
@@ -164,6 +181,7 @@ class PreparedBy extends Component {
   
         <TextInput
         onChangeText={(val)=> this.setState({pforName: val})}
+        value={this.state.pforName}
         placeholder='Dan Cronk'
         style={styles.TextInput}
         />
@@ -171,6 +189,7 @@ class PreparedBy extends Component {
 
         <TextInput
         onChangeText={(val)=> this.setState({pforDate: val})}
+        value={this.state.pforDate}
         placeholder='28/12/2021'
         style={styles.TextInput}
         />

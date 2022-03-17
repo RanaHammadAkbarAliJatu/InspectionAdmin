@@ -89,14 +89,6 @@ class PropertyLocation extends Component {
   }
   componentWillUnmount() {
     console.log("componentWillUnmount")
-    this.setState({
-      preparedFor: this.state.preparedFor,
-      address1: this.state.address1,
-      address2: this.state.address2,
-      state: this.state.state,
-      zip_code: this.state.zip_code,
-      city: this.state.city
-    })
   }
   render() {
     return (
@@ -104,20 +96,7 @@ class PropertyLocation extends Component {
 
         style={styles.wrapperView}>
         <Header
-           leftPress={() =>{
-            Alert.alert(
-                "Alert",
-                "Are you sure you want to re enter data",
-                [
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  },
-                  { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
-                ]
-              );
-            }}
+          leftPress={() => this.props.navigation.goBack()}
         />
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flex: 1, paddingHorizontal: 20, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>

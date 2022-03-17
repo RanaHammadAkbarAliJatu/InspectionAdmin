@@ -10,7 +10,8 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import {LoginForm} from '../../helper/api';
@@ -20,19 +21,21 @@ import {BLACK, GREY, ORANGE, PURPLE, RED, WHITE} from '../../helper/Color';
 import {FONT, isIphoneXorAbove, SCREEN} from '../../helper/Constant';
 import Header from '../../Components/Headder/header';
 import Validations from '../../helper/Validations';
+
 class ManagementContact extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      manage_name: '',
-      manage_address: '',
-      manage_phone: '',
-      manage_email: '',
-      BackData:'',
-      manage_siteContact:'',
-      loading: false,
-    };
+   
   }
+  state = {
+    manage_name: '',
+    manage_address: '',
+    manage_phone: '',
+    manage_email: '',
+    BackData:'',
+    manage_siteContact:'',
+    loading: false,
+  };
   componentDidMount(){
     const data = this?.props?.route?.params.data;
     console.log(data);
@@ -87,7 +90,20 @@ class ManagementContact extends Component {
       <View
         style={styles.wrapperView}>
             <Header
-              leftPress={()=> this.props.navigation.goBack()}
+             leftPress={() =>{
+              Alert.alert(
+                  "Alert",
+                  "Are you sure you want to re enter data",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                    },
+                    { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                  ]
+                );
+              }}
             />
         <SafeAreaView style={{flex: 1}}>
         <View style={{flex:1,paddingHorizontal:20 ,borderTopRightRadius: 10,borderTopLeftRadius:10}}>
@@ -109,17 +125,20 @@ class ManagementContact extends Component {
         
         <TextInput
         onChangeText={(value)=> this.setState({manage_name:value})}
+        value={this.state.manage_name}
         placeholder='Name'
         style={[styles.TextInput,{marginTop: 30}]}
         />
           <TextInput
            onChangeText={(value)=> this.setState({manage_address:value})}
+        value={this.state.manage_address}
         placeholder='Address'
         style={styles.TextInput}
         />
 
         <TextInput
          onChangeText={(value)=> this.setState({manage_phone:value})}
+        value={this.state.manage_phone}
         placeholder='00 000 0000'
         style={styles.TextInput}
         />
@@ -127,6 +146,7 @@ class ManagementContact extends Component {
   
         <TextInput
          onChangeText={(value)=> this.setState({manage_email:value})}
+        value={this.state.manage_email}
         placeholder='Email address'
         style={styles.TextInput}
         />
@@ -134,6 +154,7 @@ class ManagementContact extends Component {
 
           <TextInput
            onChangeText={(value)=> this.setState({manage_siteContact:value})}
+        value={this.state.manage_siteContact}
         placeholder='Site contact'
         style={styles.TextInput}
         />

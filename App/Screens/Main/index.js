@@ -45,15 +45,15 @@ class Main extends Component {
               marginTop: 30
             }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed feugiat neque rhoncus. Sit mi arcu at molestie id enim senectus dui leo. Nibh senectus molestie amet eget leo, nisi. Pharetra vivamus phasellus tristique ac tortor.</Text>
             
-            <View style={{flexDirection:'row',marginTop: 30,justifyContent:'space-between', width: SCREEN.width - 40}}> 
+            <View style={{flexDirection:'row',marginTop: 30,justifyContent: 'center', width: SCREEN.width - 40}}> 
             <TouchableOpacity 
             onPress={()=> this.props.navigation.navigate("Login",{role: 1})}
             style={styles.Btn}>
               <Text style={[styles.itemTxt,{fontSize: 12}]}>Inspection login</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.Btn,{backgroundColor:'#282461'}]}  onPress={()=> this.props.navigation.navigate("Login",{role: 2})}>
+            {/* <TouchableOpacity style={[styles.Btn,{backgroundColor:'#282461'}]}  onPress={()=> this.props.navigation.navigate("Login",{role: 2})}>
             <Text style={[styles.itemTxt,{fontSize: 12, color:'white'}]}>Customer login</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             </View>
             </View>
            

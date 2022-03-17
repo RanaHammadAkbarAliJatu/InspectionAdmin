@@ -12,7 +12,9 @@ import {
     TouchableOpacity,
     ScrollView,
     TextInput,
-    Modal
+    Modal,
+  Alert
+
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import { LoginForm } from '../../helper/api';
@@ -165,7 +167,20 @@ class DeckSurface extends Component {
         return (
             <View style={styles.wrapperView}>
                 <Header
-                    leftPress={() => this.props.navigation.goBack()}
+                   leftPress={() =>{
+                    Alert.alert(
+                        "Alert",
+                        "Are you sure you want to re enter data",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                        ]
+                      );
+                    }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
 
