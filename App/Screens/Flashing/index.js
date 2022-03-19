@@ -13,7 +13,7 @@ import {
     ScrollView,
     TextInput,
     Modal,
-  Alert
+    Alert
 
 } from 'react-native';
 import Loader from '../../Components/Loader';
@@ -38,7 +38,7 @@ class Flashing extends Component {
             sendLocFImg: '',
             flashingFinding: '',
             flashingMaintainacne_id: 0,
-            flashing_id: 0,
+            flashing_id: 1,
             flasgin_type: '',
             modal: false,
         };
@@ -104,9 +104,6 @@ class Flashing extends Component {
         else if (this.state.flashingMaintainacne_id === 0) {
             alert('Invalid Maintainance Id');
         }
-        else if (this.state.flashing_id === undefined) {
-            alert('Invalid Raling Id');
-        }
         else {
             return true
         }
@@ -165,20 +162,20 @@ class Flashing extends Component {
         return (
             <View style={styles.wrapperView}>
                 <Header
-                    leftPress={() =>{
+                    leftPress={() => {
                         Alert.alert(
                             "Alert",
                             "Are you sure you want to re enter data",
                             [
-                              {
-                                text: "Cancel",
-                                onPress: () => console.log("Cancel Pressed"),
-                                style: "cancel"
-                              },
-                              { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
                             ]
-                          );
-                        }}
+                        );
+                    }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
 
@@ -193,10 +190,10 @@ class Flashing extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>(Location of inspection here)</Text>
+                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
-                            <RNPickerSelect
+                            {/* <RNPickerSelect
                                 Icon={() => {
                                     return (
                                         <Icon
@@ -238,7 +235,7 @@ class Flashing extends Component {
                                     this.setState({ flashing_id: itemValue });
                                 }}
                                 items={this.state.flasgin_type}
-                            />
+                            /> */}
 
 
                             <View>
@@ -248,12 +245,14 @@ class Flashing extends Component {
                                     multiline={true}
                                     numberOfLines={4}
                                     placeholder='Enter flashing/caulking findings'
-                                    style={styles.textInput}
+                                    style={[styles.textInput, {
+                                        borderColor: this.getSelectedMaintainanceColor()
+                                    }]}
                                 />
-                                <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
-                                    <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
-                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: this.getSelectedMaintainanceColor() }]}>{this.getSelectedMaintainance()}</Text>
-                                </View>
+                                {/* <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
+                                    <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={re this.getSelectedMaintainanceColor()quire('../../assets/redSign.png')} />
+                                    <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: }]}>{this.getSelectedMaintainance()}</Text>
+                                </View> */}
                             </View>
 
                             <Text style={[styles.greytxt, { marginTop: 30 }]}> Maintenance status </Text>
@@ -293,30 +292,28 @@ class Flashing extends Component {
 
 
                             <View style={{ marginTop: 30, }}>
-                                {this.state.closeFImg === '' ? <TouchableOpacity
+                                {this.state.closeFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.closeFImg.uri }} />}
+                                {this.state.LocFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.LocFImg.uri }} />}
+                                <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take close up photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.closeFImg === '' ? "Take" : "Retake"} close up photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 10.5 }}
                                         source={require('../../assets/camer.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.closeFImg.uri }} />
-                                )}
-                                {this.state.LocFImg === '' ? <TouchableOpacity
+                                </TouchableOpacity>
+                                <TouchableOpacity
                                     onPress={() => this.picker(1)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take a location photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.LocFImg === '' ? "Take" : "Retake" } a location photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.LocFImg.uri }} />
-                                )}
+                                </TouchableOpacity>
                                 {/* <TouchableOpacity 
                             onPress={()=> this.setState({modal: true})}
                             style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>

@@ -13,7 +13,7 @@ import {
     ScrollView,
     TextInput,
     Modal,
-  Alert
+    Alert
 
 } from 'react-native';
 import Loader from '../../Components/Loader';
@@ -48,7 +48,7 @@ class DeckSurface extends Component {
 
     componentDidMount() {
         const data = this?.props?.route?.params;
-        console.log(data,"one")
+        console.log(data, "one")
         this.setState({ data: data });
         const type = []
         data?.data?.deckSurface.forEach(el => {
@@ -94,7 +94,9 @@ class DeckSurface extends Component {
     }
     isFormFilled() {
 
-        if (this.state.DeckSurfaceFinding.length === 0) {
+        if (this.state.DeckSurface_id === 0) {
+            alert('Select Deck Surface Type');
+        } else if (this.state.DeckSurfaceFinding.length === 0) {
             alert('Invalid Railing Finding');
         }
         else if (this.state.closeFImg === '') {
@@ -104,11 +106,9 @@ class DeckSurface extends Component {
             alert('Invlalid Location Image');
         }
         else if (this.state.DeckSurfaceMaintainance_id === 0) {
-            alert('Invalid Maintainance Id');
+            alert('Invalid deck covering type');
         }
-        // else if (this.state.DeckSurface_id === undefined) {
-        //     alert('Invalid Raling Id');
-        // }
+
         else {
             return true
         }
@@ -167,19 +167,19 @@ class DeckSurface extends Component {
         return (
             <View style={styles.wrapperView}>
                 <Header
-                   leftPress={() =>{
-                    Alert.alert(
-                        "Alert",
-                        "Are you sure you want to re enter data",
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                          },
-                          { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
-                        ]
-                      );
+                    leftPress={() => {
+                        Alert.alert(
+                            "Alert",
+                            "Are you sure you want to re enter data",
+                            [
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                            ]
+                        );
                     }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
@@ -193,22 +193,23 @@ class DeckSurface extends Component {
                             <Text style={[styles.greytxt, { marginTop: 30 }]}>Inspection for</Text>
                             <Text style={[styles.itemTxt, { marginTop: 10, fontSize: 34 }]}>Deck surface</Text>
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
-                            <View style={{ width: '100%' }}>
-
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                                <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
+                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20 }}>
                                 <RNPickerSelect
-                                    Icon={() => {
-                                        return (
-                                            <Icon
-                                                name="arrow-drop-down"
-                                                size={30}
-                                                color={'#282461'}
-                                                style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
-                                            />
-                                        );
-                                    }}
+                                    // Icon={() => {
+                                    //     return (
+                                    //         <Icon
+                                    //             name="arrow-drop-down"
+                                    //             size={30}
+                                    //             color={'#282461'}
+                                    //             style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
+                                    //         />
+                                    //     );
+                                    // }}
                                     style={{
                                         inputIOS: {
                                             width: '100%',
@@ -250,12 +251,14 @@ class DeckSurface extends Component {
                                     multiline={true}
                                     numberOfLines={4}
                                     placeholder='Enter railing findings'
-                                    style={styles.textInput}
+                                    style={[styles.textInput, {
+                                        borderColor: this.getSelectedMaintainanceColor()
+                                    }]}
                                 />
-                                <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
+                                {/* <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
                                     <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
                                     <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: this.getSelectedMaintainanceColor() }]}>{this.getSelectedMaintainance()}</Text>
-                                </View>
+                                </View> */}
                             </View>
 
                             <Text style={[styles.greytxt, { marginTop: 30 }]}> Maintenance status </Text>
@@ -293,30 +296,28 @@ class DeckSurface extends Component {
 
 
                             <View style={{ marginTop: 30, }}>
-                                {this.state.closeFImg === '' ? <TouchableOpacity
+                                {this.state.closeFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.closeFImg.uri }} />}
+                                {this.state.LocFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.LocFImg.uri }} />}
+                                <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take close up photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.closeFImg === '' ? "Take" : "Retake"} close up photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 10.5 }}
                                         source={require('../../assets/camer.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.closeFImg.uri }} />
-                                )}
-                                {this.state.LocFImg === '' ? <TouchableOpacity
+                                </TouchableOpacity>
+                                <TouchableOpacity
                                     onPress={() => this.picker(1)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take a location photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.LocFImg === '' ? "Take" : "Retake"} a location photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.LocFImg.uri }} />
-                                )}
+                                </TouchableOpacity>
                                 {/* <TouchableOpacity 
                             onPress={()=> this.setState({modal: true})}
                             style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>

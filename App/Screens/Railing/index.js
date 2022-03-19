@@ -13,7 +13,7 @@ import {
     ScrollView,
     TextInput,
     Modal,
-  Alert
+    Alert
 
 } from 'react-native';
 import Loader from '../../Components/Loader';
@@ -59,7 +59,7 @@ class Railing extends Component {
                             this.setState({ sendcloseFImg: res });
                         }).catch((err) => {
                             console.log(err.message);
-                          });;
+                        });;
                     let image_data1 = {
                         uri: image.path,
                         type: image.mime,
@@ -74,7 +74,7 @@ class Railing extends Component {
                             this.setState({ sendLocFImg: res });
                         }).catch((err) => {
                             console.log(err.message);
-                          });;
+                        });;
                     let image_data = {
                         uri: image.path,
                         type: image.mime,
@@ -100,8 +100,13 @@ class Railing extends Component {
     }
     isFormFilled() {
 
-        if (this.state.railfin.length === 0) {
+        if (this.state.railing_id === 0) {
+            alert('Select Raling type');
+        } else if (this.state.railfin.length === 0) {
             alert('Invalid Railing Finding');
+        }
+        else if (this.state.railingMaintainance_id === 0) {
+            alert('Invalid Maintainance Id');
         }
         else if (this.state.closeFImg === '') {
             alert('Invlalid Close Image');
@@ -109,12 +114,6 @@ class Railing extends Component {
         else if (this.state.LocFImg === '') {
             alert('Invlalid Location Image');
         }
-        else if (this.state.railingMaintainance_id === 0) {
-            alert('Invalid Maintainance Id');
-        }
-        // else if (this.state.railing_id === undefined) {
-        //     alert('Invalid Raling Id');
-        // }
         else {
             return true
         }
@@ -127,61 +126,61 @@ class Railing extends Component {
         }
 
     }
-getSelectedMaintainance(){
-    const {railingMaintainance_id} = this.state
-    if(railingMaintainance_id == 1){
-        return "Immediate action is required."
+    getSelectedMaintainance() {
+        const { railingMaintainance_id } = this.state
+        if (railingMaintainance_id == 1) {
+            return "Immediate action is required."
 
-    }else if(railingMaintainance_id == 2){
-        return "Repairs are required as soon as possible."
+        } else if (railingMaintainance_id == 2) {
+            return "Repairs are required as soon as possible."
 
-    }else if(railingMaintainance_id == 3){
-        return "Maintenance is required as soon as possible."
+        } else if (railingMaintainance_id == 3) {
+            return "Maintenance is required as soon as possible."
 
-    }else if(railingMaintainance_id == 4){
-        return "No problems were found."
+        } else if (railingMaintainance_id == 4) {
+            return "No problems were found."
 
-    }else{
-        return "Immediate action is required."
+        } else {
+            return "Immediate action is required."
+        }
     }
-}
-getSelectedMaintainanceColor(){
-    const {railingMaintainance_id} = this.state
+    getSelectedMaintainanceColor() {
+        const { railingMaintainance_id } = this.state
 
-    if(railingMaintainance_id == 1){
-        return "#EB5757"
+        if (railingMaintainance_id == 1) {
+            return "#EB5757"
 
-    }else if(railingMaintainance_id == 2){
-        return "#F2994A"
+        } else if (railingMaintainance_id == 2) {
+            return "#F2994A"
 
-    }else if(railingMaintainance_id == 3){
-        return "#2F80ED"
+        } else if (railingMaintainance_id == 3) {
+            return "#2F80ED"
 
-    }else if(railingMaintainance_id == 4){
-        return "#219653"
+        } else if (railingMaintainance_id == 4) {
+            return "#219653"
 
-    }else{
-        return "'#EB5757'"
+        } else {
+            return "'#EB5757'"
+        }
     }
-}
     render() {
         return (
             <View style={styles.wrapperView}>
                 <Header
-                    leftPress={() =>{
+                    leftPress={() => {
                         Alert.alert(
                             "Alert",
                             "Are you sure you want to re enter data",
                             [
-                              {
-                                text: "Cancel",
-                                onPress: () => console.log("Cancel Pressed"),
-                                style: "cancel"
-                              },
-                              { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
                             ]
-                          );
-                        }}
+                        );
+                    }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
                     <ScrollView
@@ -193,20 +192,20 @@ getSelectedMaintainanceColor(){
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>(Location of inspection here)</Text>
+                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
                             </View>
                             <View style={{ width: '100%', marginTop: 20 }}>
                                 <RNPickerSelect
-                                    Icon={() => {
-                                        return (
-                                            <Icon
-                                                name="arrow-drop-down"
-                                                size={30}
-                                                color={'#282461'}
-                                                style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
-                                            />
-                                        );
-                                    }}
+                                    // Icon={() => {
+                                    //     return (
+                                    //         <Icon
+                                    //             name="arrow-drop-down"
+                                    //             size={30}
+                                    //             color={'#282461'}
+                                    //             style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
+                                    //         />
+                                    //     );
+                                    // }}
                                     style={{
                                         inputIOS: {
                                             width: '100%',
@@ -249,12 +248,14 @@ getSelectedMaintainanceColor(){
                                     numberOfLines={4}
                                     value={this.state.railfin}
                                     placeholder='Enter railing findings'
-                                    style={styles.textInput}
+                                    style={[styles.textInput, {
+                                        borderColor: this.getSelectedMaintainanceColor()
+                                    }]}
                                 />
-                                <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
+                                {/* <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
                                     <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
                                     <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: this.getSelectedMaintainanceColor() }]}>{this.getSelectedMaintainance()}</Text>
-                                </View>
+                                </View> */}
                             </View>
 
                             <Text style={[styles.greytxt, { marginTop: 30 }]}> Maintenance status </Text>
@@ -291,33 +292,35 @@ getSelectedMaintainanceColor(){
 
                             </View>
                             <View style={{ marginTop: 30 }}>
-                                {this.state.closeFImg === '' ? <TouchableOpacity
+
+                              {this.state.closeFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.closeFImg.uri }}
+
+                                />}
+                                
+                               { this.state.LocFImg?.uri &&  <Image
+                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                        source={{ uri: this.state.LocFImg.uri }}
+                                    />
+                                    }
+                                <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take close up photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.closeFImg === '' ? "Take" : "Retake"} close up photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 10.5 }}
                                         source={require('../../assets/camer.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.closeFImg.uri }} 
+                                </TouchableOpacity>
 
-                                         />
-                                )}
-                                {this.state.LocFImg === '' ? <TouchableOpacity
+                                <TouchableOpacity
                                     onPress={() => this.picker(1)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take a location photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.LocFImg === '' ? "Take" : 'Retake'} a location photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.LocFImg.uri }} 
-                                        />
-                                )}
+                                </TouchableOpacity> 
                                 {/* <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>

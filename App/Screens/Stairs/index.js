@@ -95,7 +95,9 @@ class Stairs extends Component {
 
     isFormFilled() {
 
-        if (this.state.StairsFinding.length === 0) {
+         if (this.state.Stairs_id === 0) {
+            alert('Select Stairs type');
+        }else if (this.state.StairsFinding.length === 0) {
             alert('Invalid Railing Finding');
         }
         else if (this.state.closeFImg === '') {
@@ -107,9 +109,7 @@ class Stairs extends Component {
         else if (this.state.StairsMaintaince_id === 0) {
             alert('Invalid Maintainance Id');
         }
-        else if (this.state.Stairs_id === undefined) {
-            alert('Invalid Raling Id');
-        }
+       
         else {
             return true
         }
@@ -357,21 +357,21 @@ class Stairs extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>(Location of inspection here)</Text>
+                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20 }}>
                                 <RNPickerSelect
-                                    Icon={() => {
-                                        return (
-                                            <Icon
-                                                name="arrow-drop-down"
-                                                size={30}
-                                                color={'#282461'}
-                                                style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
-                                            />
-                                        );
-                                    }}
+                                    // Icon={() => {
+                                    //     return (
+                                    //         <Icon
+                                    //             name="arrow-drop-down"
+                                    //             size={30}
+                                    //             color={'#282461'}
+                                    //             style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
+                                    //         />
+                                    //     );
+                                    // }}
                                     style={{
                                         inputIOS: {
                                             width: '100%',
@@ -413,12 +413,14 @@ class Stairs extends Component {
                                     multiline={true}
                                     numberOfLines={4}
                                     placeholder='Enter railing findings'
-                                    style={styles.textInput}
+                                    style={[styles.textInput,{
+                                        borderColor:  this.getSelectedMaintainanceColor()
+                                    }]}
                                 />
-                                <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
+                                {/* <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
                                     <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
                                     <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400',color: this. getSelectedMaintainanceColor() }]}>{this. getSelectedMaintainance()}</Text>
-                                </View>
+                                </View> */}
                             </View>
 
                             <Text style={[styles.greytxt, { marginTop: 30 }]}> Maintenance status </Text>
@@ -458,30 +460,28 @@ class Stairs extends Component {
 
 
                             <View style={{ marginTop: 30 }}>
-                                {this.state.StaircloseFImg === '' ? <TouchableOpacity
+                                {  this.state.StaircloseFImg?.uri && <Image
+                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                        source={{ uri: this.state.StaircloseFImg.uri }} />}
+                                        { this.state.StairLocFImg?.uri && <Image
+                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                        source={{ uri: this.state.StairLocFImg.uri }} />}
+                                 <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take close up photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.StaircloseFImg === '' ?"Take":"Retake"} close up photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 10.5 }}
                                         source={require('../../assets/camer.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.StaircloseFImg.uri }} />
-                                )}
-                                {this.state.StairLocFImg === '' ? <TouchableOpacity
+                                </TouchableOpacity> 
+                                 <TouchableOpacity
                                     onPress={() => this.picker(1)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>Take a location photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.StairLocFImg === '' ? "Take" : "Retake"} a location photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
-                                </TouchableOpacity> : (
-                                    <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.StairLocFImg.uri }} />
-                                )}
+                                </TouchableOpacity>
                                 {/* <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>

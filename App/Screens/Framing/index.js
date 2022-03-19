@@ -13,7 +13,7 @@ import {
     ScrollView,
     TextInput,
     Modal,
-  Alert
+    Alert
 
 } from 'react-native';
 import Loader from '../../Components/Loader';
@@ -31,186 +31,186 @@ class Framing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:'',
-            FramingFinding:'',
-            closeFImg:'',
-            LocFImg:'',
-            FramingMaintainacne_id:0,
-            Framing_id:0,
-            framingType:'',
+            data: '',
+            FramingFinding: '',
+            closeFImg: '',
+            LocFImg: '',
+            FramingMaintainacne_id: 0,
+            Framing_id: 0,
+            framingType: '',
             loading: false,
             modal: false,
             sendcloseFImg: '',
-sendLocFImg: '',
+            sendLocFImg: '',
             checkBox: false,
         };
     }
-    componentDidMount(){
+    componentDidMount() {
         const data = this?.props?.route?.params;
         console.log(data)
-        this.setState({data: data});
+        this.setState({ data: data });
         const type = []
         data?.data?.framing && data.data.framing.forEach(el => {
             type.push({ label: el.title, value: el.id })
         })
         this.setState({ framingType: type });
-}
-    picker(type){
-         ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-  
-            switch(type){
-            case 0:
-                RNFS.readFile(image.path, 'base64')
-                .then(res =>{
-                  console.log(res);
-                  this.setState({sendcloseFImg: res});
-                });
-                let image_data1 = {
-                uri: image.path,
-                type: image.mime,
-                name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                };
-                this.setState({closeFImg: image_data1});
-                break;
-            case 1:
-                RNFS.readFile(image.path, 'base64')
-                .then(res =>{
-                  console.log(res);
-                  this.setState({sendLocFImg: res});
-                });
-                let image_data = {
-                    uri: image.path,
-                    type: image.mime,
-                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    }
+    picker(type) {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+        }).then(image => {
+
+            switch (type) {
+                case 0:
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            console.log(res);
+                            this.setState({ sendcloseFImg: res });
+                        });
+                    let image_data1 = {
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
                     };
-                    this.setState({LocFImg: image_data});
+                    this.setState({ closeFImg: image_data1 });
                     break;
-                }
+                case 1:
+                    RNFS.readFile(image.path, 'base64')
+                        .then(res => {
+                            console.log(res);
+                            this.setState({ sendLocFImg: res });
+                        });
+                    let image_data = {
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    };
+                    this.setState({ LocFImg: image_data });
+                    break;
+            }
         });
-        this.setState({state: false});
-}
-isFormFilled() {
+        this.setState({ state: false });
+    }
+    isFormFilled() {
 
-    if (this.state.FramingFinding.length === 0) {
-        alert('Invalid Framing Finding');
-    }
-    else if (this.state.closeFImg === '') {
-        alert('Invlalid Close Image');
-    }
-    else if (this.state.LocFImg === '') {
-        alert('Invlalid Location Image');
-    }
-    else if (this.state.FramingMaintainacne_id === 0) {
-        alert('Invalid Maintainance Id');
-    }
-    else if (this.state.Framing_id === undefined) {
-        alert('Invalid Framing Id');
-    }
-    else{
-        return true
-    }
+         if (this.state.Framing_id === 0) {
+            alert('Select Framing type');
+        }else if (this.state.FramingFinding.length === 0) {
+            alert('Invalid Framing Finding');
+        }
+        else if (this.state.closeFImg === '') {
+            alert('Invlalid Close Image');
+        }
+        else if (this.state.LocFImg === '') {
+            alert('Invlalid Location Image');
+        }
+        else if (this.state.FramingMaintainacne_id === 0) {
+            alert('Invalid Maintainance Id');
+        }
+     
+        else {
+            return true
+        }
 
-}
-
-Pass() {
-    if (this.isFormFilled()) {
-
-        this.props.navigation.navigate('Stairs',{...this.state.data, Framing_id:this.state.Framing_id, FramingMaintainacne_id:this.state.FramingMaintainacne_id,FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg,inspectionId: this?.props?.route?.params?.inspectionId})
     }
 
-}
+    Pass() {
+        if (this.isFormFilled()) {
 
-getSelectedMaintainance() {
-    const { FramingMaintainacne_id } = this.state
-    let railingMaintainance_id = FramingMaintainacne_id
-    if (railingMaintainance_id == 1) {
-        return "Immediate action is required."
+            this.props.navigation.navigate('Stairs', { ...this.state.data, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+        }
 
-    } else if (railingMaintainance_id == 2) {
-        return "Repairs are required as soon as possible."
-
-    } else if (railingMaintainance_id == 3) {
-        return "Maintenance is required as soon as possible."
-
-    } else if (railingMaintainance_id == 4) {
-        return "No problems were found."
-
-    } else {
-        return "Immediate action is required."
     }
-}
-getSelectedMaintainanceColor() {
 
-    const { FramingMaintainacne_id } = this.state
-    let railingMaintainance_id = FramingMaintainacne_id
+    getSelectedMaintainance() {
+        const { FramingMaintainacne_id } = this.state
+        let railingMaintainance_id = FramingMaintainacne_id
+        if (railingMaintainance_id == 1) {
+            return "Immediate action is required."
 
-    if (railingMaintainance_id == 1) {
-        return "#EB5757"
+        } else if (railingMaintainance_id == 2) {
+            return "Repairs are required as soon as possible."
 
-    } else if (railingMaintainance_id == 2) {
-        return "#F2994A"
+        } else if (railingMaintainance_id == 3) {
+            return "Maintenance is required as soon as possible."
 
-    } else if (railingMaintainance_id == 3) {
-        return "#2F80ED"
+        } else if (railingMaintainance_id == 4) {
+            return "No problems were found."
 
-    } else if (railingMaintainance_id == 4) {
-        return "#219653"
-
-    } else {
-        return "'#EB5757'"
+        } else {
+            return "Immediate action is required."
+        }
     }
-}
+    getSelectedMaintainanceColor() {
+
+        const { FramingMaintainacne_id } = this.state
+        let railingMaintainance_id = FramingMaintainacne_id
+
+        if (railingMaintainance_id == 1) {
+            return "#EB5757"
+
+        } else if (railingMaintainance_id == 2) {
+            return "#F2994A"
+
+        } else if (railingMaintainance_id == 3) {
+            return "#2F80ED"
+
+        } else if (railingMaintainance_id == 4) {
+            return "#219653"
+
+        } else {
+            return "'#EB5757'"
+        }
+    }
     render() {
         return (
             <View style={styles.wrapperView}>
                 <Header
-                    leftPress={() =>{
+                    leftPress={() => {
                         Alert.alert(
                             "Alert",
                             "Are you sure you want to re enter data",
                             [
-                              {
-                                text: "Cancel",
-                                onPress: () => console.log("Cancel Pressed"),
-                                style: "cancel"
-                              },
-                              { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
                             ]
-                          );
-                        }}
+                        );
+                    }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
-                   
 
-                <ScrollView 
-                bounces={false}
-                style={{flex:1}}>
-                    <View style={{ flex: 1,width: SCREEN.width - 40, alignSelf: "center" }}>
-                   
-                        <Text style={[styles.greytxt, { marginTop: 30 }]}>Inspection for</Text>
-                        <Text style={[styles.itemTxt, { marginTop: 10, fontSize: 34 }]}>Framing</Text>
-                        <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-                            <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                            <Text style={styles.greytxt}>(Location of inspection here)</Text>
-                        </View>
 
-                        <View style={{width:'100%', marginTop: 20, }}>
-                        <RNPickerSelect
-                                    Icon={() => {
-                                        return (
-                                            <Icon
-                                                name="arrow-drop-down"
-                                                size={30}
-                                                color={'#282461'}
-                                                style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
-                                            />
-                                        );
-                                    }}
+                    <ScrollView
+                        bounces={false}
+                        style={{ flex: 1 }}>
+                        <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
+
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Inspection for</Text>
+                            <Text style={[styles.itemTxt, { marginTop: 10, fontSize: 34 }]}>Framing</Text>
+                            <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                                <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
+                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
+                            </View>
+
+                            <View style={{ width: '100%', marginTop: 20, }}>
+                                <RNPickerSelect
+                                    // Icon={() => {
+                                    //     return (
+                                    //         <Icon
+                                    //             name="arrow-drop-down"
+                                    //             size={30}
+                                    //             color={'#282461'}
+                                    //             style={{ paddingRight: isIphoneXorAbove ? 0 : 20 }}
+                                    //         />
+                                    //     );
+                                    // }}
                                     style={{
                                         inputIOS: {
                                             width: '100%',
@@ -234,7 +234,7 @@ getSelectedMaintainanceColor() {
                                     }}
                                     placeholder={{
                                         label: 'Framing Type',
-                                  
+
                                     }}
 
                                     onValueChange={(itemValue, itemIndex) => {
@@ -242,29 +242,31 @@ getSelectedMaintainanceColor() {
                                     }}
                                     items={this.state.framingType}
                                 />
-                        </View>
-                        <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings</Text>
+                            </View>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings</Text>
 
-                        <View>
+                            <View>
 
-                            <TextInput
-                            onChangeText={(val)=> this.setState({FramingFinding: val})}
-                                multiline={true}
-                                numberOfLines={4}
-                                placeholder='Enter railing findings'
-                                style={styles.textInput}
-                            />
-                            <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
+                                <TextInput
+                                    onChangeText={(val) => this.setState({ FramingFinding: val })}
+                                    multiline={true}
+                                    numberOfLines={4}
+                                    placeholder='Enter railing findings'
+                                    style={[styles.textInput, {
+                                        borderColor: this.getSelectedMaintainanceColor()
+                                    }]}
+                                />
+                                {/* <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
                                 <Image style={{ width: 14, height: 12.2, marginRight: 5, }} source={require('../../assets/redSign.png')} />
                                 <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400',  color: this. getSelectedMaintainanceColor() }]}>{this. getSelectedMaintainance()}</Text>
+                            </View> */}
                             </View>
-                        </View>
 
-                        <Text style={[styles.greytxt, { marginTop: 30 }]}> Maintenance status </Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}> Maintenance status </Text>
 
-                        <View>
+                            <View>
 
-                        <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                                <View style={{ flexDirection: 'row', marginTop: 10 }}>
                                     <TouchableOpacity
                                         onPress={() => this.setState({ FramingMaintainacne_id: 1 })}
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.FramingMaintainacne_id === 1 ? '#EB5757' : null, borderColor: '#EB5757' }} />
@@ -291,9 +293,9 @@ getSelectedMaintainanceColor() {
                                         style={{ width: 16, height: 16, marginRight: 7, borderRadius: 20, borderWidth: 1, backgroundColor: this.state.FramingMaintainacne_id === 4 ? '#219653' : null, borderColor: '#219653' }} />
                                     <Text style={[styles.itemTxt, { fontSize: 12, fontWeight: '400', color: '#219653' }]}>No problems were found.</Text>
                                 </View>
-                        </View>
+                            </View>
 
-                        {/* <Text style={[styles.greytxt,{marginTop: 20}]}>Stairs inspection</Text>
+                            {/* <Text style={[styles.greytxt,{marginTop: 20}]}>Stairs inspection</Text>
 
                     
                         <View style={{marginTop: 15,flexDirection:'row', alignItems:'center'}}>
@@ -310,33 +312,31 @@ getSelectedMaintainanceColor() {
 
                         <Text style={[styles.itemTxt,{fontWeight:"500", marginLeft: 10}]}>Does this location have stairs?</Text>
                         </View> */}
-                        
-                        <View style={{marginTop: 30 }}>
-                        {this.state.closeFImg=== '' ? <TouchableOpacity
-                                onPress={() => this.picker(0)}
-                                style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
-                                <Text style={styles.itemTxt}>Take close up photo of finding</Text>
-                                <Image
-                                    style={{ width: 12, height: 10.5 }}
-                                    source={require('../../assets/camer.png')} />
-                            </TouchableOpacity>:(
-                                <Image
-                                style={{ width: SCREEN.width - 40, height: 300, marginBottom:10 ,borderRadius: 10, resizeMode:"cover"}}
-                                source={{uri: this.state.closeFImg.uri}}/>
-                            )}
-                       { this.state.LocFImg==='' ? <TouchableOpacity 
-                         onPress={() => this.picker(1)}
-                         style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 , marginBottom: 10 }]}>
-                                <Text style={styles.itemTxt}>Take a location photo of finding</Text>
-                                <Image
-                                    style={{ width: 12, height: 12 }}
-                                    source={require('../../assets/seacrh.png')} />
-                            </TouchableOpacity>:(
-                                <Image
-                                style={{ width: SCREEN.width - 40, height: 300, marginBottom:10 ,borderRadius: 10, resizeMode:"cover"}}
-                                source={{uri: this.state.LocFImg.uri}}/>
-                            )}
-                            {/* <TouchableOpacity 
+
+                            <View style={{ marginTop: 30 }}>
+                                {this.state.closeFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.closeFImg.uri }} />}
+                                    { this.state.LocFImg?.uri &&  <Image
+                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                        source={{ uri: this.state.LocFImg.uri }} />}
+                                <TouchableOpacity
+                                    onPress={() => this.picker(0)}
+                                    style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
+                                    <Text style={styles.itemTxt}>{this.state.closeFImg === '' ? "Take" : "Retake"} close up photo of finding</Text>
+                                    <Image
+                                        style={{ width: 12, height: 10.5 }}
+                                        source={require('../../assets/camer.png')} />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => this.picker(1)}
+                                    style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
+                                    <Text style={styles.itemTxt}>{this.state.LocFImg === '' ? "Take" : "Retake"} a location photo of finding</Text>
+                                    <Image
+                                        style={{ width: 12, height: 12 }}
+                                        source={require('../../assets/seacrh.png')} />
+                                </TouchableOpacity>
+                                {/* <TouchableOpacity 
                             onPress={()=> this.setState({modal: true})}
                             style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
                                 <Text style={styles.itemTxt}>Add another Framing finding</Text>
@@ -345,44 +345,44 @@ getSelectedMaintainanceColor() {
                                     source={require('../../assets/plus2.png')} />
                             </TouchableOpacity> */}
 
-                            <TouchableOpacity
-                                onPress={() => this.Pass()}
-                                style={[styles.Btn, { width: '100%', flexDirection:'row' , justifyContent:'space-between'}]}>
-                                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Add and continue (Stairs)</Text>
-                                <Image
-                                    style={{ width: 12, height: 6 }}
-                                    source={require('../../assets/forward2.png')} />
-                            </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => this.Pass()}
+                                    style={[styles.Btn, { width: '100%', flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Add and continue (Stairs)</Text>
+                                    <Image
+                                        style={{ width: 12, height: 6 }}
+                                        source={require('../../assets/forward2.png')} />
+                                </TouchableOpacity>
+
+                            </View>
+
+
 
                         </View>
-
-
-                      
-                    </View>
                     </ScrollView>
                 </SafeAreaView>
 
-                <Modal 
-                animationType='fade'
-                transparent={true}
-                visible={this.state.modal}
+                <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={this.state.modal}
                 >
-            <View style={{flex:1, backgroundColor:'rgba(0,0,0,0.5)' ,justifyContent:'center', alignItems:'center'}}>
-                <View style={{height: 112,borderRadius: 10, width:SCREEN.width - 40, alignSelf:'center', backgroundColor:"white"}}>
-                <Text style={[styles.itemTxt,{marginTop: 20, marginLeft: 20}]}>Add new railing finding</Text>
-                <Text style={[styles.greytxt,{marginTop: 10, marginLeft: 20}]}>Do you want to proceed with another railing find?</Text>
+                    <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ height: 112, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
+                            <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new railing finding</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another railing find?</Text>
 
-                    <View style={{width: 60,marginTop: 20,marginRight: 20,alignSelf:'flex-end', flexDirection:"row", justifyContent:"space-between"}}>
-                        <Text 
-                        onPress={()=> this.setState({modal : false})}
-                        style={styles.itemTxt}>No</Text>
-                        <Text 
-                        onPress={()=> this.setState({modal : false})}
-                        style={styles.itemTxt}>Yes</Text>
+                            <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
+                                <Text
+                                    onPress={() => this.setState({ modal: false })}
+                                    style={styles.itemTxt}>No</Text>
+                                <Text
+                                    onPress={() => this.setState({ modal: false })}
+                                    style={styles.itemTxt}>Yes</Text>
+                            </View>
+
+                        </View>
                     </View>
-                
-                </View>
-            </View>
                 </Modal>
             </View>
         );

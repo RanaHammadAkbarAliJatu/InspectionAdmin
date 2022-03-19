@@ -10,7 +10,8 @@ import {
     Image,
     FlatList,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    Linking
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import { LoginForm } from '../../helper/api';
@@ -37,7 +38,7 @@ class Inspection extends Component {
 
     render() {
         console.log(this.props.route.params.dataToSend)
-        const { location } = this.props.route.params.dataToSend
+        const { location,pdf_link } = this.props.route.params.dataToSend
         return (
             <View style={styles.wrapperView}>
                 <SafeAreaView style={{ flex: 1 }}>
@@ -51,7 +52,7 @@ class Inspection extends Component {
                                     source={require('../../assets/back.png')} />
                             </TouchableOpacity>
 
-                            <Text style={[styles.itemTxt, { fontSize: 24 }]}>Lorem ipsum</Text>
+                            <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection</Text>
                         </View>
 
                         <Text style={{ fontSize: 12, fontWeight: '700', color: '#828282', marginTop: 20 }}>Inspections</Text>
@@ -89,13 +90,17 @@ class Inspection extends Component {
                                     <Text style={styles.itemTxt}>{i + 1}</Text>
                                 </View>
                                 <Text style={[styles.itemTxt, { marginRight: 20 }]}>{item.title}</Text>
-                                <View style={{flexDirection: 'row'}}>
-                                    <View style={[styles.oval,{marginRight: 12}]}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    {/* <View style={[styles.oval, { marginRight: 12 }]}>
                                         <Image style={{ width: 10, height: 13 }} source={require('../../assets/document.png')} />
-                                    </View>
-                                    <View style={styles.oval}>
-                                        <Image style={{ width: 14, height: 10.5 }} source={require('../../assets/eye.png')} />
-                                    </View>
+                                    </View> */}
+                                    <TouchableOpacity
+                                        onPress={() => this.props.navigation.navigate("Review", { dataToSend: this?.props?.route?.params?.dataToSend })}>
+                                        <View style={styles.oval}>
+                                            <Image style={{ width: 14, height: 10.5 }} source={require('../../assets/eye.png')} />
+                                        </View>
+                                    </TouchableOpacity>
+
                                 </View>
                             </View>
                         )) : <View style={[styles.itemView, { justifyContent: 'center' }]}>
@@ -113,7 +118,13 @@ class Inspection extends Component {
                                     style={{ width: 21, height: 16.7 }}
                                     source={require('../../assets/eye.png')} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
+                            <TouchableOpacity style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}
+                                onPress={() => {if(pdf_link){
+                                    Linking.openURL(pdf_link) 
+                                }else{
+                                    alert("no pdf found")
+                                }
+                            }}>
                                 <Text style={styles.itemTxt}>Save complete pdf report</Text>
                                 <Image
                                     style={{ width: 18, height: 23 }}
