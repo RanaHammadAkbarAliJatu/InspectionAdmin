@@ -47,7 +47,6 @@ class Flashing extends Component {
         ImagePicker.openCamera({
             width: 300,
             height: 400,
-            cropping: true,
         }).then(image => {
 
             switch (type) {
@@ -190,7 +189,7 @@ class Flashing extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt, { color: 'black', fontWeight: '900' }]}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             {/* <RNPickerSelect
@@ -237,6 +236,7 @@ class Flashing extends Component {
                                 items={this.state.flasgin_type}
                             /> */}
 
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}> flashing/caulking findings</Text>
 
                             <View>
 
@@ -309,7 +309,7 @@ class Flashing extends Component {
                                 <TouchableOpacity
                                     onPress={() => this.picker(1)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>{this.state.LocFImg === '' ? "Take" : "Retake" } a location photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.LocFImg === '' ? "Take" : "Retake"} a location photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />

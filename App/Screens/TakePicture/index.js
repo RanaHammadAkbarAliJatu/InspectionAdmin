@@ -132,17 +132,24 @@ class TakePicture extends Component {
               <TouchableOpacity
                 onPress={() => this.picker()}
                 style={styles.Btn}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: PURPLE.dark }]}>Take photo</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: PURPLE.dark }]}>{this.state.Image ? "Retake" :  "Take"} photo</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('PreparedBy', {
-                  data: {
-                    backEnd: this.state.BackData,
-                    image: this.state.Image
+                onPress={() => {
+                  if(this.state.Image){
+
+                    this.props.navigation.navigate('PreparedBy', {
+                      data: {
+                        backEnd: this.state.BackData,
+                        image: this.state.Image
+                      }
+                    })
+                  }else{
+                    alert("Capture an image to proceed")
                   }
-                })}
+                  }}
                 style={[styles.Btn, { backgroundColor: '#282461' }]}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Next</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Keep image</Text>
               </TouchableOpacity>
             </View>
           </View>

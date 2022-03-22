@@ -51,7 +51,6 @@ class UpdateCurrentReport extends Component {
         ImagePicker.openCamera({
             width: 300,
             height: 400,
-            cropping: true,
         }).then(image => {
 
             switch (type) {

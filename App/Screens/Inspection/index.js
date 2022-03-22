@@ -37,7 +37,6 @@ class Inspection extends Component {
     }
 
     render() {
-        console.log(this.props.route.params.dataToSend)
         const { location,pdf_link } = this.props.route.params.dataToSend
         return (
             <View style={styles.wrapperView}>

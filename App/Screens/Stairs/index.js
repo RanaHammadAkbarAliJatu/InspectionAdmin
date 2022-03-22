@@ -61,7 +61,6 @@ class Stairs extends Component {
         ImagePicker.openCamera({
             width: 300,
             height: 400,
-            cropping: true,
         }).then(image => {
 
             switch (type) {
@@ -242,8 +241,8 @@ class Stairs extends Component {
                     "deck_surface_id": data.DeckSurface_id,
                     "deck_surface_finding": data.DeckSurfaceFinding,
                     "deck_maintainence_id": data.DeckSurfaceMaintainance_id,
-                    "deck_surface_closeup": data.FramingCloseImg,
-                    "deck_surface_photo": data.FramingLocImg
+                    "deck_surface_closeup": data.DeckCloseImg,
+                    "deck_surface_photo": data.DeckLocImg
                 }
             ],
             "framings": [
@@ -357,7 +356,7 @@ class Stairs extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt,{color: 'black', fontWeight: '900'}]}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20 }}>
@@ -412,7 +411,7 @@ class Stairs extends Component {
                                     onChangeText={(val) => this.setState({ StairsFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
-                                    placeholder='Enter railing findings'
+                                    placeholder='Enter Stairs findings'
                                     style={[styles.textInput,{
                                         borderColor:  this.getSelectedMaintainanceColor()
                                     }]}

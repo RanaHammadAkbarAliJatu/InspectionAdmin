@@ -62,9 +62,9 @@ class SignUp extends Component {
       alert('Invalid Email');
     }
     else if (!check_Password) {
-      alert('Password Lenght should be Gretaer than 3');
+      alert('Password Length should be Greater than 3');
     } else if (!check_confirmmPassword) {
-      alert('Password Lenght should be Gretaer than 3');
+      alert('Password Length should be Greater than 3');
     } else if (this.state.password !== this.state.confirmPassword) {
       alert('Password Does not Match');
     }

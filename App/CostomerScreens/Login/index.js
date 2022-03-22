@@ -49,7 +49,7 @@ class Login extends Component {
       alert('Invalid Email');
     }
      else if (!check_Password) {
-      alert('Password Lenght should be Gretaer than 3');
+      alert('Password Length should be Greater than 3');
      }
     return false;
   }

@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
+import DatePicker from 'react-native-date-picker'
 import Header from '../../Components/Headder/header';
 import Validations from '../../helper/Validations';
 class PreparedBy extends Component {
@@ -32,6 +33,8 @@ class PreparedBy extends Component {
       pforDate: '',
       pforName: '',
       loading: false,
+      date: new Date(),
+      open: false
     };
   }
 
@@ -163,14 +166,14 @@ class PreparedBy extends Component {
                   placeholder='Deck and Balcony Inspection Inc.'
                   value={this.state.pforBusinessName}
                   style={[styles.TextInput, { marginTop: 30 }]}
-                  editable={false} 
+                  editable={false}
                 />
                 <TextInput
                   onChangeText={(val) => this.setState({ pforNumber: val })}
                   value={this.state.pforNumber}
                   placeholder='(916) 238-0618'
                   style={styles.TextInput}
-                  editable={false} 
+                  editable={false}
 
                 />
 
@@ -179,7 +182,7 @@ class PreparedBy extends Component {
                   value={this.state.pforEmail}
                   placeholder='dan@deckandbalconyinspections.com'
                   style={styles.TextInput}
-                  editable={false} 
+                  editable={false}
 
                 />
 
@@ -191,13 +194,37 @@ class PreparedBy extends Component {
                   style={styles.TextInput}
                 />
 
-
-                <TextInput
-                  onChangeText={(val) => this.setState({ pforDate: val })}
-                  value={this.state.pforDate}
-                  placeholder='28/12/2021'
-                  style={styles.TextInput}
+                <DatePicker
+                  modal
+                  open={this.state.open}
+                  date={this.state.date}
+                  mode={"date"}
+                  locale='fr'
+                  onConfirm={(date) => {
+                    var today = new Date(date);
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+                    
+                    today = mm + '/' + dd + '/' + yyyy;
+                    this.setState({ pforDate: today, date: date, open: false })
+                    console.log(today)
+                  }}
+                  onCancel={() => {
+                    this.setState({ open: false })
+                  }}
                 />
+                <TouchableOpacity onPress={() => { this.setState({ open: true }) }}>
+
+                  <TextInput
+                    onChangeText={(val) => this.setState({ pforDate: val })}
+                    value={this.state.pforDate ? this.state.pforDate : ''}
+                    placeholder='28/12/2021'
+                    editable={false}
+                    style={styles.TextInput}
+                  />
+
+                </TouchableOpacity>
 
               </ScrollView>
             </View>
@@ -242,7 +269,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 40,
     marginBottom: 10,
-
   },
   Btn: {
     width: '100%',

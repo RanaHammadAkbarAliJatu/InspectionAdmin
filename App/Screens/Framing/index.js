@@ -17,6 +17,7 @@ import {
 
 } from 'react-native';
 import Loader from '../../Components/Loader';
+import { CreateLocationInspection } from '../../helper/api';
 import { LoginForm } from '../../helper/api';
 import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
@@ -59,7 +60,6 @@ class Framing extends Component {
         ImagePicker.openCamera({
             width: 300,
             height: 400,
-            cropping: true,
         }).then(image => {
 
             switch (type) {
@@ -95,9 +95,9 @@ class Framing extends Component {
     }
     isFormFilled() {
 
-         if (this.state.Framing_id === 0) {
+        if (this.state.Framing_id === 0) {
             alert('Select Framing type');
-        }else if (this.state.FramingFinding.length === 0) {
+        } else if (this.state.FramingFinding.length === 0) {
             alert('Invalid Framing Finding');
         }
         else if (this.state.closeFImg === '') {
@@ -109,18 +109,96 @@ class Framing extends Component {
         else if (this.state.FramingMaintainacne_id === 0) {
             alert('Invalid Maintainance Id');
         }
-     
+
         else {
             return true
         }
 
     }
 
-    Pass() {
-        if (this.isFormFilled()) {
+    async Pass() {
+        if (!this.state.checkBox) {
+            if (this.isFormFilled()) {
+                const data = this.state.data
+                const token = this.props.userToken;
 
-            this.props.navigation.navigate('Stairs', { ...this.state.data, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+                let sendData = {
+                    "title": data.title,
+                    "inspection_id": this?.props?.route?.params?.inspectionId,
+                    "railings": [
+                        {
+                            "railing_id": data.railing_id,
+                            "railing_finding": data.railing_fining,
+                            "railing_maintainence_id": data.railingMaintainance_id,
+                            "railing_closeup": data.railClosImg,
+                            "railing_photo": data.raillocImg
+                        }
+                    ],
+                    "flashings": [
+                        {
+                            "flashing_id": data.flashing_id,
+                            "flashing_finding": data.flashingFinding,
+                            "flashing_maintainence_id": data.flashingMaintainacne_id,
+                            "flashing_closeup": data.flashCloseImg,
+                            "flashing_photo": data.flashCloseImg
+                        }
+                    ],
+                    "deckSurfaces": [
+                        {
+                            "deck_surface_id": data.DeckSurface_id,
+                            "deck_surface_finding": data.DeckSurfaceFinding,
+                            "deck_maintainence_id": data.DeckSurfaceMaintainance_id,
+                            "deck_surface_closeup": data.DeckCloseImg,
+                            "deck_surface_photo": data.DeckLocImg
+                        }
+                    ],
+                    "framings": [
+                        {
+                            "framing_id": this.state.Framing_id,
+                            "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                            "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                            "framing_closeup": this.state.sendcloseFImg,
+                            "framing_photo": this.state.sendLocFImg
+                        }
+                    ],
+                    "stairs_maintainence_id": 0,
+                    "stairs": [
+                        {
+                            "stairs_id": 0,
+                            "stairs_maintainence_id": 0,
+                            "stairs_finding": 0,
+                            "stairs_closeup": this.state.sendLocFImg,
+                            "stairs_photo": this.state.sendLocFImg
+                        }
+                    ]
+                }
+                console.log(sendData)
+                console.log(this?.props?.route?.params)
+                await CreateLocationInspection(sendData, token).then(response => {
+                    console.log(response)
+                    this.setState({ loading: false });
+                    if (response.status === 200 && !response.data.error) {
+
+                        this.props.navigation.navigate('PropertiesforInspection')
+                        console.log(response, "response")
+
+                    }
+                    else {
+                        alert("Some thing Went Wrong")
+                    }
+                }).catch((err) => {
+                    console.log(err.message);
+                    this.setState({ loading: false });
+
+                });
+            }
+        } else {
+            if (this.isFormFilled()) {
+                this.props.navigation.navigate('Stairs', { ...this.state.data, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            }
+
         }
+
 
     }
 
@@ -196,7 +274,7 @@ class Framing extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt, { color: 'black', fontWeight: '900' }]}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20, }}>
@@ -243,7 +321,7 @@ class Framing extends Component {
                                     items={this.state.framingType}
                                 />
                             </View>
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings</Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Framing findings</Text>
 
                             <View>
 
@@ -251,7 +329,7 @@ class Framing extends Component {
                                     onChangeText={(val) => this.setState({ FramingFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
-                                    placeholder='Enter railing findings'
+                                    placeholder='Enter Framing findings'
                                     style={[styles.textInput, {
                                         borderColor: this.getSelectedMaintainanceColor()
                                     }]}
@@ -295,31 +373,31 @@ class Framing extends Component {
                                 </View>
                             </View>
 
-                            {/* <Text style={[styles.greytxt,{marginTop: 20}]}>Stairs inspection</Text>
+                            <Text style={[styles.greytxt, { marginTop: 20 }]}>Stairs inspection</Text>
 
-                    
-                        <View style={{marginTop: 15,flexDirection:'row', alignItems:'center'}}>
 
-                  
-                            <TouchableOpacity 
-                            onPress={()=> this.setState({checkBox: !this.state.checkBox})}
-                            style={{ borderWidth: this.state.checkBox ? 0 : 1, borderColor: this.state.checkBox ? PURPLE.dark : 'lightgrey',width: 17, height: 17, borderRadius: 5, backgroundColor: this.state.checkBox ? PURPLE.dark: WHITE.whitegrey,alignItems:"center", justifyContent:'center'}}>
-                            {this.state.checkBox &&
-                                <Image
-                            style={{width:7.88, height: 5.66}}
-                            source={require('../../assets/smalltick.png')}/>}
-                        </TouchableOpacity>
+                            <View style={{ marginTop: 15, flexDirection: 'row', alignItems: 'center' }}>
 
-                        <Text style={[styles.itemTxt,{fontWeight:"500", marginLeft: 10}]}>Does this location have stairs?</Text>
-                        </View> */}
+
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ checkBox: !this.state.checkBox })}
+                                    style={{ borderWidth: this.state.checkBox ? 0 : 1, borderColor: this.state.checkBox ? PURPLE.dark : 'lightgrey', width: 17, height: 17, borderRadius: 5, backgroundColor: this.state.checkBox ? PURPLE.dark : WHITE.whitegrey, alignItems: "center", justifyContent: 'center' }}>
+                                    {this.state.checkBox &&
+                                        <Image
+                                            style={{ width: 7.88, height: 5.66 }}
+                                            source={require('../../assets/smalltick.png')} />}
+                                </TouchableOpacity>
+
+                                <Text style={[styles.itemTxt, { fontWeight: "500", marginLeft: 10 }]}>Does this location have stairs?</Text>
+                            </View>
 
                             <View style={{ marginTop: 30 }}>
                                 {this.state.closeFImg?.uri && <Image
                                     style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
                                     source={{ uri: this.state.closeFImg.uri }} />}
-                                    { this.state.LocFImg?.uri &&  <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.LocFImg.uri }} />}
+                                {this.state.LocFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.LocFImg.uri }} />}
                                 <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
@@ -348,7 +426,7 @@ class Framing extends Component {
                                 <TouchableOpacity
                                     onPress={() => this.Pass()}
                                     style={[styles.Btn, { width: '100%', flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                    <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Add and continue (Stairs)</Text>
+                                    <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>{this.state.checkBox ? "Add and continue (Stairs)" : "Finish"}</Text>
                                     <Image
                                         style={{ width: 12, height: 6 }}
                                         source={require('../../assets/forward2.png')} />

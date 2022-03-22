@@ -50,6 +50,7 @@ async componentDidMount(){
  
 }
     render() {
+        console.log(this?.props?.route?.params?.inspectionId,"this?.props?.route?.params?.inspectionId")
         return (
             <View style={styles.wrapperView}>
                 <Header
@@ -59,10 +60,10 @@ async componentDidMount(){
                     <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
                         <Text style={[styles.itemTxt, { marginTop: 30 }]}>Add location</Text>
                         <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                        {/* <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                             <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                             <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
-                        </View>
+                        </View> */}
                         <TextInput
                         onChangeText={(val)=> this.setState({InspectionLocationName:val})}
                             multiline={true}

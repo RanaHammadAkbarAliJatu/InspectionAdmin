@@ -60,7 +60,6 @@ class DeckSurface extends Component {
         ImagePicker.openCamera({
             width: 300,
             height: 400,
-            cropping: true,
         }).then(image => {
 
             switch (type) {
@@ -195,7 +194,7 @@ class DeckSurface extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={styles.greytxt}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt,{color: 'black', fontWeight: '900'}]}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20 }}>
@@ -242,7 +241,7 @@ class DeckSurface extends Component {
                                     items={this.state.DeckSurfaceType}
                                 />
                             </View>
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings</Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Deck surface findings</Text>
 
                             <View>
 
@@ -250,7 +249,7 @@ class DeckSurface extends Component {
                                     onChangeText={(val) => this.setState({ DeckSurfaceFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
-                                    placeholder='Enter railing findings'
+                                    placeholder='Enter Deck surface findings'
                                     style={[styles.textInput, {
                                         borderColor: this.getSelectedMaintainanceColor()
                                     }]}
