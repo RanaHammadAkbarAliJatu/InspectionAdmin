@@ -11,7 +11,7 @@ import {
     FlatList,
     TouchableOpacity,
     Alert,
-    BackHandler
+    Linking
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import { LoginForm } from '../../helper/api';
@@ -79,6 +79,7 @@ class PropertiesforInspection extends Component {
     //     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     // }
     render() {
+        console.log(this.state.data, "this.state.data")
         return (
             <View
                 style={styles.wrapperView}>
@@ -103,15 +104,32 @@ class PropertiesforInspection extends Component {
                                             />
 
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
-                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item.txt}</Text>
-
-                                                <View style={{ flexDirection: 'row' }}>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item.created_at}</Text>
+                                                <TouchableOpacity style={{ flexDirection: 'row' }}
+                                                    onPress={() => {
+                                                        if (item.pdf_link) {
+                                                            Linking.openURL(item.pdf_link)
+                                                        } else {
+                                                            alert("no pdf found")
+                                                        }
+                                                    }}>
                                                     <Image
                                                         style={{ width: 10, height: 14, marginRight: 7 }}
                                                         source={require('../../assets/pdf.png')} />
                                                     <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>Save pdf</Text>
-                                                </View>
+                                                </TouchableOpacity>
                                             </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>Prepared for: {item?.prepared_for?.email}</Text>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item?.prepared_for?.state}</Text>
+
+
+                                            </View>
+                                            {/* <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
+
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item?.prepared_for?.city}</Text>
+
+                                            </View> */}
                                         </TouchableOpacity>
                                     )}
                                 />
