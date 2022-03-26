@@ -26,6 +26,7 @@ import Header from '../../Components/Headder/header';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
+import CamraModel from '../../Components/CamraModel';
 import RNFS from 'react-native-fs';
 class Flashing extends Component {
     constructor(props) {
@@ -41,44 +42,48 @@ class Flashing extends Component {
             flashing_id: 1,
             flasgin_type: '',
             modal: false,
+            ImageModalVisible: false,
+            type: 0
         };
     }
+    // picker(type) {
+    //     ImagePicker.openCamera({
+    //         width: 300,
+    //         height: 400,
+    //     }).then(image => {
+
+    //         switch (type) {
+    //             case 0:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendcloseFImg: res });
+    //                     });
+    //                 let image_data1 = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ closeFImg: image_data1 });
+    //                 break;
+    //             case 1:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendLocFImg: res });
+    //                     });
+    //                 let image_data = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ LocFImg: image_data });
+    //                 break;
+    //         }
+    //     });
+    //     this.setState({ state: false });
+    // }
     picker(type) {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-        }).then(image => {
-
-            switch (type) {
-                case 0:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendcloseFImg: res });
-                        });
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ closeFImg: image_data1 });
-                    break;
-                case 1:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendLocFImg: res });
-                        });
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ LocFImg: image_data });
-                    break;
-            }
-        });
-        this.setState({ state: false });
+        this.setState({ ImageModalVisible: true, type: type })
     }
-
     componentDidMount() {
         const data = this?.props?.route?.params;
         console.log(data);
@@ -160,6 +165,41 @@ class Flashing extends Component {
         console.log(this?.props?.route?.params)
         return (
             <View style={styles.wrapperView}>
+                <CamraModel
+                    type={this.state.type}
+                    modalVisible={this.state.ImageModalVisible}
+                    modalClose={() => this.setState({ ImageModalVisible: false })}
+                    sendImage={(type, image) => {
+
+                        switch (type) {
+                            case 0:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendcloseFImg: res });
+                                    });
+                                let image_data1 = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ closeFImg: image_data1 });
+                                break;
+                            case 1:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendLocFImg: res });
+                                    });
+                                let image_data = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ LocFImg: image_data });
+                                break;
+                        }
+                        this.setState({ state: false,ImageModalVisible: false  });
+                    }}
+                />
                 <Header
                     leftPress={() => {
                         Alert.alert(

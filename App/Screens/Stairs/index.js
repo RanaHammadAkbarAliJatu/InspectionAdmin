@@ -13,7 +13,7 @@ import {
     ScrollView,
     TextInput,
     Modal,
-  Alert
+    Alert
 
 } from 'react-native';
 import Loader from '../../Components/Loader';
@@ -26,6 +26,7 @@ import Header from '../../Components/Headder/header';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
+import CamraModel from '../../Components/CamraModel';
 import { LoginForm } from '../../helper/api';
 import RNFS from 'react-native-fs';
 class Stairs extends Component {
@@ -44,6 +45,8 @@ class Stairs extends Component {
             loading: false,
             modal: false,
             checkBox: false,
+            ImageModalVisible: false,
+            type: 0
         };
     }
 
@@ -57,46 +60,48 @@ class Stairs extends Component {
         })
         this.setState({ StairType: type });
     }
+    // picker(type) {
+    //     ImagePicker.openCamera({
+    //         width: 300,
+    //         height: 400,
+    //     }).then(image => {
+
+    //         switch (type) {
+    //             case 0:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendStaircloseFImg: res });
+    //                     });
+    //                 let image_data1 = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ StaircloseFImg: image_data1 });
+    //                 break;
+    //             case 1:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendStairLocFImg: res });
+    //                     });
+    //                 let image_data = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ StairLocFImg: image_data });
+    //                 break;
+    //         }
+    //     });
+    // }
     picker(type) {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-        }).then(image => {
-
-            switch (type) {
-                case 0:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendStaircloseFImg: res });
-                        });
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ StaircloseFImg: image_data1 });
-                    break;
-                case 1:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendStairLocFImg: res });
-                        });
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ StairLocFImg: image_data });
-                    break;
-            }
-        });
+        this.setState({ ImageModalVisible: true, type: type })
     }
-
     isFormFilled() {
 
-         if (this.state.Stairs_id === 0) {
+        if (this.state.Stairs_id === 0) {
             alert('Select Stairs type');
-        }else if (this.state.StairsFinding.length === 0) {
+        } else if (this.state.StairsFinding.length === 0) {
             alert('Invalid Railing Finding');
         }
         else if (this.state.closeFImg === '') {
@@ -108,7 +113,7 @@ class Stairs extends Component {
         else if (this.state.StairsMaintaince_id === 0) {
             alert('Invalid Maintainance Id');
         }
-       
+
         else {
             return true
         }
@@ -224,7 +229,7 @@ class Stairs extends Component {
                     "railing_finding": data.railing_fining,
                     "railing_maintainence_id": data.railingMaintainance_id,
                     "railing_closeup": data.railClosImg,
-                    "railing_photo": data.raillocImg 
+                    "railing_photo": data.raillocImg
                 }
             ],
             "flashings": [
@@ -327,20 +332,53 @@ class Stairs extends Component {
     render() {
         return (
             <View style={styles.wrapperView}>
-                <Header 
-                 leftPress={() =>{
-                    Alert.alert(
-                        "Alert",
-                        "Are you sure you want to re enter data",
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                          },
-                          { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
-                        ]
-                      );
+                <CamraModel
+                    type={this.state.type}
+                    modalVisible={this.state.ImageModalVisible}
+                    modalClose={() => this.setState({ ImageModalVisible: false })}
+                    sendImage={(type, image) => {
+                        switch (type) {
+                            case 0:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendStaircloseFImg: res });
+                                    });
+                                let image_data1 = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ StaircloseFImg: image_data1, ImageModalVisible: false });
+                                break;
+                            case 1:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendStairLocFImg: res });
+                                    });
+                                let image_data = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ StairLocFImg: image_data, ImageModalVisible: false });
+                                break;
+                        }
+                    }}
+                />
+                <Header
+                    leftPress={() => {
+                        Alert.alert(
+                            "Alert",
+                            "Are you sure you want to re enter data",
+                            [
+                                {
+                                    text: "Cancel",
+                                    onPress: () => console.log("Cancel Pressed"),
+                                    style: "cancel"
+                                },
+                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                            ]
+                        );
                     }}
                 />
                 <SafeAreaView style={{ flex: 1 }}>
@@ -356,7 +394,7 @@ class Stairs extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={[styles.greytxt,{color: 'black', fontWeight: '900'}]}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt, { color: 'black', fontWeight: '900' }]}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20 }}>
@@ -412,8 +450,8 @@ class Stairs extends Component {
                                     multiline={true}
                                     numberOfLines={4}
                                     placeholder='Enter Stairs findings'
-                                    style={[styles.textInput,{
-                                        borderColor:  this.getSelectedMaintainanceColor()
+                                    style={[styles.textInput, {
+                                        borderColor: this.getSelectedMaintainanceColor()
                                     }]}
                                 />
                                 {/* <View style={{ position: 'absolute', bottom: 20, right: 5, flexDirection: 'row' }}>
@@ -459,21 +497,21 @@ class Stairs extends Component {
 
 
                             <View style={{ marginTop: 30 }}>
-                                {  this.state.StaircloseFImg?.uri && <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.StaircloseFImg.uri }} />}
-                                        { this.state.StairLocFImg?.uri && <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.StairLocFImg.uri }} />}
-                                 <TouchableOpacity
+                                {this.state.StaircloseFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.StaircloseFImg.uri }} />}
+                                {this.state.StairLocFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.StairLocFImg.uri }} />}
+                                <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
-                                    <Text style={styles.itemTxt}>{this.state.StaircloseFImg === '' ?"Take":"Retake"} close up photo of finding</Text>
+                                    <Text style={styles.itemTxt}>{this.state.StaircloseFImg === '' ? "Take" : "Retake"} close up photo of finding</Text>
                                     <Image
                                         style={{ width: 12, height: 10.5 }}
                                         source={require('../../assets/camer.png')} />
-                                </TouchableOpacity> 
-                                 <TouchableOpacity
+                                </TouchableOpacity>
+                                <TouchableOpacity
                                     onPress={() => this.picker(1)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45, marginBottom: 10 }]}>
                                     <Text style={styles.itemTxt}>{this.state.StairLocFImg === '' ? "Take" : "Retake"} a location photo of finding</Text>

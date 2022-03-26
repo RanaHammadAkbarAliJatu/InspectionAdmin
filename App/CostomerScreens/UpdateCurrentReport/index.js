@@ -25,6 +25,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import { LoginForm } from '../../helper/api';
+import CamraModel from '../../Components/CamraModel';
 import RNFS from 'react-native-fs';
 class UpdateCurrentReport extends Component {
     constructor(props) {
@@ -43,44 +44,46 @@ class UpdateCurrentReport extends Component {
             modal: false,
             checkBox: false,
             sendStaircloseFImg: '',
-            sendStairLocFImg: '',
+            sendStairLocFImg: '',      
+              ImageModalVisible: false,
+            type: 0
         };
     }
 
-    picker(type) {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-        }).then(image => {
+    // picker(type) {
+    //     ImagePicker.openCamera({
+    //         width: 300,
+    //         height: 400,
+    //     }).then(image => {
 
-            switch (type) {
-                case 0:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendStaircloseFImg: res });
-                        });
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ StaircloseFImg: image_data1 });
-                    break;
-                case 1:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendStairLocFImg: res });
-                        });
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ StairLocFImg: image_data });
-                    break;
-            }
-        });
-    }
+    //         switch (type) {
+    //             case 0:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendStaircloseFImg: res });
+    //                     });
+    //                 let image_data1 = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ StaircloseFImg: image_data1 });
+    //                 break;
+    //             case 1:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendStairLocFImg: res });
+    //                     });
+    //                 let image_data = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ StairLocFImg: image_data });
+    //                 break;
+    //         }
+    //     });
+    // }
     isFormFilled() {
         const { street_address,
             location_for,
@@ -107,7 +110,9 @@ class UpdateCurrentReport extends Component {
         }
 
     }
-
+    picker(type) {
+        this.setState({ ImageModalVisible: true, type: type })
+    }
     async updateLocation() {
         const { street_address,
             location_for,
@@ -146,6 +151,40 @@ class UpdateCurrentReport extends Component {
     render() {
         return (
             <View style={styles.wrapperView}>
+                    <CamraModel
+                    type={this.state.type}
+                    modalVisible={this.state.ImageModalVisible}
+                    modalClose={() => this.setState({ ImageModalVisible: false })}
+                    sendImage={(type, image) => {
+                        switch (type) {
+                            case 0:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendStaircloseFImg: res });
+                                    });
+                                let image_data1 = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ StaircloseFImg: image_data1 });
+                                break;
+                            case 1:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendStairLocFImg: res });
+                                    });
+                                let image_data = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ StairLocFImg: image_data });
+                                break;
+                        }
+                        this.setState({ ImageModalVisible: false  });
+                    }}
+                />
                 <Header
                     leftPress={() => this.props.navigation.goBack()}
                     title={"Update my current report"}

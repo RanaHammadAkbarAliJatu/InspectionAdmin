@@ -27,6 +27,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFS from 'react-native-fs';
+import CamraModel from '../../Components/CamraModel';
 
 class DeckSurface extends Component {
     constructor(props) {
@@ -43,6 +44,8 @@ class DeckSurface extends Component {
             DeckSurfaceType: '',
             loading: false,
             modal: false,
+            ImageModalVisible: false,
+            type: 0
         };
     }
 
@@ -56,40 +59,43 @@ class DeckSurface extends Component {
         })
         this.setState({ DeckSurfaceType: type });
     }
-    picker(type) {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-        }).then(image => {
+    // picker(type) {
+    //     ImagePicker.openCamera({
+    //         width: 300,
+    //         height: 400,
+    //     }).then(image => {
 
-            switch (type) {
-                case 0:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendcloseFImg: res });
-                        });
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ closeFImg: image_data1 });
-                    break;
-                case 1:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            this.setState({ sendLocFImg: res });
-                        });
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ LocFImg: image_data });
-                    break;
-            }
-        });
-        this.setState({ state: false });
+    //         switch (type) {
+    //             case 0:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendcloseFImg: res });
+    //                     });
+    //                 let image_data1 = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ closeFImg: image_data1 });
+    //                 break;
+    //             case 1:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         this.setState({ sendLocFImg: res });
+    //                     });
+    //                 let image_data = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ LocFImg: image_data });
+    //                 break;
+    //         }
+    //     });
+    //     this.setState({ state: false });
+    // }
+    picker(type) {
+        this.setState({ ImageModalVisible: true, type: type })
     }
     isFormFilled() {
 
@@ -165,6 +171,40 @@ class DeckSurface extends Component {
     render() {
         return (
             <View style={styles.wrapperView}>
+                <CamraModel
+                    type={this.state.type}
+                    modalVisible={this.state.ImageModalVisible}
+                    modalClose={() => this.setState({ ImageModalVisible: false })}
+                    sendImage={(type, image) => {
+                        switch (type) {
+                            case 0:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendcloseFImg: res });
+                                    });
+                                let image_data1 = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ closeFImg: image_data1 });
+                                break;
+                            case 1:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        this.setState({ sendLocFImg: res });
+                                    });
+                                let image_data = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ LocFImg: image_data });
+                                break;
+                        }
+                        this.setState({ state: false,ImageModalVisible: false  });
+                    }}
+                />
                 <Header
                     leftPress={() => {
                         Alert.alert(
@@ -194,7 +234,7 @@ class DeckSurface extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={[styles.greytxt,{color: 'black', fontWeight: '900'}]}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt, { color: 'black', fontWeight: '900' }]}>{this?.props?.route?.params?.title}</Text>
                             </View>
 
                             <View style={{ width: '100%', marginTop: 20 }}>

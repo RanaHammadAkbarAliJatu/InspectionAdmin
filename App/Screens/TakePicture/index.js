@@ -22,6 +22,7 @@ import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import Header from '../../Components/Headder/header';
 import ImagePicker from 'react-native-image-crop-picker';
+import CamraModel from '../../Components/CamraModel';
 import RNFS from 'react-native-fs';
 class TakePicture extends Component {
   constructor(props) {
@@ -32,54 +33,56 @@ class TakePicture extends Component {
       loading: false,
       Image: '',
       showImage: '',
+      ImageModalVisible: false,
+      type: 0
     };
   }
-  picker() {
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-    }).then(image => {
-      console.log(image, "image")
-      RNFS.readFile(image.path, 'base64')
-        .then(res => {
-          console.log(res);
-          this.setState({
-            Image: res,
-            showImage: {
-                uri: image.path,
-                type: image.mime,
-                name: image.path.substring(image.path.lastIndexOf('/') + 1),
-              }
-          });
-        });
-      // let image_data = {
-      //   uri: image.path,
-      //   type: image.mime,
-      //   name: image.path.substring(image.path.lastIndexOf('/') + 1),
-      // };
-      // this.setState({
-      //   Image: image_data,
-      // });
-    });
-    // ImagePicker.openPicker({
-    //   width: 300,
-    //   height: 400,
-    //   cropping: true
-    // }).then(image => {
+  // picker() {
+  //   ImagePicker.openCamera({
+  //     width: 300,
+  //     height: 400,
+  //   }).then(image => {
+  //     console.log(image, "image")
+  //     RNFS.readFile(image.path, 'base64')
+  //       .then(res => {
+  //         console.log(res);
+  //         this.setState({
+  //           Image: res,
+  //           showImage: {
+  //             uri: image.path,
+  //             type: image.mime,
+  //             name: image.path.substring(image.path.lastIndexOf('/') + 1),
+  //           }
+  //         });
+  //       });
+  //     // let image_data = {
+  //     //   uri: image.path,
+  //     //   type: image.mime,
+  //     //   name: image.path.substring(image.path.lastIndexOf('/') + 1),
+  //     // };
+  //     // this.setState({
+  //     //   Image: image_data,
+  //     // });
+  //   });
+  //   // ImagePicker.openPicker({
+  //   //   width: 300,
+  //   //   height: 400,
+  //   //   cropping: true
+  //   // }).then(image => {
 
-    //   let image_data = {
-    //     uri: image.path,
-    //     type: image.mime,
-    //     name: image.path.substring(image.path.lastIndexOf('/') + 1),
-    //   };
-    //   this.setState({
-    //     Image: image_data,
-    //   });
+  //   //   let image_data = {
+  //   //     uri: image.path,
+  //   //     type: image.mime,
+  //   //     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+  //   //   };
+  //   //   this.setState({
+  //   //     Image: image_data,
+  //   //   });
 
-    // });
+  //   // });
 
-    this.setState({ state: false });
-  }
+  //   this.setState({ state: false });
+  // }
 
   componentDidMount() {
     const data = this?.props?.route?.params.data;
@@ -87,27 +90,49 @@ class TakePicture extends Component {
     this.setState({ BackData: data });
   }
 
-
+  picker(type) {
+    this.setState({ ImageModalVisible: true, type: type })
+}
 
   render() {
     return (
       <View style={styles.wrapperView}>
-         <Header
-              leftPress={() =>{
-                Alert.alert(
-                    "Alert",
-                    "Are you sure you want to re enter data",
-                    [
-                      {
-                        text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                      },
-                      { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
-                    ]
-                  );
-                }}
-            />
+        <CamraModel
+          type={this.state.type}
+          modalVisible={this.state.ImageModalVisible}
+          modalClose={() => this.setState({ ImageModalVisible: false })}
+          sendImage={(type, image) => {
+            RNFS.readFile(image.path, 'base64')
+              .then(res => {
+                console.log(res);
+                this.setState({
+                  Image: res,
+                  showImage: {
+                    uri: image.path,
+                    type: image.mime,
+                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                  }
+                });
+              });
+            this.setState({ state: false, ImageModalVisible: false });
+          }}
+        />
+        <Header
+          leftPress={() => {
+            Alert.alert(
+              "Alert",
+              "Are you sure you want to re enter data",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+              ]
+            );
+          }}
+        />
         <ImageBackground
           // source={{ uri: "https://reactjs.org/logo-og.png" }}
           source={this.state.state ? require('../../assets/Pic.png') : { uri: this.state.showImage.uri }}
@@ -129,13 +154,13 @@ class TakePicture extends Component {
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: SCREEN.width - 40, alignSelf: 'center' }}>
               <TouchableOpacity
-                onPress={() => this.picker()}
+                onPress={() => this.picker(0)}
                 style={styles.Btn}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: PURPLE.dark }]}>{this.state.Image ? "Retake" :  "Take"} photo</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: PURPLE.dark }]}>{this.state.Image ? "Retake" : "Take"} photo</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  if(this.state.Image){
+                  if (this.state.Image) {
 
                     this.props.navigation.navigate('PreparedBy', {
                       data: {
@@ -143,10 +168,10 @@ class TakePicture extends Component {
                         image: this.state.Image
                       }
                     })
-                  }else{
+                  } else {
                     alert("Capture an image to proceed")
                   }
-                  }}
+                }}
                 style={[styles.Btn, { backgroundColor: '#282461' }]}>
                 <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Keep image</Text>
               </TouchableOpacity>

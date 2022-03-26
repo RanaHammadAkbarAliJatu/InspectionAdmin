@@ -23,6 +23,7 @@ import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import Header from '../../Components/Headder/header';
+import CamraModel from '../../Components/CamraModel';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -41,10 +42,12 @@ class Railing extends Component {
             modal: false,
             railingType: '',
             railingMaintainance_id: 0,
-            railing_id: 0
+            railing_id: 0,
+            ImageModalVisible: false,
+            type: 0
         };
     }
-    picker(type) {
+    cpicker(type) {
         ImagePicker.openCamera({
             width: 300,
             height: 400,
@@ -86,7 +89,38 @@ class Railing extends Component {
         this.setState({ state: false });
     }
 
+    openPicker(type) {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+        }).then(image => {
 
+            switch (type) {
+                case 0:
+                    let image_data1 = {
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    };
+                    this.setState({ closeFImg: image_data1 });
+                    break;
+                case 1:
+                    let image_data = {
+                        uri: image.path,
+                        type: image.mime,
+                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                    };
+                    this.setState({ LocFImg: image_data });
+                    break;
+            }
+        });
+        this.setState({ state: false });
+    }
+
+    picker(type) {
+        this.setState({ ImageModalVisible: true, type: type })
+    }
     componentDidMount() {
         const data = this?.props?.route?.params;
         console.log(data)
@@ -165,6 +199,46 @@ class Railing extends Component {
     render() {
         return (
             <View style={styles.wrapperView}>
+                <CamraModel
+                    type={this.state.type}
+                    modalVisible={this.state.ImageModalVisible}
+                    modalClose={() => this.setState({ ImageModalVisible: false })}
+                    sendImage={(type, image) => {
+                        switch (type) {
+                            case 0:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        console.log(res);
+                                        this.setState({ sendcloseFImg: res });
+                                    }).catch((err) => {
+                                        console.log(err.message);
+                                    });;
+                                let image_data1 = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ closeFImg: image_data1 });
+                                break;
+                            case 1:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        console.log(res);
+                                        this.setState({ sendLocFImg: res });
+                                    }).catch((err) => {
+                                        console.log(err.message);
+                                    });;
+                                let image_data = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ LocFImg: image_data });
+                                break;
+                        }
+                        this.setState({ state: false,ImageModalVisible: false });
+                    }}
+                />
                 <Header
                     leftPress={() => {
                         Alert.alert(
@@ -191,7 +265,7 @@ class Railing extends Component {
                             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                                 <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={[styles.greytxt,{color: 'black', fontWeight: '900'}]}>{this?.props?.route?.params?.title}</Text>
+                                <Text style={[styles.greytxt, { color: 'black', fontWeight: '900' }]}>{this?.props?.route?.params?.title}</Text>
                             </View>
                             <View style={{ width: '100%', marginTop: 20 }}>
                                 <RNPickerSelect
@@ -292,17 +366,17 @@ class Railing extends Component {
                             </View>
                             <View style={{ marginTop: 30 }}>
 
-                              {this.state.closeFImg?.uri && <Image
+                                {this.state.closeFImg?.uri && <Image
                                     style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
                                     source={{ uri: this.state.closeFImg.uri }}
 
                                 />}
-                                
-                               { this.state.LocFImg?.uri &&  <Image
-                                        style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
-                                        source={{ uri: this.state.LocFImg.uri }}
-                                    />
-                                    }
+
+                                {this.state.LocFImg?.uri && <Image
+                                    style={{ width: SCREEN.width - 40, height: 300, marginBottom: 10, borderRadius: 10, resizeMode: "cover" }}
+                                    source={{ uri: this.state.LocFImg.uri }}
+                                />
+                                }
                                 <TouchableOpacity
                                     onPress={() => this.picker(0)}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
@@ -319,7 +393,7 @@ class Railing extends Component {
                                     <Image
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
-                                </TouchableOpacity> 
+                                </TouchableOpacity>
                                 {/* <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>

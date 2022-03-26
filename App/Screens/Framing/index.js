@@ -27,6 +27,7 @@ import Header from '../../Components/Headder/header';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CamraModel from '../../Components/CamraModel';
 import RNFS from 'react-native-fs';
 class Framing extends Component {
     constructor(props) {
@@ -44,6 +45,8 @@ class Framing extends Component {
             sendcloseFImg: '',
             sendLocFImg: '',
             checkBox: false,
+            ImageModalVisible: false,
+            type: 0
         };
     }
     componentDidMount() {
@@ -56,42 +59,45 @@ class Framing extends Component {
         })
         this.setState({ framingType: type });
     }
-    picker(type) {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-        }).then(image => {
+    // picker(type) {
+    //     ImagePicker.openCamera({
+    //         width: 300,
+    //         height: 400,
+    //     }).then(image => {
 
-            switch (type) {
-                case 0:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            console.log(res);
-                            this.setState({ sendcloseFImg: res });
-                        });
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ closeFImg: image_data1 });
-                    break;
-                case 1:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            console.log(res);
-                            this.setState({ sendLocFImg: res });
-                        });
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ LocFImg: image_data });
-                    break;
-            }
-        });
-        this.setState({ state: false });
+    //         switch (type) {
+    //             case 0:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         console.log(res);
+    //                         this.setState({ sendcloseFImg: res });
+    //                     });
+    //                 let image_data1 = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ closeFImg: image_data1 });
+    //                 break;
+    //             case 1:
+    //                 RNFS.readFile(image.path, 'base64')
+    //                     .then(res => {
+    //                         console.log(res);
+    //                         this.setState({ sendLocFImg: res });
+    //                     });
+    //                 let image_data = {
+    //                     uri: image.path,
+    //                     type: image.mime,
+    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
+    //                 };
+    //                 this.setState({ LocFImg: image_data });
+    //                 break;
+    //         }
+    //     });
+    //     this.setState({ state: false });
+    // }
+    picker(type) {
+        this.setState({ ImageModalVisible: true, type: type })
     }
     isFormFilled() {
 
@@ -116,7 +122,8 @@ class Framing extends Component {
 
     }
 
-    async Pass() {
+     Pass() {
+        this.setState({ loading: true });
         if (!this.state.checkBox) {
             if (this.isFormFilled()) {
                 const data = this.state.data
@@ -124,7 +131,7 @@ class Framing extends Component {
 
                 let sendData = {
                     "title": data.title,
-                    "inspection_id": this?.props?.route?.params?.inspectionId,
+                    "inspection_id": this?.props?.route?.params?.inspectionId ?this?.props?.route?.params?.inspectionId: 0 ,
                     "railings": [
                         {
                             "railing_id": data.railing_id,
@@ -172,10 +179,8 @@ class Framing extends Component {
                         }
                     ]
                 }
-                console.log(sendData)
-                console.log(this?.props?.route?.params)
-                await CreateLocationInspection(sendData, token).then(response => {
-                    console.log(response)
+                 CreateLocationInspection(sendData, token).then(response => {
+                    console.log(response,"response")
                     this.setState({ loading: false });
                     if (response.status === 200 && !response.data.error) {
 
@@ -187,7 +192,7 @@ class Framing extends Component {
                         alert("Some thing Went Wrong")
                     }
                 }).catch((err) => {
-                    console.log(err.message);
+                    console.log(err.message,"err");
                     this.setState({ loading: false });
 
                 });
@@ -245,6 +250,44 @@ class Framing extends Component {
     render() {
         return (
             <View style={styles.wrapperView}>
+                    {this.state.loading && <Loader loading={this.state.loading} />}
+                <CamraModel
+                    type={this.state.type}
+                    modalVisible={this.state.ImageModalVisible}
+                    modalClose={() => this.setState({ ImageModalVisible: false })}
+                    sendImage={(type, image) => {
+
+                        switch (type) {
+                            case 0:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        console.log(res);
+                                        this.setState({ sendcloseFImg: res });
+                                    });
+                                let image_data1 = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ closeFImg: image_data1 });
+                                break;
+                            case 1:
+                                RNFS.readFile(image.path, 'base64')
+                                    .then(res => {
+                                        console.log(res);
+                                        this.setState({ sendLocFImg: res });
+                                    });
+                                let image_data = {
+                                    uri: image.path,
+                                    type: image.mime,
+                                    name: image.path.substring(image.path.lastIndexOf('/') + 1),
+                                };
+                                this.setState({ LocFImg: image_data });
+                                break;
+                        }
+                        this.setState({ state: false,ImageModalVisible: false  });
+                    }}
+                />
                 <Header
                     leftPress={() => {
                         Alert.alert(

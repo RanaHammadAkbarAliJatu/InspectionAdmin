@@ -144,9 +144,13 @@ export async function CreateLocationInspection(data, token) {
 
   const GetResponse = await axios(config)
     .then(function (response) {
+  console.log(response,"response")
+
       return response;
     })
     .catch(function (error) {
+  console.log(error,"error")
+
       return error.response;
     });
   return GetResponse;
