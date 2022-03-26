@@ -43,7 +43,8 @@ class Flashing extends Component {
             flasgin_type: '',
             modal: false,
             ImageModalVisible: false,
-            type: 0
+            type: 0,
+            flashingData: []
         };
     }
     // picker(type) {
@@ -116,7 +117,20 @@ class Flashing extends Component {
 
     Pass() {
         if (this.isFormFilled()) {
-            this.props.navigation.navigate('DeckSurface', { ...this.state.data, flashing_id: this.state.flashing_id, flashingMaintainacne_id: this.state.flashingMaintainacne_id, flashingFinding: this.state.flashingFinding, flashCloseImg: this.state.sendcloseFImg, flashLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            const { ralingData } = this?.props?.route?.params;
+            var arrayData = this.state.flashingData
+            arrayData.push({
+                "flashing_id": this.state.flashing_id,
+                "flashing_finding": this.state.flashingFinding,
+                "flashing_maintainence_id": this.state.flashingMaintainacne_id,
+                "flashing_closeup": this.state.sendcloseFImg,
+                "flashing_photo": this.state.sendLocFImg
+            })
+            this.setState({
+                flashingData: arrayData
+            }, () => {
+                this.props.navigation.navigate('DeckSurface', { ...this.state.data, flashingData: this.state.flashingData, ralingData: ralingData, flashing_id: this.state.flashing_id, flashingMaintainacne_id: this.state.flashingMaintainacne_id, flashingFinding: this.state.flashingFinding, flashCloseImg: this.state.sendcloseFImg, flashLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            })
         }
 
     }
@@ -162,7 +176,6 @@ class Flashing extends Component {
         }
     }
     render() {
-        console.log(this?.props?.route?.params)
         return (
             <View style={styles.wrapperView}>
                 <CamraModel
@@ -197,7 +210,7 @@ class Flashing extends Component {
                                 this.setState({ LocFImg: image_data });
                                 break;
                         }
-                        this.setState({ state: false,ImageModalVisible: false  });
+                        this.setState({ state: false, ImageModalVisible: false });
                     }}
                 />
                 <Header
@@ -283,6 +296,7 @@ class Flashing extends Component {
                                 <TextInput
                                     onChangeText={(val) => this.setState({ flashingFinding: val })}
                                     multiline={true}
+                                    value={this.state.flashingFinding}
                                     numberOfLines={4}
                                     placeholder='Enter flashing/caulking findings'
                                     style={[styles.textInput, {
@@ -354,14 +368,14 @@ class Flashing extends Component {
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity 
-                            onPress={()=> this.setState({modal: true})}
-                            style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
-                                <Text style={styles.itemTxt}>Add another Flashing/Caulking finding</Text>
-                                <Image
-                                    style={{ width: 11.5, height: 11.5 }}
-                                    source={require('../../assets/plus2.png')} />
-                            </TouchableOpacity> */}
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ modal: true })}
+                                    style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
+                                    <Text style={styles.itemTxt}>Add another Flashing/Caulking finding</Text>
+                                    <Image
+                                        style={{ width: 11.5, height: 11.5 }}
+                                        source={require('../../assets/plus2.png')} />
+                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     onPress={() => this.Pass()}
@@ -395,7 +409,34 @@ class Flashing extends Component {
                                     onPress={() => this.setState({ modal: false })}
                                     style={styles.itemTxt}>No</Text>
                                 <Text
-                                    onPress={() => this.setState({ modal: false })}
+                                    onPress={() => {
+                                        if (this.isFormFilled()) {
+                                            var arrayData = this.state.flashingData
+                                            arrayData.push({
+                                                "flashing_id": this.state.flashing_id,
+                                                "flashing_finding": this.state.flashingFinding,
+                                                "flashing_maintainence_id": this.state.flashingMaintainacne_id,
+                                                "flashing_closeup": this.state.sendcloseFImg,
+                                                "flashing_photo": this.state.sendLocFImg
+                                            })
+                                            this.setState({
+                                                flashingData: arrayData,
+                                                closeFImg: '',
+                                                LocFImg: '',
+                                                sendcloseFImg: '',
+                                                sendLocFImg: '',
+                                                flashingFinding: '',
+                                                flashingMaintainacne_id: 0,
+                                                flashing_id: 1,
+                                                modal: false,
+                                                ImageModalVisible: false,
+                                                type: 0,
+                                            }, () => {
+                                                this.setState({ modal: false })
+                                                console.log(this.state.flashingData)
+                                            })
+                                        }
+                                    }}
                                     style={styles.itemTxt}>Yes</Text>
                             </View>
 

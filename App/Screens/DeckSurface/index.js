@@ -45,7 +45,8 @@ class DeckSurface extends Component {
             loading: false,
             modal: false,
             ImageModalVisible: false,
-            type: 0
+            type: 0,
+            deckSurfaceData: []
         };
     }
 
@@ -59,41 +60,7 @@ class DeckSurface extends Component {
         })
         this.setState({ DeckSurfaceType: type });
     }
-    // picker(type) {
-    //     ImagePicker.openCamera({
-    //         width: 300,
-    //         height: 400,
-    //     }).then(image => {
 
-    //         switch (type) {
-    //             case 0:
-    //                 RNFS.readFile(image.path, 'base64')
-    //                     .then(res => {
-    //                         this.setState({ sendcloseFImg: res });
-    //                     });
-    //                 let image_data1 = {
-    //                     uri: image.path,
-    //                     type: image.mime,
-    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
-    //                 };
-    //                 this.setState({ closeFImg: image_data1 });
-    //                 break;
-    //             case 1:
-    //                 RNFS.readFile(image.path, 'base64')
-    //                     .then(res => {
-    //                         this.setState({ sendLocFImg: res });
-    //                     });
-    //                 let image_data = {
-    //                     uri: image.path,
-    //                     type: image.mime,
-    //                     name: image.path.substring(image.path.lastIndexOf('/') + 1),
-    //                 };
-    //                 this.setState({ LocFImg: image_data });
-    //                 break;
-    //         }
-    //     });
-    //     this.setState({ state: false });
-    // }
     picker(type) {
         this.setState({ ImageModalVisible: true, type: type })
     }
@@ -122,8 +89,20 @@ class DeckSurface extends Component {
 
     Pass() {
         if (this.isFormFilled()) {
-
-            this.props.navigation.navigate('Framing', { ...this.state.data, DeckSurface_id: 1, DeckSurfaceMaintainance_id: this.state.DeckSurfaceMaintainance_id, DeckSurfaceFinding: this.state.DeckSurfaceFinding, DeckCloseImg: this.state.sendcloseFImg, DeckLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            const { ralingData, flashingData } = this?.props?.route?.params;
+            var arrayData = this.state.deckSurfaceData
+            arrayData.push({
+                "deck_surface_id": this.state.DeckSurface_id,
+                "deck_surface_finding": this.state.DeckSurfaceFinding,
+                "deck_maintainence_id": this.state.DeckSurfaceMaintainance_id,
+                "deck_surface_closeup": this.state.sendcloseFImg,
+                "deck_surface_photo": this.state.sendLocFImg
+            })
+            this.setState({
+                deckSurfaceData: arrayData
+            }, () => {
+                this.props.navigation.navigate('Framing', { ...this.state.data,deckSurfaceData: this.state.deckSurfaceData, ralingData, flashingData, DeckSurface_id: 1, DeckSurfaceMaintainance_id: this.state.DeckSurfaceMaintainance_id, DeckSurfaceFinding: this.state.DeckSurfaceFinding, DeckCloseImg: this.state.sendcloseFImg, DeckLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            })
         }
 
     }
@@ -202,7 +181,7 @@ class DeckSurface extends Component {
                                 this.setState({ LocFImg: image_data });
                                 break;
                         }
-                        this.setState({ state: false,ImageModalVisible: false  });
+                        this.setState({ state: false, ImageModalVisible: false });
                     }}
                 />
                 <Header
@@ -289,6 +268,7 @@ class DeckSurface extends Component {
                                     onChangeText={(val) => this.setState({ DeckSurfaceFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
+                                    value={this.state.DeckSurfaceFinding}
                                     placeholder='Enter Deck surface findings'
                                     style={[styles.textInput, {
                                         borderColor: this.getSelectedMaintainanceColor()
@@ -357,14 +337,14 @@ class DeckSurface extends Component {
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity 
-                            onPress={()=> this.setState({modal: true})}
-                            style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
-                                <Text style={styles.itemTxt}>Add another Deck Surface finding</Text>
-                                <Image
-                                    style={{ width: 11.5, height: 11.5 }}
-                                    source={require('../../assets/plus2.png')} />
-                            </TouchableOpacity> */}
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ modal: true })}
+                                    style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
+                                    <Text style={styles.itemTxt}>Add another Deck Surface finding</Text>
+                                    <Image
+                                        style={{ width: 11.5, height: 11.5 }}
+                                        source={require('../../assets/plus2.png')} />
+                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     onPress={() => this.Pass()}
@@ -398,7 +378,36 @@ class DeckSurface extends Component {
                                     onPress={() => this.setState({ modal: false })}
                                     style={styles.itemTxt}>No</Text>
                                 <Text
-                                    onPress={() => this.setState({ modal: false })}
+                                    onPress={() => {
+                                        if (this.isFormFilled()) {
+
+                                            var arrayData = this.state.deckSurfaceData
+                                            arrayData.push({
+                                                "deck_surface_id": this.state.DeckSurface_id,
+                                                "deck_surface_finding": this.state.DeckSurfaceFinding,
+                                                "deck_maintainence_id": this.state.DeckSurfaceMaintainance_id,
+                                                "deck_surface_closeup": this.state.sendcloseFImg,
+                                                "deck_surface_photo": this.state.sendLocFImg
+                                            })
+                                            this.setState({
+                                                DeckSurfaceFinding: '',
+                                                closeFImg: '',
+                                                sendcloseFImg: '',
+                                                sendLocFImg: '',
+                                                LocFImg: '',
+                                                DeckSurfaceMaintainance_id: 0,
+                                                DeckSurface_id: 0,
+                                                loading: false,
+                                                modal: false,
+                                                ImageModalVisible: false,
+                                                type: 0,
+                                                deckSurfaceData: arrayData
+                                            }, () => {
+                                                this.setState({ modal: false })
+                                                console.log(this.state.deckSurfaceData)
+                                            })
+                                        }
+                                    }}
                                     style={styles.itemTxt}>Yes</Text>
                             </View>
 

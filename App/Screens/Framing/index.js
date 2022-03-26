@@ -46,7 +46,8 @@ class Framing extends Component {
             sendLocFImg: '',
             checkBox: false,
             ImageModalVisible: false,
-            type: 0
+            type: 0,
+            framingData: []
         };
     }
     componentDidMount() {
@@ -122,52 +123,32 @@ class Framing extends Component {
 
     }
 
-     Pass() {
+    Pass() {
         this.setState({ loading: true });
+        const { ralingData, flashingData,deckSurfaceData } = this?.props?.route?.params;
         if (!this.state.checkBox) {
             if (this.isFormFilled()) {
                 const data = this.state.data
                 const token = this.props.userToken;
-
+                var arrayData = this.state.framingData
+                arrayData.push({
+                    "framing_id": this.state.Framing_id,
+                    "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                    "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                    "framing_closeup": this.state.sendcloseFImg,
+                    "framing_photo": this.state.sendLocFImg
+                })
+                this.setState({
+                    framingData: arrayData
+                }, () => {
+             
                 let sendData = {
                     "title": data.title,
-                    "inspection_id": this?.props?.route?.params?.inspectionId ?this?.props?.route?.params?.inspectionId: 0 ,
-                    "railings": [
-                        {
-                            "railing_id": data.railing_id,
-                            "railing_finding": data.railing_fining,
-                            "railing_maintainence_id": data.railingMaintainance_id,
-                            "railing_closeup": data.railClosImg,
-                            "railing_photo": data.raillocImg
-                        }
-                    ],
-                    "flashings": [
-                        {
-                            "flashing_id": data.flashing_id,
-                            "flashing_finding": data.flashingFinding,
-                            "flashing_maintainence_id": data.flashingMaintainacne_id,
-                            "flashing_closeup": data.flashCloseImg,
-                            "flashing_photo": data.flashCloseImg
-                        }
-                    ],
-                    "deckSurfaces": [
-                        {
-                            "deck_surface_id": data.DeckSurface_id,
-                            "deck_surface_finding": data.DeckSurfaceFinding,
-                            "deck_maintainence_id": data.DeckSurfaceMaintainance_id,
-                            "deck_surface_closeup": data.DeckCloseImg,
-                            "deck_surface_photo": data.DeckLocImg
-                        }
-                    ],
-                    "framings": [
-                        {
-                            "framing_id": this.state.Framing_id,
-                            "framing_maintainence_id": this.state.FramingMaintainacne_id,
-                            "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
-                            "framing_closeup": this.state.sendcloseFImg,
-                            "framing_photo": this.state.sendLocFImg
-                        }
-                    ],
+                    "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
+                    "railings": ralingData,
+                    "flashings":  flashingData,
+                    "deckSurfaces": deckSurfaceData ,
+                    "framings": this.state.framingData,
                     "stairs_maintainence_id": 0,
                     "stairs": [
                         {
@@ -179,8 +160,9 @@ class Framing extends Component {
                         }
                     ]
                 }
-                 CreateLocationInspection(sendData, token).then(response => {
-                    console.log(response,"response")
+                console.log(sendData,"sendData")
+                CreateLocationInspection(sendData, token).then(response => {
+                    console.log(response, "response")
                     this.setState({ loading: false });
                     if (response.status === 200 && !response.data.error) {
 
@@ -192,14 +174,28 @@ class Framing extends Component {
                         alert("Some thing Went Wrong")
                     }
                 }).catch((err) => {
-                    console.log(err.message,"err");
+                    console.log(err.message, "err");
                     this.setState({ loading: false });
 
                 });
+            })
             }
         } else {
             if (this.isFormFilled()) {
-                this.props.navigation.navigate('Stairs', { ...this.state.data, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+                var arrayData = this.state.framingData
+                arrayData.push({
+                    "framing_id": this.state.Framing_id,
+                    "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                    "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                    "framing_closeup": this.state.sendcloseFImg,
+                    "framing_photo": this.state.sendLocFImg
+                })
+                this.setState({
+                    framingData: arrayData,
+                    loading: false
+                }, () => {
+                    this.props.navigation.navigate('Stairs', { ...this.state.data,framingData: this.state.framingData, ralingData, flashingData,deckSurfaceData, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+                })
             }
 
         }
@@ -250,7 +246,7 @@ class Framing extends Component {
     render() {
         return (
             <View style={styles.wrapperView}>
-                    {this.state.loading && <Loader loading={this.state.loading} />}
+                {this.state.loading && <Loader loading={this.state.loading} />}
                 <CamraModel
                     type={this.state.type}
                     modalVisible={this.state.ImageModalVisible}
@@ -261,7 +257,6 @@ class Framing extends Component {
                             case 0:
                                 RNFS.readFile(image.path, 'base64')
                                     .then(res => {
-                                        console.log(res);
                                         this.setState({ sendcloseFImg: res });
                                     });
                                 let image_data1 = {
@@ -274,7 +269,6 @@ class Framing extends Component {
                             case 1:
                                 RNFS.readFile(image.path, 'base64')
                                     .then(res => {
-                                        console.log(res);
                                         this.setState({ sendLocFImg: res });
                                     });
                                 let image_data = {
@@ -285,7 +279,7 @@ class Framing extends Component {
                                 this.setState({ LocFImg: image_data });
                                 break;
                         }
-                        this.setState({ state: false,ImageModalVisible: false  });
+                        this.setState({ state: false, ImageModalVisible: false });
                     }}
                 />
                 <Header
@@ -372,6 +366,7 @@ class Framing extends Component {
                                     onChangeText={(val) => this.setState({ FramingFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
+                                    value={this.state.FramingFinding}
                                     placeholder='Enter Framing findings'
                                     style={[styles.textInput, {
                                         borderColor: this.getSelectedMaintainanceColor()
@@ -457,14 +452,14 @@ class Framing extends Component {
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity 
-                            onPress={()=> this.setState({modal: true})}
-                            style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
-                                <Text style={styles.itemTxt}>Add another Framing finding</Text>
-                                <Image
-                                    style={{ width: 11.5, height: 11.5 }}
-                                    source={require('../../assets/plus2.png')} />
-                            </TouchableOpacity> */}
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ modal: true })}
+                                    style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
+                                    <Text style={styles.itemTxt}>Add another Framing finding</Text>
+                                    <Image
+                                        style={{ width: 11.5, height: 11.5 }}
+                                        source={require('../../assets/plus2.png')} />
+                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     onPress={() => this.Pass()}
@@ -498,7 +493,37 @@ class Framing extends Component {
                                     onPress={() => this.setState({ modal: false })}
                                     style={styles.itemTxt}>No</Text>
                                 <Text
-                                    onPress={() => this.setState({ modal: false })}
+                                    onPress={() => {
+                                        if (this.isFormFilled()) {
+
+                                            var arrayData = this.state.framingData
+                                            arrayData.push({
+                                                "framing_id": this.state.Framing_id,
+                                                "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                                                "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                                                "framing_closeup": this.state.sendcloseFImg,
+                                                "framing_photo": this.state.sendLocFImg
+                                            })
+                                            this.setState({
+                                                FramingFinding: '',
+                                                closeFImg: '',
+                                                LocFImg: '',
+                                                FramingMaintainacne_id: 0,
+                                                Framing_id: 0,
+                                                loading: false,
+                                                modal: false,
+                                                sendcloseFImg: '',
+                                                sendLocFImg: '',
+                                                checkBox: false,
+                                                ImageModalVisible: false,
+                                                type: 0,
+                                                framingData: arrayData
+                                            }, () => {
+                                                this.setState({ modal: false })
+                                                console.log(this.state.framingData)
+                                            })
+                                        }
+                                    }}
                                     style={styles.itemTxt}>Yes</Text>
                             </View>
 

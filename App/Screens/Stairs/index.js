@@ -46,7 +46,8 @@ class Stairs extends Component {
             modal: false,
             checkBox: false,
             ImageModalVisible: false,
-            type: 0
+            type: 0,
+            stairsData: []
         };
     }
 
@@ -120,157 +121,41 @@ class Stairs extends Component {
 
     }
 
-    async AddLocation() {
+    AddLocation() {
         this.setState({ loading: true });
-        const dataToSend = new FormData();
+        const { ralingData, flashingData, deckSurfaceData, framingData } = this?.props?.route?.params;
         const token = this.props.userToken;
         console.log(token)
-        // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOTI1Mjk3NzM1MDliZjg2NGNjMmMzMTQ4OWE2MjliMTBiNjBhMWMwY2Q3NDdkNzQzOTFmNzQzMWY1OTllNzM0ZDcwMjE5NzBiN2JhOTA0MjUiLCJpYXQiOjE2NDU5MDUxNDQsIm5iZiI6MTY0NTkwNTE0NCwiZXhwIjoxNjc3NDQxMTQ0LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.sJ9d1ROipOCxgilWX6Ymz8oG8pL8ZEicn_6kGEgZsrSvdJLvVagSYaw--DRxru8HulbwVVwgaAlRsV13HDFuYyf55A3D87Ky9qDbtIo9guKbX3PGwzif42DmkaUpufpfe8gTSk3NnJS5m3UYIRumQTyh3kk1LSY6evt4yAGUTv6LO3nD3AceKKh3_75xm8sJRdqeaAXgxAexK3C8m1E08sBiW-tgJLkfwE0a1Mxi3PdIajHrSksAI7paRt98ipcjWT_ZAEAdSxcfUanct7fYDWAQv3uHMq9oGmZejHI1sXM1VI2kZWq_x1-35HCDLm4-LZzOVFnMqBpAEtnNJXIxouvU6UKYzDjzPUSYT7Wn1HdHGuuNYSE-korifnefSt_4FeGnPbiCDERjYrngEgJ2WeTNaXNC7s2DAWxVZ3mMEU4noKc-KZy50BNBPT6RTHNMsovYUfXGrgfyDP2Wy2YMyYYEuac4UCq7wKNlLR5RRZKG0zXpWpd8QcZJe2i3WkGJh0zt9Z9d5JY9KZPiUa4hSXbCJ4seMKm9XsUjL9NzsX7NNTgHumicvOzRwGyb2UMntRjkiVMNjWwO3EjzvxPwhkEkxa7OPZZjA5WY-MNt51zGi_orJzbUsGT4DjCELoQ-Qb--dzMPBRvPe-fC2dbWh3Tr9REwci40xr_sUfjiuXo';
-        const Ins_id = 15;
         const data = {
             ...this.state.data,
         }
-        // console.log(data, "data data", this?.props?.route?.params?.inspectionId)
-        // const railings = [{
-        //     railing_id: data.railing_id,
-        //     railing_finding: data.railing_fining,
-        //     railing_closeup: data.railClosImg,
-        //     railing_photo: data.raillocImg
-        // }];
-        // const flashings = [{
-        //     flashing_id: data.flashing_id,
-        //     flashing_finding: data.flashingFinding,
-        //     flashing_closeup: data.flashCloseImg,
-        //     flashing_photo: data.flashCloseImg
-        // }];
-        // const deckSurfaces = [{
-        //     deck_surface_id: data.DeckSurface_id,
-        //     deck_surface_finding: data.DeckSurfaceFinding,
-        //     deck_surface_closeup: data.DeckCloseImg,
-        //     deck_surface_photo: data.DeckLocImg,
-        //     deck_maintainence_id:data.DeckSurfaceMaintainance_id
-        // }];
-        // const framings = [{
-        //     framing_id: data.Framing_id,
-        //     framing_maintainence_id: data.FramingMaintainacne_id,
-        //     deck_surface_closeup: data.FramingCloseImg,
-        //     deck_surface_closeup: data.FramingLocImg
-        // }];
-        // const stairs = [{
-        //     stairs_id: this.state.Stairs_id,
-        //     maintainence_id:this.state.StairsMaintaince_id,
-        //     stairs_finding: this.state.StairsFinding,
-        //     stairs_closeup: this.state.StaircloseFImg,
-        //     stairs_photo:  this.state.StairLocFImg
-        // }];
-        // const railing = [{
-        //     railing_maintainence_id: data.railingMaintainance_id
-        // }];
-        // const flashing = [{
-        //     flashing_maintainence_id: data.flashingMaintainacne_id
-        // }];
-        // dataToSend.append("title", data.title)
-        // dataToSend.append("inspection_id", this?.props?.route?.params?.inspectionId)
-        // railings.forEach(tag =>  dataToSend.append("railings[]", tag))
-        // // dataToSend.append("railings[]", railings)
-        // // dataToSend.append("flashings[]", flashings)
-        // flashings.forEach(tag =>  dataToSend.append("flashings[]", tag))
-
-        // // dataToSend.append("deckSurfaces[]", deckSurfaces)
-        // deckSurfaces.forEach(tag =>  dataToSend.append("deckSurfaces[]", tag))
-
-        // // dataToSend.append("framings[]", framings)
-        // framings.forEach(tag =>  dataToSend.append("framings[]", tag))
-
-        // // dataToSend.append("railing[]", railing)
-        // railing.forEach(tag =>  dataToSend.append("railing[]", tag))
-
-        // // dataToSend.append("flashing[]", flashing)
-        // flashing.forEach(tag =>  dataToSend.append("flashing[]", tag))
-
-        // dataToSend.append("stairs_maintainence_id", this.state.StairsMaintaince_id)
-        // dataToSend.append("stairs[]", stairs)
-        // stairs.forEach(tag =>  dataToSend.append("stairs[]", tag))
-
-        // dataToSend.append("title", data.title)
-        // dataToSend.append("inspection_id", this?.props?.route?.params?.inspectionId)
-        // dataToSend.append("railing_id", data.railing_id)
-        // dataToSend.append("railing_finding", data.railing_fining)
-        // dataToSend.append("flashing_id", data.flashing_id)
-        // dataToSend.append("flashing_finding", data.flashingFinding)
-        // dataToSend.append("deck_surface_id", data.DeckSurface_id)
-        // dataToSend.append("deck_surface_finding", data.DeckSurfaceFinding)
-        // dataToSend.append("framing_id", data.Framing_id)
-        // dataToSend.append("framing_maintainence_id", data.FramingMaintainacne_id)
-        // dataToSend.append("deck_maintainence_id", data.DeckSurfaceMaintainance_id)
-        // dataToSend.append("railing_maintainence_id", data.railingMaintainance_id)
-        // dataToSend.append("flashing_maintainence_id", data.flashingMaintainacne_id)
-        // dataToSend.append("stairs_maintainence_id", this.state.StairsMaintaince_id)
-        // dataToSend.append("railing_closeup", data.railClosImg)
-        // dataToSend.append("railing_photo", data.raillocImg)
-        // dataToSend.append("flashing_closeup", data.flashCloseImg)
-        // dataToSend.append("flashing_photo", data.flashCloseImg)
-        // dataToSend.append("deck_surface_closeup", data.DeckCloseImg)
-        // dataToSend.append("deck_surface_photo", data.DeckLocImg)
-        // dataToSend.append("deck_surface_closeup", data.FramingCloseImg)
-        // dataToSend.append("deck_surface_closeup", data.FramingLocImg)
-        // dataToSend.append("stairs_id", this.state.Stairs_id)
-        // dataToSend.append("maintainence_id", this.state.StairsMaintaince_id)
-        // dataToSend.append("stairs_finding", this.state.StairsFinding)
-        // dataToSend.append("stairs_closeup", this.state.StaircloseFImg)
-        // dataToSend.append("stairs_photo", this.state.StairLocFImg)
-        // console.log(dataToSend, "dataToSend")
+        var arrayData = this.state.stairsData
+        arrayData.push({
+            "stairs_id": this.state.Stairs_id,
+            "stairs_maintainence_id": this.state.StairsMaintaince_id,
+            "stairs_finding": this.state.StairsFinding,
+            "stairs_closeup": this.state.sendStaircloseFImg,
+            "stairs_photo": this.state.sendStairLocFImg
+        })
+        this.setState({
+            stairsData: arrayData
+        }, () => {
+            this.setState({ modal: false })
+            console.log(this.state.arrayData)
+     
         let sendData = {
             "title": data.title,
             "inspection_id": this?.props?.route?.params?.inspectionId,
-            "railings": [
-                {
-                    "railing_id": data.railing_id,
-                    "railing_finding": data.railing_fining,
-                    "railing_maintainence_id": data.railingMaintainance_id,
-                    "railing_closeup": data.railClosImg,
-                    "railing_photo": data.raillocImg
-                }
-            ],
-            "flashings": [
-                {
-                    "flashing_id": data.flashing_id,
-                    "flashing_finding": data.flashingFinding,
-                    "flashing_maintainence_id": data.flashingMaintainacne_id,
-                    "flashing_closeup": data.flashCloseImg,
-                    "flashing_photo": data.flashCloseImg
-                }
-            ],
-            "deckSurfaces": [
-                {
-                    "deck_surface_id": data.DeckSurface_id,
-                    "deck_surface_finding": data.DeckSurfaceFinding,
-                    "deck_maintainence_id": data.DeckSurfaceMaintainance_id,
-                    "deck_surface_closeup": data.DeckCloseImg,
-                    "deck_surface_photo": data.DeckLocImg
-                }
-            ],
-            "framings": [
-                {
-                    "framing_id": data.Framing_id,
-                    "framing_maintainence_id": data.FramingMaintainacne_id,
-                    "framing_finding": data.FramingFinding ? data.FramingFinding : "2",
-                    "framing_closeup": data.FramingCloseImg,
-                    "framing_photo": data.FramingLocImg
-                }
-            ],
+            "railings": ralingData,
+            "flashings": flashingData,
+            "deckSurfaces": deckSurfaceData,
+            "framings": framingData,
             "stairs_maintainence_id": this.state.StairsMaintaince_id,
-            "stairs": [
-                {
-                    "stairs_id": this.state.Stairs_id,
-                    "stairs_maintainence_id": this.state.StairsMaintaince_id,
-                    "stairs_finding": this.state.StairsFinding,
-                    "stairs_closeup": this.state.sendStaircloseFImg,
-                    "stairs_photo": this.state.sendStairLocFImg
-                }
-            ]
+            "stairs": this.state.stairsData
         }
-        await CreateLocationInspection(sendData, token).then(response => {
+        console.log(sendData,"sendData")
+
+        CreateLocationInspection(sendData, token).then(response => {
             console.log(response)
             this.setState({ loading: false });
             if (response.status === 200 && !response.data.error) {
@@ -287,6 +172,7 @@ class Stairs extends Component {
             this.setState({ loading: false });
 
         });
+    })
     }
 
     getSelectedMaintainance() {
@@ -449,6 +335,7 @@ class Stairs extends Component {
                                     onChangeText={(val) => this.setState({ StairsFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
+                                    value={this.state.StairsFinding}
                                     placeholder='Enter Stairs findings'
                                     style={[styles.textInput, {
                                         borderColor: this.getSelectedMaintainanceColor()
@@ -519,14 +406,14 @@ class Stairs extends Component {
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity
+                                <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
                                     <Text style={styles.itemTxt}>Add another Stairs finding</Text>
                                     <Image
                                         style={{ width: 11.5, height: 11.5 }}
                                         source={require('../../assets/plus2.png')} />
-                                </TouchableOpacity> */}
+                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     onPress={() => this.AddLocation()}
@@ -558,7 +445,37 @@ class Stairs extends Component {
                                     onPress={() => this.setState({ modal: false })}
                                     style={styles.itemTxt}>No</Text>
                                 <Text
-                                    onPress={() => this.setState({ modal: false })}
+                                    onPress={() => {
+                                        if (this.isFormFilled()) {
+
+                                            var arrayData = this.state.stairsData
+                                            arrayData.push({
+                                                "stairs_id": this.state.Stairs_id,
+                                                "stairs_maintainence_id": this.state.StairsMaintaince_id,
+                                                "stairs_finding": this.state.StairsFinding,
+                                                "stairs_closeup": this.state.sendStaircloseFImg,
+                                                "stairs_photo": this.state.sendStairLocFImg
+                                            })
+                                            this.setState({
+                                                StaircloseFImg: '',
+                                                StairLocFImg: '',
+                                                sendStaircloseFImg: '',
+                                                sendStairLocFImg: '',
+                                                Stairs_id: 0,
+                                                StairsFinding: '',
+                                                StairsMaintaince_id: 0,
+                                                loading: false,
+                                                modal: false,
+                                                checkBox: false,
+                                                ImageModalVisible: false,
+                                                type: 0,
+                                                stairsData: arrayData
+                                            }, () => {
+                                                this.setState({ modal: false })
+                                                console.log(this.state.stairsData)
+                                            })
+                                        }
+                                    }}
                                     style={styles.itemTxt}>Yes</Text>
                             </View>
 

@@ -44,78 +44,9 @@ class Railing extends Component {
             railingMaintainance_id: 0,
             railing_id: 0,
             ImageModalVisible: false,
-            type: 0
+            type: 0,
+            ralingData: []
         };
-    }
-    cpicker(type) {
-        ImagePicker.openCamera({
-            width: 300,
-            height: 400,
-        }).then(image => {
-
-            switch (type) {
-                case 0:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            console.log(res);
-                            this.setState({ sendcloseFImg: res });
-                        }).catch((err) => {
-                            console.log(err.message);
-                        });;
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ closeFImg: image_data1 });
-                    break;
-                case 1:
-                    RNFS.readFile(image.path, 'base64')
-                        .then(res => {
-                            console.log(res);
-                            this.setState({ sendLocFImg: res });
-                        }).catch((err) => {
-                            console.log(err.message);
-                        });;
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ LocFImg: image_data });
-                    break;
-            }
-        });
-        this.setState({ state: false });
-    }
-
-    openPicker(type) {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 400,
-            cropping: true
-        }).then(image => {
-
-            switch (type) {
-                case 0:
-                    let image_data1 = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ closeFImg: image_data1 });
-                    break;
-                case 1:
-                    let image_data = {
-                        uri: image.path,
-                        type: image.mime,
-                        name: image.path.substring(image.path.lastIndexOf('/') + 1),
-                    };
-                    this.setState({ LocFImg: image_data });
-                    break;
-            }
-        });
-        this.setState({ state: false });
     }
 
     picker(type) {
@@ -154,8 +85,21 @@ class Railing extends Component {
     }
 
     Pass() {
+
         if (this.isFormFilled()) {
-            this.props.navigation.navigate('Flashing', { ...this.state.data, railing_id: this.state.railing_id, railingMaintainance_id: 1, railing_fining: this.state.railfin, railClosImg: this.state.sendcloseFImg, raillocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            var arrayData = this.state.ralingData
+            arrayData.push({
+                "railing_id": this.state.railing_id,
+                "railing_finding": this.state.railfin,
+                "railing_maintainence_id": this.state.railingMaintainance_id,
+                "railing_closeup": this.state.sendcloseFImg,
+                "railing_photo": this.state.sendLocFImg
+            })
+            this.setState({
+                ralingData: arrayData
+            }, () => {
+                this.props.navigation.navigate('Flashing', { ...this.state.data, ralingData: this.state.ralingData, railing_id: this.state.railing_id, railingMaintainance_id: 1, railfin: this.state.railfin, sendcloseFImg: this.state.sendcloseFImg, sendLocFImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+            })
         }
 
     }
@@ -208,7 +152,6 @@ class Railing extends Component {
                             case 0:
                                 RNFS.readFile(image.path, 'base64')
                                     .then(res => {
-                                        console.log(res);
                                         this.setState({ sendcloseFImg: res });
                                     }).catch((err) => {
                                         console.log(err.message);
@@ -223,7 +166,6 @@ class Railing extends Component {
                             case 1:
                                 RNFS.readFile(image.path, 'base64')
                                     .then(res => {
-                                        console.log(res);
                                         this.setState({ sendLocFImg: res });
                                     }).catch((err) => {
                                         console.log(err.message);
@@ -236,7 +178,7 @@ class Railing extends Component {
                                 this.setState({ LocFImg: image_data });
                                 break;
                         }
-                        this.setState({ state: false,ImageModalVisible: false });
+                        this.setState({ state: false, ImageModalVisible: false });
                     }}
                 />
                 <Header
@@ -394,14 +336,14 @@ class Railing extends Component {
                                         style={{ width: 12, height: 12 }}
                                         source={require('../../assets/seacrh.png')} />
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity
+                                <TouchableOpacity
                                     onPress={() => this.setState({ modal: true })}
                                     style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}>
                                     <Text style={styles.itemTxt}>Add another railing finding</Text>
                                     <Image
                                         style={{ width: 11.5, height: 11.5 }}
                                         source={require('../../assets/plus2.png')} />
-                                </TouchableOpacity> */}
+                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     onPress={() => this.Pass()}
@@ -434,7 +376,36 @@ class Railing extends Component {
                                     onPress={() => this.setState({ modal: false })}
                                     style={styles.itemTxt}>No</Text>
                                 <Text
-                                    onPress={() => this.setState({ modal: false })}
+                                    onPress={() => {
+                                        if (this.isFormFilled()) {
+
+                                            var arrayData = this.state.ralingData
+                                            arrayData.push({
+                                                "railing_id": this.state.railing_id,
+                                                "railing_finding": this.state.railfin,
+                                                "railing_maintainence_id": this.state.railingMaintainance_id,
+                                                "railing_closeup": this.state.sendcloseFImg,
+                                                "railing_photo": this.state.sendLocFImg
+                                            })
+                                            this.setState({
+                                                ralingData: arrayData,
+                                                railing_id: 0,
+                                                railingMaintainance_id: 0,
+                                                sendcloseFImg: '',
+                                                sendLocFImg: '',
+                                                railfin: '',
+                                                closeFImg: '',
+                                                LocFImg: '',
+                                                loading: false,
+                                                modal: false,
+                                                ImageModalVisible: false,
+                                                type: 0,
+                                            }, () => {
+                                                this.setState({ modal: false })
+                                                console.log(this.state.ralingData)
+                                            })
+                                        }
+                                    }}
                                     style={styles.itemTxt}>Yes</Text>
                             </View>
 
