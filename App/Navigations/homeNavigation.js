@@ -3,9 +3,10 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image,AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import {connect} from 'react-redux';
 
 import Main from '../Screens/Main';
 import ResponsiceHoc, { ResponsiceHocAppStatusbar } from '../Screens/ResponsiceHoc';
@@ -56,11 +57,17 @@ function MainNavigation(props) {
           screenOptions={{
             headerShown: false,
           }}>
-          <Stack.Screen name="Splash" component={Splash} />
+            {!props.userToken ? 
+            <>
           <Stack.Screen name="Main" component={ResponsiceHocAppStatusbar(Main)} />
-          <Stack.Screen name="start" component={ResponsiceHoc(start)} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Splash" component={Splash} />
+          </>
+          :
+          <>
+          <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
+          <Stack.Screen name="start" component={ResponsiceHoc(start)} />
           <Stack.Screen name="Summary" component={ResponsiceHoc(Summary)} />
           <Stack.Screen name="Properties" component={Properties} />
           <Stack.Screen name="PreparedFor" component={PreparedFor} />
@@ -69,7 +76,6 @@ function MainNavigation(props) {
           <Stack.Screen name="TakePicture" component={ResponsiceHoc(TakePicture)} />
           <Stack.Screen name="PreparedBy" component={ResponsiceHoc(PreparedBy)} />
           <Stack.Screen name="Review" component={ResponsiceHoc(Review)} />
-          <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
           <Stack.Screen name="Inspection" component={ResponsiceHoc(Inspection)} />
           <Stack.Screen name="AddLocation" component={AddLocation} />
           <Stack.Screen name="Railing" component={ResponsiceHoc(Railing)} />
@@ -78,7 +84,6 @@ function MainNavigation(props) {
           <Stack.Screen name="Framing" component={ResponsiceHoc(Framing)} />
           <Stack.Screen name="Stairs" component={ResponsiceHoc(Stairs)} />
           <Stack.Screen name="FinishInspection" component={ResponsiceHoc(FinishInspection)} />
-
           <Stack.Screen name="CMain" component={CMain} />
           <Stack.Screen name="UpdateCurrentReport" component={UpdateCurrentReport} />
           <Stack.Screen name="CReport" component={CReport} />
@@ -92,10 +97,26 @@ function MainNavigation(props) {
           <Stack.Screen name="CFraming" component={CFraming} />
           <Stack.Screen name="CStairs" component={CStairs} />
           <Stack.Screen name="CRequirementsGuide" component={CRequirementsGuide} />
+          </>
+          }
         </Stack.Navigator>
     </NavigationContainer>
   );
 }
+function mapStateToProps(state, props) {
+  return {
+    userDetail: state.user.userDetail,
+    userToken: state.user.userToken,
+    Ins_id: state.user.Ins_id
+  };
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    callApi: (user, access_token) =>
+      dispatch(userActions.setUser({user, access_token})),
+  };
+};
 
-export default MainNavigation;
+export default connect(mapStateToProps, mapDispatchToProps)(MainNavigation);
+// export default MainNavigation;
 

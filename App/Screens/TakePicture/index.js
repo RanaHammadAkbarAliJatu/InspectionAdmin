@@ -38,7 +38,6 @@ class TakePicture extends Component {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
-      cropping: true,
     }).then(image => {
       console.log(image, "image")
       RNFS.readFile(image.path, 'base64')
