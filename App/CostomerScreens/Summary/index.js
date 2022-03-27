@@ -184,8 +184,8 @@ class Summary extends Component {
 
                         </View>
                     </ScrollView>
-                    <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
+                    <View style={{ position: "absolute",overflow: 'hidden', height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+                    <Image style={{width: 200, height: 200}} source={require('../../assets/logoscreen.png')}/>
                     </View>
                 </SafeAreaView>
             </View>

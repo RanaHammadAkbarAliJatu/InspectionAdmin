@@ -18,7 +18,7 @@ import { FONT, SCREEN } from '../../helper/Constant';
 class Content extends Component {
   render() {
     const data = this?.props?.route?.params?.dataToSend
-    console.log(data,"framing")
+    console.log(data, "framing")
     return (
       <View style={styles.wrapperView}>
         <SafeAreaView style={{ flex: 1 }}>
@@ -50,27 +50,27 @@ class Content extends Component {
             <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Table of contents</Text>
 
             <TouchableOpacity style={styles.tableItem}
-              onPress={() => this.props.navigation.navigate("CInspection",{dataToSend: data})}
+              onPress={() => this.props.navigation.navigate("CInspection", { dataToSend: data })}
             >
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Inspection and report guide</Text>
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Page 1</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.tableItem}
-                onPress={() => this.props.navigation.navigate("CSummary",{dataToSend: data})}
-                >
+              onPress={() => this.props.navigation.navigate("CSummary", { dataToSend: data })}
+            >
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Summary report</Text>
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Page 2</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.tableItem}
-                onPress={() => this.props.navigation.navigate("CRequirementsGuide",{dataToSend: data})}
-                >
+              onPress={() => this.props.navigation.navigate("CRequirementsGuide", { dataToSend: data })}
+            >
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>SB-721 Requirements guide</Text>
               <Text style={[styles.itemTxt, { fontWeight: '400', textDecorationLine: 'underline' }]}>Page 3</Text>
             </TouchableOpacity>
 
             <View style={{ flex: 1, justifyContent: 'flex-end' }}>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("CRailing",{dataToSend: data})}
+                onPress={() => this.props.navigation.navigate("CRailing", { dataToSend: data })}
                 // onPress={() => this.props.navigation.navigate("CInspection")}
                 style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
                 <Text style={styles.itemTxt}>Next page</Text>
@@ -84,8 +84,8 @@ class Content extends Component {
 
 
           </View>
-          <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.4 }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
+          <View style={{ position: "absolute", overflow: 'hidden', height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+            <Image style={{ width: 200, height: 200 }} source={require('../../assets/logoscreen.png')} />
           </View>
         </SafeAreaView>
       </View>

@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
 import { FONT, SCREEN } from '../../helper/Constant';
+import { FlatList } from 'react-native-gesture-handler';
 
 class Framing extends Component {
     render() {
@@ -50,15 +51,19 @@ class Framing extends Component {
                         </View>
                         <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar lectus pellentesque varius ac laoreet. Pharetra purus at integer semper tortor, elementum congue vestibulum. Tellus tortor in dolor, semper curabitur urna. Risus sagittis quis semper tincidunt.</Text> */}
 
-                        {data?.framing?.map((item) =>
+                        
+                           <FlatList
+                        data={data?.framing ? data?.framing : []}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
                             <View>
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Framing</Text>
 
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Framing type</Text>
-                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.type?.title}</Text>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.framing_id}</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                     <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
+                                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
@@ -84,7 +89,9 @@ class Framing extends Component {
                                 <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.framing_finding}</Text>
                             </View>
                         )}
-                        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+                    />
+               
+                        <View style={{justifyContent: 'flex-end', alignItems: 'center' }}>
                             <TouchableOpacity
                                 onPress={() => this.props.navigation.navigate("CStairs", { dataToSend: data })}
 
@@ -103,8 +110,8 @@ class Framing extends Component {
 
 
 
-                    <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
+                    <View style={{ position: "absolute",overflow: 'hidden', height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+                    <Image style={{width: 200, height: 200}} source={require('../../assets/logoscreen.png')}/>
                     </View>
                 </SafeAreaView>
             </View>

@@ -94,7 +94,7 @@ class Inspection extends Component {
                                         <Image style={{ width: 10, height: 13 }} source={require('../../assets/document.png')} />
                                     </View> */}
                                     <TouchableOpacity
-                                        onPress={() => this.props.navigation.navigate("Review", { dataToSend: this?.props?.route?.params?.dataToSend })}>
+                                        onPress={() => this.props.navigation.navigate("CRailing", { dataToSend: item })}>
                                         <View style={styles.oval}>
                                             <Image style={{ width: 14, height: 10.5 }} source={require('../../assets/eye.png')} />
                                         </View>

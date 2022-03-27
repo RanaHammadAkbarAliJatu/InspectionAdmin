@@ -15,7 +15,6 @@ target 'InspectionAdmin' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'RNFS', :path => '../node_modules/react-native-fs'
-  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
   target 'InspectionAdminTests' do
     inherit! :complete

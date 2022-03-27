@@ -7,6 +7,7 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
+    FlatList
 } from 'react-native';
 import Loader from '../../Components/Loader';
 import { LoginForm } from '../../helper/api';
@@ -21,6 +22,7 @@ class Flashing extends Component {
         return (
             <View style={styles.wrapperView}>
                 <SafeAreaView style={{ flex: 1 }}>
+                
                     <View style={{ flex: 1, width: SCREEN.width - 40, alignSelf: "center" }}>
                         <View style={{ width: '85%', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
                             <TouchableOpacity
@@ -32,16 +34,18 @@ class Flashing extends Component {
                             </TouchableOpacity>
                             <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection findings</Text>
                         </View>
-
-                        {data?.flashing?.map((item) =>
+                           <FlatList
+                        data={data?.flashing ? data?.flashing : []}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
                             <View>
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Flashing/Caulking</Text>
 
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Flashing/Caulking findings type</Text>
-                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.type?.title}</Text>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.flashing_id}</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                     <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
+                                    <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
                                 </View>
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
@@ -67,7 +71,9 @@ class Flashing extends Component {
                                 <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.flashing_finding}</Text>
                             </View>
                         )}
-                        <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+                    />
+               
+                        <View style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                             <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("CDeckSurface",{dataToSend: data})}
 
@@ -86,8 +92,8 @@ class Flashing extends Component {
 
 
 
-                    <View style={{ position: "absolute", height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Logo here</Text>
+                    <View style={{ position: "absolute",overflow: 'hidden', height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+                    <Image style={{width: 200, height: 200}} source={require('../../assets/logoscreen.png')}/>
                     </View>
                 </SafeAreaView>
             </View>
