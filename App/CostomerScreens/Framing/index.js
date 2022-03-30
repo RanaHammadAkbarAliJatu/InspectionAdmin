@@ -13,6 +13,7 @@ import { LoginForm } from '../../helper/api';
 import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
+import FastImage from 'react-native-fast-image'
 import { FONT, SCREEN } from '../../helper/Constant';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -68,12 +69,20 @@ class Framing extends Component {
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
                                     <View>
-                                        <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.framing_closeup ? { uri: 'http://3.143.107.15' + item?.framing_closeup } : require('../../assets/Pic.png')} />
+                                        <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }} 
+                                                source={item?.framing_closeup ? { uri: 'http://3.143.107.15' + item?.framing_closeup } : require('../../assets/Pic.png')} 
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
                                         <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
                                     </View>
 
                                     <View>
-                                        <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.framing_photo ? { uri: 'http://3.143.107.15' + item?.framing_photo } : require('../../assets/pic2.png')} />
+                                        <FastImage
+                                                 style={{ width: 162, height: 162, borderRadius: 10 }} 
+                                                 source={item?.framing_photo ? { uri: 'http://3.143.107.15' + item?.framing_photo } : require('../../assets/pic2.png')} 
+                                                 resizeMode={FastImage.resizeMode.contain}
+                                            />
                                         <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
                                     </View>
 

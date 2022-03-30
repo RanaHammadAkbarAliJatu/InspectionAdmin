@@ -63,6 +63,8 @@ function MainNavigation(props) {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Splash" component={Splash} />
+          <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
+
           </>
           :
           <>

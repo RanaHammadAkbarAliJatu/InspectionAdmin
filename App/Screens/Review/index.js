@@ -18,6 +18,8 @@ import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
+import FastImage from 'react-native-fast-image'
+import { CreateInspection } from '../../helper/api';
 
 class Review extends Component {
     constructor(props) {
@@ -45,16 +47,72 @@ class Review extends Component {
             image: data?.image?.image_url
         })
     }
-    render() {
-        const { 
-            prepared_for,
-            property_location,
-            management_contact, 
-            prepared_by,
-            image,
-            data } = this.state
-            console.log(prepared_by,"prepared_by")
+    async CreateInspection() {
+        const { PreparedForData,
+            PropertyLocationData,
+            ManagementContactData,
+            TakePictureData,
+            PreparedByData } = this?.props?.route?.params?.dataToSend
+        this.setState({ loading: true });
+        const dataToSend = {
+            owner_name: PreparedForData.owner_name,
+            address: PreparedForData.address,
+            email: PreparedForData.email,
+            state: PreparedForData.state,
+            city: PreparedForData.city,
+            phone: PreparedForData.phone,
+            // country_code: PreparedForData.country_code,
+            property_address: PropertyLocationData.address1t,
+            property_address2: PropertyLocationData.address2,
+            property_city: PropertyLocationData.propcity,
+            property_state: PropertyLocationData.propstate,
+            property_zip_code: PropertyLocationData.zip_code,
 
+            management_name: ManagementContactData.manage_name,
+            management_address: ManagementContactData.manage_address,
+            management_phone: ManagementContactData.manage_phone,
+            management_email: ManagementContactData.manage_email,
+
+            pfor_buisness_name: 'Deck and Balcony Inspection Inc.',
+
+            image_url: TakePictureData.sendimage,
+
+            pfor_phone: PreparedByData.pforNumber,
+            pfor_email: PreparedByData.pforEmail,
+            pfor_date: PreparedByData.pforDate,
+            pfor_name: PreparedByData.pforName
+        }
+        console.log(dataToSend, "dataToSend");
+        const token = this.props.userToken;
+
+        await CreateInspection(token, dataToSend).then(response => {
+            console.log(response, "response");
+            if (response.status === 200 && !response.data.error) {
+                this.setState({ loading: false });
+                if (response.data.success) {
+                    this.props.callApi(response.data)
+                    this.props.navigation.navigate('PropertiesforInspection') 
+                }
+                else {
+                    alert("Inspection Not Created")
+                    this.setState({ loading: false });
+
+                }
+            }
+            else {
+                alert("Some thing Went Wrong")
+                this.setState({ loading: false });
+
+            }
+        });
+
+    }
+    render() {
+        const { PreparedForData,
+            PropertyLocationData,
+            ManagementContactData,
+            TakePictureData,
+            PreparedByData } = this?.props?.route?.params?.dataToSend
         return (
             <View
                 style={styles.wrapperView}>
@@ -68,8 +126,181 @@ class Review extends Component {
 
                         <Text style={[styles.itemTxt, { fontSize: 24 }]}>Review</Text>
                     </View>
-                    <ScrollView style={{ flex: 1 }}>
-                        <View style={{ alignItems: 'center', flex: 1 }}>
+                    <ScrollView style={{ flex: 1, padding: 12 }}>
+                        <View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold' }}>1. Prepared for</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate("PreparedFor", {
+                                        PreparedForData: PreparedForData,
+                                        PropertyLocationData: PropertyLocationData,
+                                        ManagementContactData: ManagementContactData,
+                                        TakePictureData: TakePictureData,
+                                        PreparedByData: PreparedByData,
+                                        change: true
+                                    })
+                                }}>
+                                    <Text style={{ fontWeight: 'bold', color: '#282461' }}>Edit details</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Business or owner’s name</Text>
+                                <Text>{PreparedForData?.owner_name}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Address</Text>
+                                <Text>{PreparedForData?.address}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>City</Text>
+                                <Text>{PreparedForData?.city}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Zip code</Text>
+                                <Text>{PreparedForData?.state}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Contact number</Text>
+                                <Text>{PreparedForData?.phone}</Text>
+                            </View>
+                        </View>
+                        <View>
+                            <View style={{ flexDirection: 'row', marginTop: 25, justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold' }}>2. Property location</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate("PropertyLocation", {
+                                        PreparedForData: PreparedForData,
+                                        PropertyLocationData: PropertyLocationData,
+                                        ManagementContactData: ManagementContactData,
+                                        TakePictureData: TakePictureData,
+                                        PreparedByData: PreparedByData,
+                                        change: true
+                                    })
+                                }}>
+                                    <Text style={{ fontWeight: 'bold', color: '#282461' }}>Edit details</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Address line 1</Text>
+                                <Text>{PropertyLocationData?.address1t}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Address line 2</Text>
+                                <Text>{PropertyLocationData?.address2}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>State</Text>
+                                <Text>{PropertyLocationData?.propstate}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>City</Text>
+                                <Text>{PropertyLocationData?.propcity}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Zip code</Text>
+                                <Text>{PropertyLocationData?.zip_code}</Text>
+                            </View>
+                        </View>
+                        <View>
+                            <View style={{ flexDirection: 'row', marginTop: 25, justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold' }}>3. Management contact</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate("ManagementContact", {
+                                        PreparedForData: PreparedForData,
+                                        PropertyLocationData: PropertyLocationData,
+                                        ManagementContactData: ManagementContactData,
+                                        TakePictureData: TakePictureData,
+                                        PreparedByData: PreparedByData,
+                                        change: true
+                                    })
+                                }}>
+                                    <Text style={{ fontWeight: 'bold', color: '#282461' }}>Edit details</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Name</Text>
+                                <Text>{ManagementContactData?.manage_name}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Address</Text>
+                                <Text>{ManagementContactData?.manage_address}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Contact number</Text>
+                                <Text>{ManagementContactData?.manage_phone}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Email address</Text>
+                                <Text>{ManagementContactData?.manage_email}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Site contact</Text>
+                                <Text>{ManagementContactData?.manage_siteContact}</Text>
+                            </View>
+
+                        </View>
+                        <View>
+                            <View style={{ flexDirection: 'row', marginTop: 25, justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold' }}>4. Take picture</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate('TakePicture', {
+                                        PreparedForData: PreparedForData,
+                                        PropertyLocationData: PropertyLocationData,
+                                        ManagementContactData: ManagementContactData,
+                                        TakePictureData: TakePictureData,
+                                        PreparedByData: PreparedByData,
+                                        change: true
+                                    })
+                                }}>
+                                    <Text style={{ fontWeight: 'bold', color: '#282461' }}>Edit details</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <FastImage
+                                style={{ width: '100%', height: SCREEN.height / 2, marginTop: 30, borderRadius: 10 }}
+                                source={TakePictureData?.image?.uri ? { uri: TakePictureData?.image?.uri } : require('../../assets/pic3.png')}
+                                resizeMode={FastImage.resizeMode.contain}
+                            />
+                        </View>
+
+                        <View>
+                            <View style={{ flexDirection: 'row', marginTop: 25, justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold' }}>5. Prepared by</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate('PreparedBy', {
+                                        PreparedForData: PreparedForData,
+                                        PropertyLocationData: PropertyLocationData,
+                                        ManagementContactData: ManagementContactData,
+                                        TakePictureData: TakePictureData,
+                                        PreparedByData: PreparedByData,
+                                        change: true
+                                    })
+                                }}>
+                                    <Text style={{ fontWeight: 'bold', color: '#282461' }}>Edit details</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Business name</Text>
+                                <Text>{PreparedByData?.pfor_name}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Contact number</Text>
+                                <Text>{PreparedByData?.pfor_phone}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Email address</Text>
+                                <Text>{PreparedByData?.pfor_email}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Name</Text>
+                                <Text>{PreparedByData?.pfor_name}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text>Date</Text>
+                                <Text>{PreparedByData?.pfor_date}</Text>
+                            </View>
+                        </View>
+                        {/* <View style={{ alignItems: 'center', flex: 1 }}>
+
                             <Text style={{ fontSize: 12, color: '#828282', fontWeight: 'bold', marginTop: 20 }}>Prepared for</Text>
                             <Text style={[styles.itemTxt, { marginTop: 10 }]}>{prepared_for && prepared_for?.owner_name}</Text>
                             <Text style={[styles.itemTxt, { marginTop: 5 }]}>{prepared_for && prepared_for?.address}</Text>
@@ -77,11 +308,11 @@ class Review extends Component {
                             <Text style={[styles.itemTxt, { marginTop: 5 }]}>{prepared_for && prepared_for?.city}</Text>
                             <Text style={[styles.itemTxt, { marginTop: 5 }]}>{prepared_for && prepared_for?.country_code}</Text>
                             <Text style={[styles.itemTxt, { marginTop: 5 }]}>{prepared_for && prepared_for?.phone} </Text>
-
-                            <Image
+                            <FastImage
                                 style={{ width: SCREEN.width - 40, height: SCREEN.height / 3, marginTop: 30, borderRadius: 10 }}
-                                source={image ?  {uri: 'http://3.143.107.15'+image}:require('../../assets/pic3.png')} />
-
+                                source={image ? { uri: 'http://3.143.107.15' + image } : require('../../assets/pic3.png')}
+                                resizeMode={FastImage.resizeMode.contain}
+                            />
 
                             <Text style={{ fontSize: 12, color: '#828282', fontWeight: 'bold', marginTop: 20 }}>Property location</Text>
                             <Text style={[styles.itemTxt, { marginTop: 10 }]}>{property_location && property_location.address}</Text>
@@ -117,7 +348,18 @@ class Review extends Component {
                             </TouchableOpacity>
 
 
+                        </View> */}
+                        <View style={{ alignItems: 'center', flex: 1 }}>
+
+                            <TouchableOpacity
+                                onPress={() => this.CreateInspection()}
+                                style={[styles.Btn, { marginTop: 50 }]}>
+                                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Done</Text>
+
+                            </TouchableOpacity>
                         </View>
+                        {this.state.loading && <Loader loading={this.state.loading} />}
+
                     </ScrollView>
                 </SafeAreaView>
             </View>

@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
 import { FONT, SCREEN } from '../../helper/Constant';
+import FastImage from 'react-native-fast-image'
 import { FlatList } from 'react-native-gesture-handler';
 
 class DeckSurface extends Component {
@@ -49,12 +50,20 @@ class DeckSurface extends Component {
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
                                         <View>
-                                            <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.deck_surface_closeup ? { uri: 'http://3.143.107.15' + item?.deck_surface_closeup } : require('../../assets/Pic.png')} />
+                                            <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }}
+                                                source={item?.deck_surface_closeup ? { uri: 'http://3.143.107.15' + item?.deck_surface_closeup } : require('../../assets/Pic.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
                                             <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
                                         </View>
 
                                         <View>
-                                            <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.deck_surface_photo ? { uri: 'http://3.143.107.15' + item?.deck_surface_photo } : require('../../assets/pic2.png')} />
+                                            <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }}
+                                                source={item?.deck_surface_photo ? { uri: 'http://3.143.107.15' + item?.deck_surface_photo } : require('../../assets/pic2.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
                                             <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
                                         </View>
 
@@ -72,7 +81,7 @@ class DeckSurface extends Component {
                             )}
                         />
 
-                        <View style={{  justifyContent: 'flex-end', alignItems: 'center' }}>
+                        <View style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                             <TouchableOpacity
                                 onPress={() => this.props.navigation.navigate("CFraming", { dataToSend: data })}
 

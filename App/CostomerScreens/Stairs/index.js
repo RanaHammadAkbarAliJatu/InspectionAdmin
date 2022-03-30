@@ -13,6 +13,7 @@ import { LoginForm } from '../../helper/api';
 import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
+import FastImage from 'react-native-fast-image'
 import { FONT, SCREEN } from '../../helper/Constant';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -50,46 +51,54 @@ class Stairs extends Component {
                     </View>
                 </View>
                 <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar lectus pellentesque varius ac laoreet. Pharetra purus at integer semper tortor, elementum congue vestibulum. Tellus tortor in dolor, semper curabitur urna. Risus sagittis quis semper tincidunt.</Text> */}
-                
+
                         <FlatList
-                        data={data?.stairs ? data?.stairs : []}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <View>
-                            <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
-
-                            <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
-                            <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.stairs_id}</Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
-                                <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
-                                <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                            data={data?.stairs ? data?.stairs : []}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
                                 <View>
-                                    <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.stairs_closeup ? { uri: 'http://3.143.107.15' + item?.stairs_closeup } : require('../../assets/Pic.png')} />
-                                    <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
-                                </View>
+                                    <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
 
-                                <View>
-                                    <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.stairs_photo ? { uri: 'http://3.143.107.15' + item?.stairs_photo } : require('../../assets/pic2.png')} />
-                                    <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
-                                </View>
+                                    <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.stairs_id}</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
+                                        <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
+                                        <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
+                                    </View>
 
-                            </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 50, justifyContent: 'space-between' }}>
-                                <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#828282' }}>Stairs findings</Text>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                                        <View>
+                                            <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }}
+                                                source={item?.stairs_closeup ? { uri: 'http://3.143.107.15' + item?.stairs_closeup } : require('../../assets/Pic.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
+                                        </View>
 
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} />
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', color: item?.maintenance?.level ? item?.maintenance?.level : '#EB5757' }]}>{item?.maintenance?.maintainence_title}</Text>
+                                        <View>
+                                            <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }}
+                                                source={item?.stairs_photo ? { uri: 'http://3.143.107.15' + item?.stairs_photo } : require('../../assets/pic2.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
+                                        </View>
+
+                                    </View>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 50, justifyContent: 'space-between' }}>
+                                        <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#828282' }}>Stairs findings</Text>
+
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} />
+                                            <Text style={[styles.itemTxt, { fontWeight: '400', color: item?.maintenance?.level ? item?.maintenance?.level : '#EB5757' }]}>{item?.maintenance?.maintainence_title}</Text>
+                                        </View>
+                                    </View>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.stairs_finding}</Text>
                                 </View>
-                            </View>
-                            <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.stairs_finding}</Text>
-                        </View>
-                        )}
-                    />
-               
+                            )}
+                        />
+
                         <View style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                             <TouchableOpacity
                                 onPress={() => this.props.navigation.navigate("CRequirementsGuide", { dataToSend: data })}
@@ -105,8 +114,8 @@ class Stairs extends Component {
 
 
 
-                    <View style={{ position: "absolute",overflow: 'hidden', height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
-                    <Image style={{width: 200, height: 200}} source={require('../../assets/logoscreen.png')}/>
+                    <View style={{ position: "absolute", overflow: 'hidden', height: 139, backgroundColor: "#c9c8db", width: 139, alignSelf: "center", top: SCREEN.height / 2.3, borderRadius: 70, alignItems: "center", justifyContent: 'center', opacity: 0.3 }}>
+                        <Image style={{ width: 200, height: 200 }} source={require('../../assets/logoscreen.png')} />
                     </View>
                 </SafeAreaView>
             </View>

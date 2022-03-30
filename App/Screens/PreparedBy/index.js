@@ -43,6 +43,17 @@ class PreparedBy extends Component {
     const data = this?.props?.route?.params.data;
 
     this.setState({ data: data })
+    if (this?.props?.route?.params?.change) {
+      const { PreparedForData,
+        PropertyLocationData,
+        ManagementContactData,
+        TakePictureData,
+        PreparedByData } = this?.props?.route?.params
+      this.setState({
+        pfor_date: PreparedByData.pfor_name,
+        pfor_name: PreparedByData.pfor_date,
+      })
+    }
   }
 
   isFormFilled() {
@@ -74,8 +85,31 @@ class PreparedBy extends Component {
     }
     return false;
   }
+  update() {
+    const { PreparedForData,
+      PropertyLocationData,
+      ManagementContactData,
+      TakePictureData,
+      PreparedByData } = this?.props?.route?.params
+    this.props.navigation.navigate("Review", {
+      dataToSend: {
+        PreparedForData: PreparedForData,
+        PropertyLocationData: PropertyLocationData,
+        ManagementContactData: ManagementContactData,
+        PreparedByData: {
+          pfor_buisness_name: this.state.pforBusinessName,
+          pfor_phone: this.state.pforNumber,
+          pfor_email: this.state.pforEmail,
+          pfor_date: this.state.pforDate,
+          pfor_name: this.state.pforName,
+        },
+        TakePictureData: TakePictureData
+      }
+    })
+
+  }
   async CreateInspection() {
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
     const dataToSend = {
       owner_name: this.state.data.backEnd.backdata.preparedFor.owner_name,
       address: this.state.data.backEnd.backdata.preparedFor.address,
@@ -98,31 +132,45 @@ class PreparedBy extends Component {
       pfor_phone: this.state.pforNumber,
       pfor_email: this.state.pforEmail,
       pfor_date: this.state.pforDate,
-      pfor_name: this.state.pforName
+      pfor_name: this.state.pforName,
+      PreparedForData: this?.props?.route?.params?.data?.PreparedForData,
+      PropertyLocationData: this?.props?.route?.params?.data?.PropertyLocationData,
+      ManagementContactData: this?.props?.route?.params?.data?.ManagementContactData,
+      TakePictureData: this?.props?.route?.params?.data?.TakePictureData,
+      PreparedByData: {
+        pfor_buisness_name: this.state.pforBusinessName,
+        pfor_phone: this.state.pforNumber,
+        pfor_email: this.state.pforEmail,
+        pfor_date: this.state.pforDate,
+        pfor_name: this.state.pforName,
+      }
     }
     console.log(dataToSend, "dataToSend");
     const token = this.props.userToken;
 
     if (this.isFormFilled()) {
-      await CreateInspection(token, dataToSend).then(response => {
-        console.log(response, "response");
-        if (response.status === 200 && !response.data.error) {
-          if (response.data.success) {
-            this.props.callApi(response.data)
-            this.props.navigation.navigate("Review", { dataToSend: response.data.data })
-            this.setState({ loading: false });
-          }
-          else {
-            alert("Inspection Not Created")
-          }
-        }
-        else {
-          alert("Some thing Went Wrong")
-        }
-      });
+      this.setState({ loading: false });
+
+      this.props.navigation.navigate("Review", { dataToSend: dataToSend })
+
+      // await CreateInspection(token, dataToSend).then(response => {
+      //   console.log(response, "response");
+      //   if (response.status === 200 && !response.data.error) {
+      //     if (response.data.success) {
+      //       this.props.callApi(response.data)
+      //       this.props.navigation.navigate("Review", { dataToSend: response.data.data })
+      //       this.setState({ loading: false });
+      //     }
+      //     else {
+      //       alert("Inspection Not Created")
+      //     }
+      //   }
+      //   else {
+      //     alert("Some thing Went Wrong")
+      //   }
+      // });
     }
 
-    this.setState({ loading: false });
   }
   render() {
     return (
@@ -199,13 +247,13 @@ class PreparedBy extends Component {
                   open={this.state.open}
                   date={this.state.date}
                   mode={"date"}
-                  locale='fr'
+                  // locale='fr'
                   onConfirm={(date) => {
                     var today = new Date(date);
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                     var yyyy = today.getFullYear();
-                    
+
                     today = mm + '/' + dd + '/' + yyyy;
                     this.setState({ pforDate: today, date: date, open: false })
                     console.log(today)
@@ -232,9 +280,16 @@ class PreparedBy extends Component {
 
             <View style={{ flex: 0.15, justifyContent: 'flex-end' }}>
               <TouchableOpacity
-                onPress={() => this.CreateInspection()}
+                onPress={() => {
+                  if (this?.props?.route?.params?.change) {
+                    this.update()
+                  } else {
+                    this.CreateInspection()
+                  }
+
+                }}
                 style={[styles.Btn]}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Finish</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>{this?.props?.route?.params?.change ? "Update" : "Next"}</Text>
 
               </TouchableOpacity>
 

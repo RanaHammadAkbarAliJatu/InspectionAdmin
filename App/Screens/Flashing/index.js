@@ -172,7 +172,7 @@ class Flashing extends Component {
             return "#219653"
 
         } else {
-            return "'#EB5757'"
+            return "black"
         }
     }
     render() {

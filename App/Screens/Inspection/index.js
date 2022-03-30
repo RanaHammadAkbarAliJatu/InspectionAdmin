@@ -109,14 +109,14 @@ class Inspection extends Component {
 
 
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 onPress={() => this.props.navigation.navigate("Review", { dataToSend: this?.props?.route?.params?.dataToSend })}
                                 style={[styles.itemView, { backgroundColor: '#c9c8db', height: 45, paddingHorizontal: 15, marginBottom: 10 }]}>
                                 <Text style={styles.itemTxt}>View complete report</Text>
                                 <Image
                                     style={{ width: 21, height: 16.7 }}
                                     source={require('../../assets/eye.png')} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                             <TouchableOpacity style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}
                                 onPress={() => {if(pdf_link){
                                     Linking.openURL(pdf_link) 

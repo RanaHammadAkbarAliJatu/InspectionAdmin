@@ -42,8 +42,46 @@ class PropertyLocation extends Component {
   componentDidMount() {
     const data = this?.props?.route?.params.data;
     this.setState({ preparedFor: data });
+    if (this?.props?.route?.params?.change) {
+      const { PreparedForData,
+        PropertyLocationData,
+        ManagementContactData,
+        TakePictureData,
+        PreparedByData } = this?.props?.route?.params
+      this.setState({
+        preparedFor: PropertyLocationData.preparedFor,
+        address1: PropertyLocationData.address1t,
+        address2: PropertyLocationData.address2,
+        state: PropertyLocationData.propstate,
+        zip_code: PropertyLocationData.zip_code,
+        city: PropertyLocationData.propcity
+      })
+    }
   }
+  update() {
+    const { PreparedForData,
+      PropertyLocationData,
+      ManagementContactData,
+      TakePictureData,
+      PreparedByData } = this?.props?.route?.params
+    this.props.navigation.navigate("Review", {
+      dataToSend: {
+        PreparedForData: PreparedForData,
+        PropertyLocationData: {
+          preparedFor: this.state.preparedFor,
+          address1t: this.state.address1,
+          address2: this.state.address2,
+          propstate: this.state.state,
+          zip_code: this.state.zip_code,
+          propcity: this.state.city
+        },
+        ManagementContactData: ManagementContactData,
+        TakePictureData: TakePictureData,
+        PreparedByData: PreparedByData,
+      }
+    })
 
+  }
   isFormFilled() {
     let address1 = Validations.checkrequired(this.state.address1);
     let address2 = Validations.checkrequired(this.state.address2);
@@ -82,7 +120,16 @@ class PropertyLocation extends Component {
           address2: this.state.address2,
           propstate: this.state.state,
           zip_code: this.state.zip_code,
-          propcity: this.state.city
+          propcity: this.state.city,
+          PreparedForData: this?.props?.route?.params?.data?.PreparedFor,
+          PropertyLocationData: {
+            preparedFor: this.state.preparedFor,
+            address1t: this.state.address1,
+            address2: this.state.address2,
+            propstate: this.state.state,
+            zip_code: this.state.zip_code,
+            propcity: this.state.city
+          }
         }
       })
     }
@@ -104,20 +151,20 @@ class PropertyLocation extends Component {
 
         style={styles.wrapperView}>
         <Header
-           leftPress={() =>{
+          leftPress={() => {
             Alert.alert(
-                "Alert",
-                "Are you sure you want to re enter data",
-                [
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  },
-                  { text: "Yes", onPress: () =>  this.props.navigation.goBack() }
-                ]
-              );
-            }}
+              "Alert",
+              "Are you sure you want to re enter data",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+              ]
+            );
+          }}
         />
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flex: 1, paddingHorizontal: 20, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
@@ -174,8 +221,8 @@ class PropertyLocation extends Component {
                     source={require('../../assets/down.png')} />
                   <TextInput
                     onChangeText={(value) => this.setState({ city: value })}
-                  value={this.state.city}
-                  placeholder='City'
+                    value={this.state.city}
+                    placeholder='City'
                     style={styles.TextInput}
                   />
                 </View>
@@ -192,9 +239,16 @@ class PropertyLocation extends Component {
 
             <View style={{ flex: 0.15, justifyContent: 'flex-end' }}>
               <TouchableOpacity
-                onPress={() => this.Pass()}
+                onPress={() => {
+                  if(this?.props?.route?.params?.change){
+                    this.update()
+                  }else{
+                    this.Pass()
+                  }
+                              
+                            }}
                 style={[styles.Btn, { flexDirection: 'row', paddingHorizontal: 20, justifyContent: 'space-between' }]}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Next</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>{this?.props?.route?.params?.change ? "Update" : "Next"}</Text>
 
                 <Image style={{ width: 11, height: 5 }} source={require('../../assets/arrowup.png')} />
               </TouchableOpacity>

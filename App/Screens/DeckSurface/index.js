@@ -144,7 +144,7 @@ class DeckSurface extends Component {
             return "#219653"
 
         } else {
-            return "'#EB5757'"
+            return "black"
         }
     }
     render() {
@@ -253,7 +253,7 @@ class DeckSurface extends Component {
                                         label: 'Select deck covering',
 
                                     }}
-
+                                    value={this.state.DeckSurface_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ DeckSurface_id: itemValue });
                                     }}

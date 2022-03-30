@@ -124,83 +124,85 @@ class Framing extends Component {
     }
 
     Pass() {
-        this.setState({ loading: true });
-        const { ralingData, flashingData,deckSurfaceData } = this?.props?.route?.params;
-        if (!this.state.checkBox) {
-            if (this.isFormFilled()) {
-                const data = this.state.data
-                const token = this.props.userToken;
-                var arrayData = this.state.framingData
-                arrayData.push({
-                    "framing_id": this.state.Framing_id,
-                    "framing_maintainence_id": this.state.FramingMaintainacne_id,
-                    "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
-                    "framing_closeup": this.state.sendcloseFImg,
-                    "framing_photo": this.state.sendLocFImg
-                })
-                this.setState({
-                    framingData: arrayData
-                }, () => {
-             
-                let sendData = {
-                    "title": data.title,
-                    "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
-                    "railings": ralingData,
-                    "flashings":  flashingData,
-                    "deckSurfaces": deckSurfaceData ,
-                    "framings": this.state.framingData,
-                    "stairs_maintainence_id": 0,
-                    "stairs": [
-                        {
-                            "stairs_id": 0,
+        this.setState({ loading: true }, () => {
+
+
+            const { ralingData, flashingData, deckSurfaceData } = this?.props?.route?.params;
+            if (!this.state.checkBox) {
+                if (this.isFormFilled()) {
+                    const data = this.state.data
+                    const token = this.props.userToken;
+                    var arrayData = this.state.framingData
+                    arrayData.push({
+                        "framing_id": this.state.Framing_id,
+                        "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                        "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                        "framing_closeup": this.state.sendcloseFImg,
+                        "framing_photo": this.state.sendLocFImg
+                    })
+                    this.setState({
+                        framingData: arrayData
+                    }, () => {
+
+                        let sendData = {
+                            "title": data.title,
+                            "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
+                            "railings": ralingData,
+                            "flashings": flashingData,
+                            "deckSurfaces": deckSurfaceData,
+                            "framings": this.state.framingData,
                             "stairs_maintainence_id": 0,
-                            "stairs_finding": 0,
-                            "stairs_closeup": this.state.sendLocFImg,
-                            "stairs_photo": this.state.sendLocFImg
+                            "stairs": [
+                                {
+                                    "stairs_id": 0,
+                                    "stairs_maintainence_id": 0,
+                                    "stairs_finding": 0,
+                                    "stairs_closeup": this.state.sendLocFImg,
+                                    "stairs_photo": this.state.sendLocFImg
+                                }
+                            ]
                         }
-                    ]
+                        console.log(sendData, "sendData")
+                        CreateLocationInspection(sendData, token).then(response => {
+                            console.log(response, "response")
+                            this.setState({ loading: false });
+                            if (response.status === 200 && !response.data.error) {
+
+                                this.props.navigation.navigate('PropertiesforInspection')
+                                console.log(response, "response")
+
+                            }
+                            else {
+                                alert("Some thing Went Wrong")
+                            }
+                        }).catch((err) => {
+                            console.log(err.message, "err");
+                            this.setState({ loading: false });
+
+                        });
+                    })
                 }
-                console.log(sendData,"sendData")
-                CreateLocationInspection(sendData, token).then(response => {
-                    console.log(response, "response")
-                    this.setState({ loading: false });
-                    if (response.status === 200 && !response.data.error) {
+            } else {
+                if (this.isFormFilled()) {
+                    var arrayData = this.state.framingData
+                    arrayData.push({
+                        "framing_id": this.state.Framing_id,
+                        "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                        "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                        "framing_closeup": this.state.sendcloseFImg,
+                        "framing_photo": this.state.sendLocFImg
+                    })
+                    this.setState({
+                        framingData: arrayData,
+                        loading: false
+                    }, () => {
+                        this.props.navigation.navigate('Stairs', { ...this.state.data, framingData: this.state.framingData, ralingData, flashingData, deckSurfaceData, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+                    })
+                }
 
-                        this.props.navigation.navigate('PropertiesforInspection')
-                        console.log(response, "response")
-
-                    }
-                    else {
-                        alert("Some thing Went Wrong")
-                    }
-                }).catch((err) => {
-                    console.log(err.message, "err");
-                    this.setState({ loading: false });
-
-                });
-            })
-            }
-        } else {
-            if (this.isFormFilled()) {
-                var arrayData = this.state.framingData
-                arrayData.push({
-                    "framing_id": this.state.Framing_id,
-                    "framing_maintainence_id": this.state.FramingMaintainacne_id,
-                    "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
-                    "framing_closeup": this.state.sendcloseFImg,
-                    "framing_photo": this.state.sendLocFImg
-                })
-                this.setState({
-                    framingData: arrayData,
-                    loading: false
-                }, () => {
-                    this.props.navigation.navigate('Stairs', { ...this.state.data,framingData: this.state.framingData, ralingData, flashingData,deckSurfaceData, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
-                })
             }
 
-        }
-
-
+        });
     }
 
     getSelectedMaintainance() {
@@ -240,7 +242,7 @@ class Framing extends Component {
             return "#219653"
 
         } else {
-            return "'#EB5757'"
+            return "black"
         }
     }
     render() {
@@ -351,7 +353,7 @@ class Framing extends Component {
                                         label: 'Framing Type',
 
                                     }}
-
+                                    value={this.state.Framing_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Framing_id: itemValue });
                                     }}

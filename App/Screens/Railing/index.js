@@ -137,7 +137,7 @@ class Railing extends Component {
             return "#219653"
 
         } else {
-            return "'#EB5757'"
+            return "black"
         }
     }
     render() {
@@ -246,7 +246,7 @@ class Railing extends Component {
                                         label: 'Rail Types',
 
                                     }}
-
+                                    value={this.state.railing_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ railing_id: itemValue });
                                     }}

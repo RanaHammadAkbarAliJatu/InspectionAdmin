@@ -88,12 +88,41 @@ class TakePicture extends Component {
     const data = this?.props?.route?.params.data;
     console.log(data);
     this.setState({ BackData: data });
+    if (this?.props?.route?.params?.change) {
+      const { PreparedForData,
+        PropertyLocationData,
+        ManagementContactData,
+        TakePictureData,
+        PreparedByData } = this?.props?.route?.params
+      this.setState({
+        showImage: TakePictureData.image
+      })
+    }
   }
 
   picker(type) {
     this.setState({ ImageModalVisible: true, type: type })
-}
+  }
+  update() {
+    const { PreparedForData,
+      PropertyLocationData,
+      ManagementContactData,
+      TakePictureData,
+      PreparedByData } = this?.props?.route?.params
+    this.props.navigation.navigate("Review", {
+      dataToSend: {
+        PreparedForData: PreparedForData,
+        PropertyLocationData: PropertyLocationData,
+        ManagementContactData: ManagementContactData,
+        PreparedByData: PreparedByData,
+        TakePictureData: {
+          image: this.state.showImage,
+          sendimage: this.state.Image,
+        }
+      }
+    })
 
+  }
   render() {
     return (
       <View style={styles.wrapperView}>
@@ -161,13 +190,26 @@ class TakePicture extends Component {
               <TouchableOpacity
                 onPress={() => {
                   if (this.state.Image) {
-
-                    this.props.navigation.navigate('PreparedBy', {
-                      data: {
-                        backEnd: this.state.BackData,
-                        image: this.state.Image
-                      }
-                    })
+                    if (this?.props?.route?.params?.change) {
+                      this.update()
+                    } else {
+                      this.props.navigation.navigate('PreparedBy', {
+                        data: {
+                          backEnd: this.state.BackData,
+                          image: this.state.Image,
+                          PreparedForData: this?.props?.route?.params?.data?.PreparedForData,
+                          PropertyLocationData: this?.props?.route?.params?.data?.PropertyLocationData,
+                          ManagementContactData: this?.props?.route?.params?.data?.ManagementContactData,
+                          TakePictureData: {
+                            image: this.state.showImage,
+                            sendimage: this.state.Image,
+  
+                          }
+                        }
+                      })
+                    }
+  
+                  
                   } else {
                     alert("Capture an image to proceed")
                   }

@@ -20,6 +20,7 @@ import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import { Get_Inspection_List, ListLocationInspection } from '../../helper/api';
+import FastImage from 'react-native-fast-image'
 
 class PropertiesforInspection extends Component {
     constructor(props) {
@@ -97,10 +98,11 @@ class PropertiesforInspection extends Component {
                                         <TouchableOpacity style={styles.itemView}
                                             onPress={() => this.props.navigation.navigate("Inspection", { dataToSend: item, inspectionId: item?.prepared_for?.inspection_id })}
                                         >
-                                            <Image
-                                                style={{ width: '90%', marginTop: 20, height: 121, alignSelf: 'center', resizeMode: "stretch" }}
+                                           
+                                            <FastImage
+                                                style={{ width: '90%', marginTop: 20, height: 121, alignSelf: 'center' }}
                                                 source={item?.image?.image_url ? { uri: 'http://3.143.107.15' + item?.image?.image_url } : require('../../assets/pic3.png')}
-                                            // source={require('../../assets/pic3.png')} 
+                                                resizeMode={FastImage.resizeMode.stretch}
                                             />
 
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>

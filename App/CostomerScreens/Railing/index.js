@@ -16,7 +16,7 @@ import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, RED, WHITE } from '../../helper/Color';
 import { FONT, SCREEN } from '../../helper/Constant';
 import { FlatList } from 'react-native-gesture-handler';
-
+import FastImage from 'react-native-fast-image'
 class Railing extends Component {
     render() {
         const data = this.props.route.params.dataToSend
@@ -51,13 +51,26 @@ class Railing extends Component {
                                     </View>
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-                                        <View>
-                                            <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.railing_closeup ? { uri: 'http://3.143.107.15' + item?.railing_closeup } : require('../../assets/Pic.png')} />
+                                        <View
+                                            style={{ width: 162, height: 162, borderRadius: 10, overflow: 'hidden' }}
+                                        >
+                                            <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }}
+                                                source={item?.railing_closeup ? { uri: 'http://3.143.107.15' + item?.railing_closeup } : require('../../assets/Pic.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
                                             <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Close up</Text>
                                         </View>
 
-                                        <View>
-                                            <Image style={{ width: 162, height: 162, borderRadius: 10 }} source={item?.railing_photo ? { uri: 'http://3.143.107.15' + item?.railing_photo } : require('../../assets/pic2.png')} />
+                                        <View
+                                            style={{ width: 162, height: 162, borderRadius: 10, overflow: 'hidden' }}
+                                        >
+                                            <FastImage
+                                                style={{ width: 162, height: 162, borderRadius: 10 }}
+                                                source={item?.railing_photo ? { uri: 'http://3.143.107.15' + item?.railing_photo } : require('../../assets/pic2.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
+                                            <Image />
                                             <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 10, color: '#828282' }}>Inspection location</Text>
                                         </View>
 

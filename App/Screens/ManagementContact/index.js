@@ -40,6 +40,22 @@ class ManagementContact extends Component {
     const data = this?.props?.route?.params.data;
     console.log(data);
     this.setState({BackData:data});
+    if (this?.props?.route?.params?.change) {
+      const { PreparedForData,
+        PropertyLocationData,
+        ManagementContactData,
+        TakePictureData,
+        PreparedByData } = this?.props?.route?.params
+      this.setState({
+        backdata:ManagementContactData.BackData,
+        manage_name: ManagementContactData.manage_name,
+        manage_address: ManagementContactData.manage_address,
+        manage_phone: ManagementContactData.manage_phone,
+        manage_email: ManagementContactData.manage_email,
+        manage_siteContact: ManagementContactData.manage_siteContact
+
+      })
+    }
   }
   isFormFilled() {
     let manage_name = Validations.checkrequired(this.state.manage_name);
@@ -73,6 +89,30 @@ class ManagementContact extends Component {
     } 
     return false;
   }
+  update() {
+    const { PreparedForData,
+      PropertyLocationData,
+      ManagementContactData,
+      TakePictureData,
+      PreparedByData } = this?.props?.route?.params
+    this.props.navigation.navigate("Review", {
+      dataToSend: {
+        PreparedForData: PreparedForData,
+        PropertyLocationData: PropertyLocationData,
+        ManagementContactData:{
+          backdata:this.state.BackData,
+          manage_name: this.state.manage_name,
+          manage_address: this.state.manage_address,
+          manage_phone: this.state.manage_phone,
+          manage_email: this.state.manage_email,
+          manage_siteContact: this.state.manage_siteContact
+        },
+        TakePictureData: TakePictureData,
+        PreparedByData: PreparedByData,
+      }
+    })
+
+  }
   Pass(){
     if(this.isFormFilled()){
       this.props.navigation.navigate("TakePicture",{data:{
@@ -80,7 +120,17 @@ class ManagementContact extends Component {
         manage_name: this.state.manage_name,
         manage_address: this.state.manage_address,
         manage_phone: this.state.manage_phone,
-        manage_email: this.state.manage_email
+        manage_email: this.state.manage_email,
+        PreparedForData:this?.props?.route?.params?.data?.PreparedForData,
+        PropertyLocationData: this?.props?.route?.params?.data?.PropertyLocationData,
+        ManagementContactData:{
+          backdata:this.state.BackData,
+          manage_name: this.state.manage_name,
+          manage_address: this.state.manage_address,
+          manage_phone: this.state.manage_phone,
+          manage_email: this.state.manage_email,
+          manage_siteContact: this.state.manage_siteContact
+        }
       }})
     }
   }
@@ -166,9 +216,16 @@ class ManagementContact extends Component {
 
         <View style={{flex:0.15 ,justifyContent:'flex-end'}}>
             <TouchableOpacity 
-            onPress={()=> this.Pass()}
+             onPress={() => {
+              if(this?.props?.route?.params?.change){
+                this.update()
+              }else{
+                this.Pass()
+              }
+                          
+                        }}
             style={[styles.Btn,{flexDirection:'row', paddingHorizontal: 20,justifyContent:'space-between'}]}>
-            <Text style={[styles.itemTxt,{fontSize: 12, color:'white'}]}>Next</Text>
+            <Text style={[styles.itemTxt,{fontSize: 12, color:'white'}]}>{this?.props?.route?.params?.change ? "Update" : "Next"}</Text>
 
             <Image style={{width: 11, height: 5}} source={require('../../assets/arrowup.png')}/>
             </TouchableOpacity>

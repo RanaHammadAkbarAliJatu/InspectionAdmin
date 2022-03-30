@@ -17,6 +17,8 @@ import { LoginForm } from '../../helper/api';
 import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
+import FastImage from 'react-native-fast-image'
+
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import { Get_Inspection_List, ListLocationInspection } from '../../helper/api';
 
@@ -30,10 +32,10 @@ class PropertiesforInspection extends Component {
             loading: false,
         };
     }
-   
+
     componentDidMount() {
 
-        this.setState({ data: this.props.route.params.dataToSend},() =>{
+        this.setState({ data: this.props.route.params.dataToSend }, () => {
             console.log(this.state.data)
         });
 
@@ -45,7 +47,7 @@ class PropertiesforInspection extends Component {
                 <SafeAreaView style={{ flex: 1 }}>
                     <Text style={[styles.itemTxt, { fontSize: 26, textAlign: 'center', fontWeight: "bold", marginTop: 15 }]}>Properties for inspection</Text>
 
-                    
+
                     <View style={{ flex: 1 }}>
                         {this.state.data.length > 0 ?
                             <View style={{ height: '100%', alignSelf: 'center', position: 'absolute', marginTop: 20 }}>
@@ -53,15 +55,14 @@ class PropertiesforInspection extends Component {
                                     data={this.state.data}
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
-                                        <TouchableOpacity style={styles.itemView} 
-                                        onPress={() => this.props.navigation.navigate("CReport", {dataToSend: item, inspectionId: item?.prepared_for?.inspection_id })}
+                                        <TouchableOpacity style={styles.itemView}
+                                            onPress={() => this.props.navigation.navigate("CReport", { dataToSend: item, inspectionId: item?.prepared_for?.inspection_id })}
                                         >
-                                            <Image
+                                            <FastImage
                                                 style={{ width: '90%', marginTop: 20, height: 121, alignSelf: 'center', resizeMode: "stretch" }}
-                                                source={item?.image?.image_url ? {uri: 'http://3.143.107.15'+item?.image?.image_url}: require('../../assets/pic3.png')} 
-                                                // source={require('../../assets/pic3.png')} 
-                                                />
-
+                                                source={item?.image?.image_url ? { uri: 'http://3.143.107.15' + item?.image?.image_url } : require('../../assets/pic3.png')}
+                                                resizeMode={FastImage.resizeMode.contain}
+                                            />
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
                                                 <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item.txt}</Text>
 

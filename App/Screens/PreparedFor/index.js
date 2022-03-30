@@ -90,10 +90,44 @@ class PreparedFor extends Component {
           state: this.state.state,
           city: this.state.city,
           country_code: this.state.country_code,
-          phone: this.state.phone
+          phone: this.state.phone,
+          PreparedFor: {
+            owner_name: this.state.owner_name,
+            address: this.state.address,
+            email: this.state.email,
+            state: this.state.state,
+            city: this.state.city,
+            country_code: this.state.country_code,
+            phone: this.state.phone
+          }
         }
       })
     }
+  }
+  update() {
+    const { PreparedForData,
+      PropertyLocationData,
+      ManagementContactData,
+      TakePictureData,
+      PreparedByData } = this?.props?.route?.params
+    this.props.navigation.navigate("Review", {
+      dataToSend: {
+        PreparedForData: {
+          owner_name: this.state.owner_name,
+          address: this.state.address,
+          email: this.state.email,
+          state: this.state.state,
+          city: this.state.city,
+          country_code: this.state.country_code,
+          phone: this.state.phone
+        },
+        PropertyLocationData: PropertyLocationData,
+        ManagementContactData: ManagementContactData,
+        TakePictureData: TakePictureData,
+        PreparedByData: PreparedByData,
+      }
+    })
+
   }
 
   // componentWillMount() {
@@ -108,6 +142,31 @@ class PreparedFor extends Component {
   //   alert("")
   //   return true;
   // }
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.startTime) {
+      this.setState({ startTime: nextProps.startTime });
+    }
+  }
+  componentDidMount() {
+    if (this?.props?.route?.params?.change) {
+      const { PreparedForData,
+        PropertyLocationData,
+        ManagementContactData,
+        TakePictureData,
+        PreparedByData } = this?.props?.route?.params
+      this.setState({
+        owner_name: PreparedForData.owner_name,
+        address: PreparedForData.address,
+        email: PreparedForData.email,
+        state: PreparedForData.state,
+        city: PreparedForData.city,
+        country_code: PreparedForData.country_code,
+        phone: PreparedForData.phone
+      })
+    }
+
+  }
   render() {
 
     return (
@@ -203,9 +262,16 @@ class PreparedFor extends Component {
 
             <View style={{ flex: 0.15, justifyContent: 'flex-end' }}>
               <TouchableOpacity
-                onPress={() => this.Pass()}
+                onPress={() => {
+                  if (this?.props?.route?.params?.change) {
+                    this.update()
+                  } else {
+                    this.Pass()
+                  }
+
+                }}
                 style={[styles.Btn, { flexDirection: 'row', paddingHorizontal: 20, justifyContent: 'space-between' }]}>
-                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Next</Text>
+                <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>{this?.props?.route?.params?.change ? "Update" : "Next"}</Text>
 
                 <Image style={{ width: 11, height: 5 }} source={require('../../assets/arrowup.png')} />
               </TouchableOpacity>
