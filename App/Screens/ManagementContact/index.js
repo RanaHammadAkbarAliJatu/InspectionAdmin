@@ -143,7 +143,7 @@ class ManagementContact extends Component {
              leftPress={() =>{
               Alert.alert(
                   "Alert",
-                  "Are you sure you want to re enter data",
+                  "your current screen data will be lost, do you want to proceed",
                   [
                     {
                       text: "Cancel",
@@ -189,6 +189,7 @@ class ManagementContact extends Component {
         <TextInput
          onChangeText={(value)=> this.setState({manage_phone:value})}
         value={this.state.manage_phone}
+        keyboardType='numeric'
         placeholder='00 000 0000'
         style={styles.TextInput}
         />
@@ -218,7 +219,10 @@ class ManagementContact extends Component {
             <TouchableOpacity 
              onPress={() => {
               if(this?.props?.route?.params?.change){
-                this.update()
+                if (this.isFormFilled()) {//chnge
+
+                  this.update()
+  }
               }else{
                 this.Pass()
               }

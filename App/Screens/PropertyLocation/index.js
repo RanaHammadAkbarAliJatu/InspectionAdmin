@@ -154,7 +154,7 @@ class PropertyLocation extends Component {
           leftPress={() => {
             Alert.alert(
               "Alert",
-              "Are you sure you want to re enter data",
+              "your current screen data will be lost, do you want to proceed",
               [
                 {
                   text: "Cancel",
@@ -230,6 +230,7 @@ class PropertyLocation extends Component {
                   onChangeText={(value) => this.setState({ zip_code: value })}
                   value={this.state.zip_code}
                   placeholder='Zip code'
+                  keyboardType='numeric'
                   style={styles.TextInput}
                 />
               </ScrollView>
@@ -241,7 +242,10 @@ class PropertyLocation extends Component {
               <TouchableOpacity
                 onPress={() => {
                   if(this?.props?.route?.params?.change){
-                    this.update()
+                    if (this.isFormFilled()) {//chnge
+
+                      this.update()
+      }
                   }else{
                     this.Pass()
                   }

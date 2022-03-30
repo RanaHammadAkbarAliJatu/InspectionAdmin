@@ -122,10 +122,11 @@ class PropertiesforInspection extends Component {
                                                 </TouchableOpacity>
                                             </View>
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
-                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>Prepared for: {item?.prepared_for?.email}</Text>
-                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item?.prepared_for?.state}</Text>
-
-
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>Business Owner Name: {item?.prepared_for?.owner_name}</Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>State: {item?.property_location?.state}</Text>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>City: {item?.property_location?.city}</Text>
                                             </View>
                                             {/* <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
 
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
         width: SCREEN.width - 40,
         alignSelf: "center",
         backgroundColor: "white",
-        height: isIphoneXorAbove ? SCREEN.height / 4.8 : SCREEN.height / 4,
+        // height: isIphoneXorAbove ? SCREEN.height / 4.8 : SCREEN.height / 4,
         marginBottom: 20,
         borderRadius: 10,
         shadowColor: 'lightgrey',

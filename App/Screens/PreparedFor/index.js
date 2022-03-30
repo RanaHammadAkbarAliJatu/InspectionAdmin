@@ -247,12 +247,14 @@ class PreparedFor extends Component {
                   onChangeText={(value) => this.setState({ country_code: value })}
                   value={this.state.country_code}
                   placeholder='Zip code'
+                  keyboardType='numeric'
                   style={styles.TextInput}
                 />
                 <TextInput
                   onChangeText={(value) => this.setState({ phone: value })}
                   value={this.state.phone}
                   placeholder='00 000 0000'
+                  keyboardType='numeric'
                   style={styles.TextInput}
                 />
               </ScrollView>
@@ -264,7 +266,10 @@ class PreparedFor extends Component {
               <TouchableOpacity
                 onPress={() => {
                   if (this?.props?.route?.params?.change) {
+    if (this.isFormFilled()) {//chnge
+
                     this.update()
+    }
                   } else {
                     this.Pass()
                   }

@@ -3,10 +3,10 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { View, Image,AsyncStorage } from 'react-native';
+import { View, Image, AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Main from '../Screens/Main';
 import ResponsiceHoc, { ResponsiceHocAppStatusbar } from '../Screens/ResponsiceHoc';
@@ -51,57 +51,57 @@ const Stack = createStackNavigator();
 function MainNavigation(props) {
   return (
     <NavigationContainer>
-    
-        <Stack.Navigator
-          initialRouteName="Splash"
-          screenOptions={{
-            headerShown: false,
-          }}>
-            {!props.userToken ? 
-            <>
-          <Stack.Screen name="Main" component={ResponsiceHocAppStatusbar(Main)} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Splash" component={Splash} />
-          <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
 
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        {!props.userToken ?
+          <>
+            <Stack.Screen name="Main" component={ResponsiceHocAppStatusbar(Main)} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Splash" component={Splash} />
+            {/* <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
+            <Stack.Screen name="Inspection" component={ResponsiceHoc(Inspection)} /> */}
           </>
           :
           <>
-          <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
-          <Stack.Screen name="start" component={ResponsiceHoc(start)} />
-          <Stack.Screen name="Summary" component={ResponsiceHoc(Summary)} />
-          <Stack.Screen name="Properties" component={Properties} />
-          <Stack.Screen name="PreparedFor" component={PreparedFor} />
-          <Stack.Screen name="PropertyLocation" component={ResponsiceHoc(PropertyLocation)} />
-          <Stack.Screen name="ManagementContact" component={ResponsiceHoc(ManagementContact)} />
-          <Stack.Screen name="TakePicture" component={ResponsiceHoc(TakePicture)} />
-          <Stack.Screen name="PreparedBy" component={ResponsiceHoc(PreparedBy)} />
-          <Stack.Screen name="Review" component={ResponsiceHoc(Review)} />
-          <Stack.Screen name="Inspection" component={ResponsiceHoc(Inspection)} />
-          <Stack.Screen name="AddLocation" component={AddLocation} />
-          <Stack.Screen name="Railing" component={ResponsiceHoc(Railing)} />
-          <Stack.Screen name="Flashing" component={ResponsiceHoc(Flashing)} />
-          <Stack.Screen name="DeckSurface" component={ResponsiceHoc(DeckSurface)} />
-          <Stack.Screen name="Framing" component={ResponsiceHoc(Framing)} />
-          <Stack.Screen name="Stairs" component={ResponsiceHoc(Stairs)} />
-          <Stack.Screen name="FinishInspection" component={ResponsiceHoc(FinishInspection)} />
-          <Stack.Screen name="CMain" component={CMain} />
-          <Stack.Screen name="UpdateCurrentReport" component={UpdateCurrentReport} />
-          <Stack.Screen name="CReport" component={CReport} />
-          <Stack.Screen name="CContent" component={CContent} />
-          <Stack.Screen name="CPropertiesforInspection" component={CPropertiesforInspection} />
-          <Stack.Screen name="CInspection" component={CInspection} />
-          <Stack.Screen name="CSummary" component={CSummary} />
-          <Stack.Screen name="CRailing" component={CRailing} />
-          <Stack.Screen name="CFlashing" component={CFlashing} />
-          <Stack.Screen name="CDeckSurface" component={CDeckSurface} />
-          <Stack.Screen name="CFraming" component={CFraming} />
-          <Stack.Screen name="CStairs" component={CStairs} />
-          <Stack.Screen name="CRequirementsGuide" component={CRequirementsGuide} />
+            <Stack.Screen name="PropertiesforInspection" component={PropertiesforInspection} />
+            <Stack.Screen name="start" component={ResponsiceHoc(start)} />
+            <Stack.Screen name="Summary" component={ResponsiceHoc(Summary)} />
+            <Stack.Screen name="Properties" component={Properties} />
+            <Stack.Screen name="PreparedFor" component={PreparedFor} />
+            <Stack.Screen name="PropertyLocation" component={ResponsiceHoc(PropertyLocation)} />
+            <Stack.Screen name="ManagementContact" component={ResponsiceHoc(ManagementContact)} />
+            <Stack.Screen name="TakePicture" component={ResponsiceHoc(TakePicture)} />
+            <Stack.Screen name="PreparedBy" component={ResponsiceHoc(PreparedBy)} />
+            <Stack.Screen name="Review" component={ResponsiceHoc(Review)} />
+            <Stack.Screen name="Inspection" component={ResponsiceHoc(Inspection)} />
+            <Stack.Screen name="AddLocation" component={AddLocation} />
+            <Stack.Screen name="Railing" component={ResponsiceHoc(Railing)} />
+            <Stack.Screen name="Flashing" component={ResponsiceHoc(Flashing)} />
+            <Stack.Screen name="DeckSurface" component={ResponsiceHoc(DeckSurface)} />
+            <Stack.Screen name="Framing" component={ResponsiceHoc(Framing)} />
+            <Stack.Screen name="Stairs" component={ResponsiceHoc(Stairs)} />
+            <Stack.Screen name="FinishInspection" component={ResponsiceHoc(FinishInspection)} />
+            <Stack.Screen name="CMain" component={CMain} />
+            <Stack.Screen name="UpdateCurrentReport" component={UpdateCurrentReport} />
+            <Stack.Screen name="CReport" component={CReport} />
+            <Stack.Screen name="CContent" component={CContent} />
+            <Stack.Screen name="CPropertiesforInspection" component={CPropertiesforInspection} />
+            <Stack.Screen name="CInspection" component={CInspection} />
+            <Stack.Screen name="CSummary" component={CSummary} />
+            <Stack.Screen name="CRailing" component={CRailing} />
+            <Stack.Screen name="CFlashing" component={CFlashing} />
+            <Stack.Screen name="CDeckSurface" component={CDeckSurface} />
+            <Stack.Screen name="CFraming" component={CFraming} />
+            <Stack.Screen name="CStairs" component={CStairs} />
+            <Stack.Screen name="CRequirementsGuide" component={CRequirementsGuide} />
           </>
-          }
-        </Stack.Navigator>
+        }
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
@@ -115,7 +115,7 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = dispatch => {
   return {
     callApi: (user, access_token) =>
-      dispatch(userActions.setUser({user, access_token})),
+      dispatch(userActions.setUser({ user, access_token })),
   };
 };
 

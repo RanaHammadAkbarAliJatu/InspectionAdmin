@@ -150,7 +150,7 @@ class TakePicture extends Component {
           leftPress={() => {
             Alert.alert(
               "Alert",
-              "Are you sure you want to re enter data",
+              "your current screen data will be lost, do you want to proceed",
               [
                 {
                   text: "Cancel",
@@ -191,7 +191,10 @@ class TakePicture extends Component {
                 onPress={() => {
                   if (this.state.Image) {
                     if (this?.props?.route?.params?.change) {
-                      this.update()
+                      if (this.isFormFilled()) {//chnge
+
+                        this.update()
+        }
                     } else {
                       this.props.navigation.navigate('PreparedBy', {
                         data: {

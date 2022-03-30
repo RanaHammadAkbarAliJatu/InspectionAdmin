@@ -288,7 +288,7 @@ class Framing extends Component {
                     leftPress={() => {
                         Alert.alert(
                             "Alert",
-                            "Are you sure you want to re enter data",
+                            "your current screen data will be lost, do you want to proceed",
                             [
                                 {
                                     text: "Cancel",
@@ -357,9 +357,11 @@ class Framing extends Component {
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Framing_id: itemValue });
                                     }}
+                                    pickerProps={{numberOfLines: 8}}
                                     items={this.state.framingType}
                                 />
                             </View>
+                            
                             <Text style={[styles.greytxt, { marginTop: 30 }]}>Framing findings</Text>
 
                             <View>
@@ -486,9 +488,9 @@ class Framing extends Component {
                     visible={this.state.modal}
                 >
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={{ height: 112, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
-                            <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new railing finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another railing find?</Text>
+                        <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
+                            <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new Framing finding</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Framing find?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text

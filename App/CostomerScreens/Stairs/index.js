@@ -101,7 +101,8 @@ class Stairs extends Component {
 
                         <View style={{ justifyContent: 'flex-end', alignItems: 'center' }}>
                             <TouchableOpacity
-                                onPress={() => this.props.navigation.navigate("CRequirementsGuide", { dataToSend: data })}
+                                onPress={() => this.props.navigation.navigate("PropertiesforInspection")}
+                                // onPress={() => this.props.navigation.navigate("CRequirementsGuide", { dataToSend: data })}
                                 style={[styles.itemView, { backgroundColor: '#282461', height: 45, justifyContent: 'center', marginBottom: 30 }]}>
                                 <Text style={[styles.itemTxt, { color: 'white' }]}>Finish report and proceed</Text>
                             </TouchableOpacity>

@@ -162,6 +162,7 @@ class PropertyLocation extends Component {
                   onChangeText={(value) => this.setState({ zip_code: value })}
                   value={this.state.zip_code}
                   placeholder='Zip code'
+                  keyboardType='numeric'
                   style={styles.TextInput}
                 />
               </ScrollView>

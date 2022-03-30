@@ -142,7 +142,6 @@ class Stairs extends Component {
             }, () => {
                 this.setState({ modal: false })
                 console.log(this.state.arrayData)
-         
             let sendData = {
                 "title": data.title,
                 "inspection_id": this?.props?.route?.params?.inspectionId,
@@ -257,7 +256,7 @@ class Stairs extends Component {
                     leftPress={() => {
                         Alert.alert(
                             "Alert",
-                            "Are you sure you want to re enter data",
+                            "your current screen data will be lost, do you want to proceed",
                             [
                                 {
                                     text: "Cancel",
@@ -322,6 +321,7 @@ class Stairs extends Component {
                                         label: 'Stair Type',
 
                                     }}
+                                    pickerProps={{numberOfLines: 8}}
                                     value={this.state.Stairs_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Stairs_id: itemValue });
@@ -438,9 +438,9 @@ class Stairs extends Component {
                     visible={this.state.modal}
                 >
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={{ height: 112, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
-                            <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new railing finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another railing find?</Text>
+                        <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
+                            <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new Stairs finding</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Stairs find?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text

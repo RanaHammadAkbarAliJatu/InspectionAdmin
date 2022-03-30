@@ -185,7 +185,7 @@ class Railing extends Component {
                     leftPress={() => {
                         Alert.alert(
                             "Alert",
-                            "Are you sure you want to re enter data",
+                            "your current screen data will be lost, do you want to proceed",
                             [
                                 {
                                     text: "Cancel",
@@ -246,6 +246,9 @@ class Railing extends Component {
                                         label: 'Rail Types',
 
                                     }}
+                                    // textInputProps={{multiline: true}}
+                                    pickerProps={{numberOfLines: 8}}
+                                    // useNativeAndroidPickerStyle={false}
                                     value={this.state.railing_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ railing_id: itemValue });
@@ -367,7 +370,7 @@ class Railing extends Component {
                     visible={this.state.modal}
                 >
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={{ height: 112, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
+                        <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
                             <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new railing finding</Text>
                             <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another railing find?</Text>
 
