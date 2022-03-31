@@ -2,12 +2,17 @@ import React, { Component } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFS from 'react-native-fs';
+import { PermissionsAndroid, Platform } from "react-native";
+import CameraRoll from "@react-native-community/cameraroll";
+
+
 class App extends Component {
   openPicker(type) {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
     }).then(image => {
+      this.savePicture(image.path)
       this.props.sendImage(type, image)
     });
   }
@@ -16,9 +21,29 @@ class App extends Component {
       width: 300,
       height: 400,
     }).then(image => {
+      this.savePicture(image.path)
       this.props.sendImage(type, image)
     });
   }
+  async  hasAndroidPermission() {
+    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+  
+    const hasPermission = await PermissionsAndroid.check(permission);
+    if (hasPermission) {
+      return true;
+    }
+  
+    const status = await PermissionsAndroid.request(permission);
+    return status === 'granted';
+  }
+  
+  async  savePicture(tag) {
+    if (Platform.OS === "android" && !(await this.hasAndroidPermission())) {
+      return;
+    }
+  
+    CameraRoll.save(tag, { type:"photo", album: "inspaction" })
+  };
   render() {
     return (
       <Modal

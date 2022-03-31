@@ -51,7 +51,7 @@ class Inspection extends Component {
                                     source={require('../../assets/back.png')} />
                             </TouchableOpacity>
 
-                            <Text style={[styles.itemTxt, { fontSize: 24 }]}>Inspection</Text>
+                            <Text style={[styles.itemTxt, { fontSize:16}]}>Inspection Locations</Text>
                         </View>
 
                         <Text style={{ fontSize: 12, fontWeight: '700', color: '#828282', marginTop: 20 }}>Inspections</Text>
