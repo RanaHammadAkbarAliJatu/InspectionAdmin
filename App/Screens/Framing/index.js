@@ -101,10 +101,9 @@ class Framing extends Component {
         this.setState({ ImageModalVisible: true, type: type })
     }
     isFormFilled() {
-
-        if (this.state.Framing_id === 0) {
+        if (this.state.Framing_id === 0 || this.state.Framing_id === undefined) {
             alert('Select Framing type');
-        } else if (this.state.FramingFinding.length === 0) {
+        }else if (this.state.FramingFinding.length === 0) {
             alert('Invalid Framing Finding');
         }
         else if (this.state.closeFImg === '') {
@@ -246,6 +245,7 @@ class Framing extends Component {
         }
     }
     render() {
+        const { framingData } = this.state
         return (
             <View style={styles.wrapperView}>
                 {this.state.loading && <Loader loading={this.state.loading} />}
@@ -295,7 +295,27 @@ class Framing extends Component {
                                     onPress: () => console.log("Cancel Pressed"),
                                     style: "cancel"
                                 },
-                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                                {
+                                    text: "Yes", onPress: () => {
+                                        if (framingData.length == 0) {
+                                            this.props.navigation.goBack()
+                                        } else {
+                                            this.setState({
+                                                closeFImg: this.state.framingData[this.state.framingData.length - 1].states.closeFImg,
+                                                LocFImg: this.state.framingData[this.state.framingData.length - 1].states.LocFImg,
+                                                FramingMaintainacne_id: this.state.framingData[this.state.framingData.length - 1].states.FramingMaintainacne_id,
+                                                sendcloseFImg: this.state.framingData[this.state.framingData.length - 1].states.sendcloseFImg,
+                                                sendLocFImg: this.state.framingData[this.state.framingData.length - 1].states.sendLocFImg
+                                            }, () => {
+                                                let arrayPop = [...framingData]
+                                                arrayPop.pop()
+                                                this.setState({
+                                                    framingData: arrayPop
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
                             ]
                         );
                     }}
@@ -357,12 +377,12 @@ class Framing extends Component {
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Framing_id: itemValue });
                                     }}
-                                    pickerProps={{numberOfLines: 8}}
+                                    pickerProps={{ numberOfLines: 8 }}
                                     items={this.state.framingType}
                                 />
                             </View>
-                            
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Framing findings</Text>
+
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Framing findings {framingData?.length + 1}</Text>
 
                             <View>
 
@@ -490,7 +510,7 @@ class Framing extends Component {
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
                             <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new Framing finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Framing find?</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Framing finding?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text
@@ -506,7 +526,14 @@ class Framing extends Component {
                                                 "framing_maintainence_id": this.state.FramingMaintainacne_id,
                                                 "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
                                                 "framing_closeup": this.state.sendcloseFImg,
-                                                "framing_photo": this.state.sendLocFImg
+                                                "framing_photo": this.state.sendLocFImg,
+                                                states: {
+                                                    closeFImg: this.state.closeFImg,
+                                                    LocFImg: this.state.LocFImg,
+                                                    FramingMaintainacne_id: this.state.FramingMaintainacne_id,
+                                                    sendcloseFImg: this.state.sendcloseFImg,
+                                                    sendLocFImg: this.state.sendLocFImg,
+                                                }
                                             })
                                             this.setState({
                                                 FramingFinding: '',

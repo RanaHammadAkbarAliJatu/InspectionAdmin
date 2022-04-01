@@ -63,8 +63,8 @@ class Railing extends Component {
         this.setState({ railingType: type });
     }
     isFormFilled() {
-
-        if (this.state.railing_id === 0) {
+        console.log(this.state.railing_id)
+        if (this.state.railing_id === 0 || this.state.railing_id === undefined) {
             alert('Select Raling type');
         } else if (this.state.railfin.length === 0) {
             alert('Invalid Railing Finding');
@@ -141,6 +141,8 @@ class Railing extends Component {
         }
     }
     render() {
+        const { ralingData } = this.state
+        console.log(ralingData)
         return (
             <View style={styles.wrapperView}>
                 <CamraModel
@@ -192,7 +194,30 @@ class Railing extends Component {
                                     onPress: () => console.log("Cancel Pressed"),
                                     style: "cancel"
                                 },
-                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                                {
+                                    text: "Yes", onPress: () => {
+                                        if (ralingData.length == 0) {
+                                            this.props.navigation.goBack()
+                                        } else {
+                                            this.setState({
+                                                railing_id: this.state.ralingData[this.state.ralingData.length - 1].states.railing_id,
+                                                railingMaintainance_id: this.state.ralingData[this.state.ralingData.length - 1].states.railingMaintainance_id,
+                                                sendcloseFImg: this.state.ralingData[this.state.ralingData.length - 1].states.sendcloseFImg,
+                                                sendLocFImg: this.state.ralingData[this.state.ralingData.length - 1].states.sendLocFImg,
+                                                railfin: this.state.ralingData[this.state.ralingData.length - 1].states.railfin,
+                                                closeFImg: this.state.ralingData[this.state.ralingData.length - 1].states.closeFImg,
+                                                LocFImg: this.state.ralingData[this.state.ralingData.length - 1].states.LocFImg
+                                            }, () => {
+                                                let arrayPop = [...ralingData]
+                                                arrayPop.pop()
+                                                this.setState({
+                                                    ralingData: arrayPop
+                                                })
+                                            })
+                                          
+                                        }
+                                    }
+                                }
                             ]
                         );
                     }}
@@ -247,7 +272,7 @@ class Railing extends Component {
 
                                     }}
                                     // textInputProps={{multiline: true}}
-                                    pickerProps={{numberOfLines: 8}}
+                                    pickerProps={{ numberOfLines: 8 }}
                                     // useNativeAndroidPickerStyle={false}
                                     value={this.state.railing_id}
                                     onValueChange={(itemValue, itemIndex) => {
@@ -256,7 +281,7 @@ class Railing extends Component {
                                     items={this.state.railingType}
                                 />
                             </View>
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings</Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings {ralingData?.length + 1}</Text>
 
                             <View>
 
@@ -372,7 +397,7 @@ class Railing extends Component {
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
                             <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new railing finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another railing find?</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another railing finding?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text
@@ -388,7 +413,16 @@ class Railing extends Component {
                                                 "railing_finding": this.state.railfin,
                                                 "railing_maintainence_id": this.state.railingMaintainance_id,
                                                 "railing_closeup": this.state.sendcloseFImg,
-                                                "railing_photo": this.state.sendLocFImg
+                                                "railing_photo": this.state.sendLocFImg,
+                                                states: {
+                                                    railing_id: this.state.railing_id,
+                                                    railingMaintainance_id: this.state.railingMaintainance_id,
+                                                    sendcloseFImg: this.state.sendcloseFImg,
+                                                    sendLocFImg: this.state.sendLocFImg,
+                                                    railfin: this.state.railfin,
+                                                    closeFImg: this.state.closeFImg,
+                                                    LocFImg: this.state.LocFImg
+                                                }
                                             })
                                             this.setState({
                                                 ralingData: arrayData,

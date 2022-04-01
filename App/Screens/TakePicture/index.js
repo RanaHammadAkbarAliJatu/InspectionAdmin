@@ -121,7 +121,6 @@ class TakePicture extends Component {
         }
       }
     })
-
   }
   render() {
     return (
@@ -133,7 +132,6 @@ class TakePicture extends Component {
           sendImage={(type, image) => {
             RNFS.readFile(image.path, 'base64')
               .then(res => {
-                console.log(res);
                 this.setState({
                   Image: res,
                   showImage: {
@@ -191,10 +189,7 @@ class TakePicture extends Component {
                 onPress={() => {
                   if (this.state.Image) {
                     if (this?.props?.route?.params?.change) {
-                      if (this.isFormFilled()) {//chnge
-
-                        this.update()
-        }
+                      this.update()
                     } else {
                       this.props.navigation.navigate('PreparedBy', {
                         data: {
@@ -206,13 +201,13 @@ class TakePicture extends Component {
                           TakePictureData: {
                             image: this.state.showImage,
                             sendimage: this.state.Image,
-  
+
                           }
                         }
                       })
                     }
-  
-                  
+
+
                   } else {
                     alert("Capture an image to proceed")
                   }

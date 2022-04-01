@@ -66,7 +66,7 @@ class DeckSurface extends Component {
     }
     isFormFilled() {
 
-        if (this.state.DeckSurface_id === 0) {
+        if (this.state.DeckSurface_id === 0 || this.state.DeckSurface_id === undefined) {
             alert('Select Deck Surface Type');
         } else if (this.state.DeckSurfaceFinding.length === 0) {
             alert('Invalid Railing Finding');
@@ -101,7 +101,7 @@ class DeckSurface extends Component {
             this.setState({
                 deckSurfaceData: arrayData
             }, () => {
-                this.props.navigation.navigate('Framing', { ...this.state.data,deckSurfaceData: this.state.deckSurfaceData, ralingData, flashingData, DeckSurface_id: 1, DeckSurfaceMaintainance_id: this.state.DeckSurfaceMaintainance_id, DeckSurfaceFinding: this.state.DeckSurfaceFinding, DeckCloseImg: this.state.sendcloseFImg, DeckLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+                this.props.navigation.navigate('Framing', { ...this.state.data, deckSurfaceData: this.state.deckSurfaceData, ralingData, flashingData, DeckSurface_id: 1, DeckSurfaceMaintainance_id: this.state.DeckSurfaceMaintainance_id, DeckSurfaceFinding: this.state.DeckSurfaceFinding, DeckCloseImg: this.state.sendcloseFImg, DeckLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
             })
         }
 
@@ -148,6 +148,7 @@ class DeckSurface extends Component {
         }
     }
     render() {
+        const { deckSurfaceData } = this.state
         return (
             <View style={styles.wrapperView}>
                 <CamraModel
@@ -195,7 +196,29 @@ class DeckSurface extends Component {
                                     onPress: () => console.log("Cancel Pressed"),
                                     style: "cancel"
                                 },
-                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                                {
+                                    text: "Yes", onPress: () => {
+                                        if (deckSurfaceData.length == 0) {
+                                            this.props.navigation.goBack()
+                                        } else {
+                                            this.setState({
+                                                DeckSurfaceFinding: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.DeckSurfaceFinding,
+                                                closeFImg: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.closeFImg,
+                                                sendcloseFImg: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.sendcloseFImg,
+                                                sendLocFImg: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.sendLocFImg,
+                                                LocFImg: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.LocFImg,
+                                                DeckSurfaceMaintainance_id: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.DeckSurfaceMaintainance_id,
+                                                DeckSurface_id: this.state.deckSurfaceData[this.state.deckSurfaceData.length - 1].states.DeckSurface_id
+                                            }, () => {
+                                                let arrayPop = [...deckSurfaceData]
+                                                arrayPop.pop()
+                                                this.setState({
+                                                    deckSurfaceData: arrayPop
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
                             ]
                         );
                     }}
@@ -257,11 +280,11 @@ class DeckSurface extends Component {
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ DeckSurface_id: itemValue });
                                     }}
-                                    pickerProps={{numberOfLines: 8}}
+                                    pickerProps={{ numberOfLines: 8 }}
                                     items={this.state.DeckSurfaceType}
                                 />
                             </View>
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Deck surface findings</Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Deck surface findings {deckSurfaceData?.length + 1}</Text>
 
                             <View>
 
@@ -372,7 +395,7 @@ class DeckSurface extends Component {
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
                             <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new Deck Surface finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Deck Surface find?</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Deck Surface finding?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text
@@ -388,7 +411,16 @@ class DeckSurface extends Component {
                                                 "deck_surface_finding": this.state.DeckSurfaceFinding,
                                                 "deck_maintainence_id": this.state.DeckSurfaceMaintainance_id,
                                                 "deck_surface_closeup": this.state.sendcloseFImg,
-                                                "deck_surface_photo": this.state.sendLocFImg
+                                                "deck_surface_photo": this.state.sendLocFImg,
+                                                states: {
+                                                    DeckSurfaceFinding: this.state.DeckSurfaceFinding,
+                                                    closeFImg: this.state.closeFImg,
+                                                    sendcloseFImg: this.state.sendcloseFImg,
+                                                    sendLocFImg: this.state.sendLocFImg,
+                                                    LocFImg: this.state.LocFImg,
+                                                    DeckSurfaceMaintainance_id: this.state.DeckSurfaceMaintainance_id,
+                                                    DeckSurface_id: this.state.DeckSurface_id,
+                                                }
                                             })
                                             this.setState({
                                                 DeckSurfaceFinding: '',

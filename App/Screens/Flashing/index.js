@@ -39,7 +39,7 @@ class Flashing extends Component {
             sendLocFImg: '',
             flashingFinding: '',
             flashingMaintainacne_id: 0,
-            flashing_id: 1,
+            flashing_id: 0,
             flasgin_type: '',
             modal: false,
             ImageModalVisible: false,
@@ -96,9 +96,8 @@ class Flashing extends Component {
         this.setState({ flasgin_type: type });
     }
     isFormFilled() {
-
-        if (this.state.flashingFinding.length === 0) {
-            alert('Invalid Railing Finding');
+      if (this.state.flashingFinding.length === 0) {
+            alert('Invalid Flashing Finding');
         }
         else if (this.state.closeFImg === '') {
             alert('Invlalid Close Image');
@@ -176,6 +175,7 @@ class Flashing extends Component {
         }
     }
     render() {
+        const {flashingData} = this.state
         return (
             <View style={styles.wrapperView}>
                 <CamraModel
@@ -224,7 +224,27 @@ class Flashing extends Component {
                                     onPress: () => console.log("Cancel Pressed"),
                                     style: "cancel"
                                 },
-                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                                { text: "Yes", onPress: () => {
+                                    if (flashingData.length == 0) {
+                                        this.props.navigation.goBack()
+                                    } else {
+                                        this.setState({
+                                            closeFImg: this.state.flashingData[this.state.flashingData.length - 1].states.closeFImg,
+                                            LocFImg: this.state.flashingData[this.state.flashingData.length - 1].states.LocFImg,
+                                            sendcloseFImg: this.state.flashingData[this.state.flashingData.length - 1].states.sendcloseFImg,
+                                            sendLocFImg: this.state.flashingData[this.state.flashingData.length - 1].states.sendLocFImg,
+                                            flashingFinding: this.state.flashingData[this.state.flashingData.length - 1].states.flashingFinding,
+                                            flashingMaintainacne_id: this.state.flashingData[this.state.flashingData.length - 1].states.flashingMaintainacne_id,
+                                            flashing_id: this.state.flashingData[this.state.flashingData.length - 1].states.flashing_id
+                                        }, () => {
+                                            let arrayPop = [...flashingData]
+                                            arrayPop.pop()
+                                            this.setState({
+                                                flashingData: arrayPop
+                                            })
+                                        })
+                                    }
+                                } }
                             ]
                         );
                     }}
@@ -289,7 +309,7 @@ class Flashing extends Component {
                                 items={this.state.flasgin_type}
                             /> */}
 
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}> flashing/caulking findings</Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}> flashing/caulking findings {flashingData?.length + 1}</Text>
 
                             <View>
 
@@ -402,7 +422,7 @@ class Flashing extends Component {
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
                             <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new Flashing/Caulking finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Flashing/Caulking find?</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Flashing/Caulking finding?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text
@@ -417,7 +437,16 @@ class Flashing extends Component {
                                                 "flashing_finding": this.state.flashingFinding,
                                                 "flashing_maintainence_id": this.state.flashingMaintainacne_id,
                                                 "flashing_closeup": this.state.sendcloseFImg,
-                                                "flashing_photo": this.state.sendLocFImg
+                                                "flashing_photo": this.state.sendLocFImg,
+                                                states: {
+                                                    closeFImg: this.state.closeFImg,
+                                                    LocFImg: this.state.LocFImg,
+                                                    sendcloseFImg: this.state.sendcloseFImg,
+                                                    sendLocFImg: this.state.sendLocFImg,
+                                                    flashingFinding: this.state.flashingFinding,
+                                                    flashingMaintainacne_id:this.state.flashingMaintainacne_id,
+                                                    flashing_id:this.state.flashing_id,
+                                                }
                                             })
                                             this.setState({
                                                 flashingData: arrayData,
@@ -427,7 +456,7 @@ class Flashing extends Component {
                                                 sendLocFImg: '',
                                                 flashingFinding: '',
                                                 flashingMaintainacne_id: 0,
-                                                flashing_id: 1,
+                                                flashing_id: 0,
                                                 modal: false,
                                                 ImageModalVisible: false,
                                                 type: 0,

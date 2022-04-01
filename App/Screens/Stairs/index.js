@@ -100,7 +100,7 @@ class Stairs extends Component {
     }
     isFormFilled() {
 
-        if (this.state.Stairs_id === 0) {
+        if (this.state.Stairs_id === 0 || this.state.Stairs_id === undefined) {
             alert('Select Stairs type');
         } else if (this.state.StairsFinding.length === 0) {
             alert('Invalid Railing Finding');
@@ -122,7 +122,7 @@ class Stairs extends Component {
     }
 
     AddLocation() {
-        this.setState({ loading: true },() =>{
+        this.setState({ loading: true }, () => {
             const { ralingData, flashingData, deckSurfaceData, framingData } = this?.props?.route?.params;
             const token = this.props.userToken;
             console.log(token)
@@ -142,38 +142,38 @@ class Stairs extends Component {
             }, () => {
                 this.setState({ modal: false })
                 console.log(this.state.arrayData)
-            let sendData = {
-                "title": data.title,
-                "inspection_id": this?.props?.route?.params?.inspectionId,
-                "railings": ralingData,
-                "flashings": flashingData,
-                "deckSurfaces": deckSurfaceData,
-                "framings": framingData,
-                "stairs_maintainence_id": this.state.StairsMaintaince_id,
-                "stairs": this.state.stairsData
-            }
-            console.log(sendData,"sendData")
-    
-            CreateLocationInspection(sendData, token).then(response => {
-                console.log(response)
-                this.setState({ loading: false });
-                if (response.status === 200 && !response.data.error) {
-    
-                    this.props.navigation.navigate('PropertiesforInspection')
-                    console.log(response, "response")
-    
+                let sendData = {
+                    "title": data.title,
+                    "inspection_id": this?.props?.route?.params?.inspectionId,
+                    "railings": ralingData,
+                    "flashings": flashingData,
+                    "deckSurfaces": deckSurfaceData,
+                    "framings": framingData,
+                    "stairs_maintainence_id": this.state.StairsMaintaince_id,
+                    "stairs": this.state.stairsData
                 }
-                else {
-                    alert("Some thing Went Wrong")
-                }
-            }).catch((err) => {
-                console.log(err.message);
-                this.setState({ loading: false });
-    
-            });
-        })
+                console.log(sendData, "sendData")
+
+                CreateLocationInspection(sendData, token).then(response => {
+                    console.log(response)
+                    this.setState({ loading: false });
+                    if (response.status === 200 && !response.data.error) {
+
+                        this.props.navigation.navigate('PropertiesforInspection')
+                        console.log(response, "response")
+
+                    }
+                    else {
+                        alert("Some thing Went Wrong")
+                    }
+                }).catch((err) => {
+                    console.log(err.message);
+                    this.setState({ loading: false });
+
+                });
+            })
         });
-       
+
     }
 
     getSelectedMaintainance() {
@@ -217,6 +217,7 @@ class Stairs extends Component {
         }
     }
     render() {
+        const { stairsData } = this.state
         return (
             <View style={styles.wrapperView}>
                 <CamraModel
@@ -263,7 +264,30 @@ class Stairs extends Component {
                                     onPress: () => console.log("Cancel Pressed"),
                                     style: "cancel"
                                 },
-                                { text: "Yes", onPress: () => this.props.navigation.goBack() }
+                                {
+                                    text: "Yes", onPress: () => {
+                                        console.log(stairsData.length)
+                                        if (stairsData.length == 0) {
+                                            this.props.navigation.goBack()
+                                        } else {
+                                            this.setState({
+                                                StaircloseFImg: this.state.stairsData[this.state.stairsData.length - 1].states.StaircloseFImg,
+                                                StairLocFImg: this.state.stairsData[this.state.stairsData.length - 1].states.StairLocFImg,
+                                                sendStaircloseFImg: this.state.stairsData[this.state.stairsData.length - 1].states.sendStaircloseFImg,
+                                                sendStairLocFImg: this.state.stairsData[this.state.stairsData.length - 1].states.sendStairLocFImg,
+                                                Stairs_id: this.state.stairsData[this.state.stairsData.length - 1].states.Stairs_id,
+                                                StairsFinding: this.state.stairsData[this.state.stairsData.length - 1].states.StairsFinding,
+                                                StairsMaintaince_id: this.state.stairsData[this.state.stairsData.length - 1].states.StairsMaintaince_id
+                                            }, () => {
+                                                let arrayPop = [...stairsData]
+                                                arrayPop.pop()
+                                                this.setState({
+                                                    stairsData: arrayPop
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
                             ]
                         );
                     }}
@@ -321,7 +345,7 @@ class Stairs extends Component {
                                         label: 'Stair Type',
 
                                     }}
-                                    pickerProps={{numberOfLines: 8}}
+                                    pickerProps={{ numberOfLines: 8 }}
                                     value={this.state.Stairs_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Stairs_id: itemValue });
@@ -329,7 +353,7 @@ class Stairs extends Component {
                                     items={this.state.StairType}
                                 />
                             </View>
-                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Stairs findings</Text>
+                            <Text style={[styles.greytxt, { marginTop: 30 }]}>Stairs findings {stairsData?.length + 1}</Text>
 
                             <View>
 
@@ -440,7 +464,7 @@ class Stairs extends Component {
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ height: 130, borderRadius: 10, width: SCREEN.width - 40, alignSelf: 'center', backgroundColor: "white" }}>
                             <Text style={[styles.itemTxt, { marginTop: 20, marginLeft: 20 }]}>Add new Stairs finding</Text>
-                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Stairs find?</Text>
+                            <Text style={[styles.greytxt, { marginTop: 10, marginLeft: 20 }]}>Do you want to proceed with another Stairs finding?</Text>
 
                             <View style={{ width: 60, marginTop: 20, marginRight: 20, alignSelf: 'flex-end', flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text
@@ -456,7 +480,16 @@ class Stairs extends Component {
                                                 "stairs_maintainence_id": this.state.StairsMaintaince_id,
                                                 "stairs_finding": this.state.StairsFinding,
                                                 "stairs_closeup": this.state.sendStaircloseFImg,
-                                                "stairs_photo": this.state.sendStairLocFImg
+                                                "stairs_photo": this.state.sendStairLocFImg,
+                                                states: {
+                                                    StaircloseFImg: this.state.StaircloseFImg,
+                                                    StairLocFImg: this.state.StairLocFImg,
+                                                    sendStaircloseFImg: this.state.sendStaircloseFImg,
+                                                    sendStairLocFImg: this.state.sendStairLocFImg,
+                                                    Stairs_id: this.state.Stairs_id,
+                                                    StairsFinding: this.state.StairsFinding,
+                                                    StairsMaintaince_id: this.state.StairsMaintaince_id,
+                                                }
                                             })
                                             this.setState({
                                                 StaircloseFImg: '',

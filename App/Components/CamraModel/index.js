@@ -42,7 +42,7 @@ class App extends Component {
       return;
     }
   
-    CameraRoll.save(tag, { type:"photo", album: "inspaction" })
+    CameraRoll.save(tag, { type:"photo", album: "inspection" })
   };
   render() {
     return (

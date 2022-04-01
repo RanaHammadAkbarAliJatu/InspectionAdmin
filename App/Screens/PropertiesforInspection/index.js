@@ -21,7 +21,7 @@ import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import { Get_Inspection_List, ListLocationInspection } from '../../helper/api';
 import FastImage from 'react-native-fast-image'
-
+import Moment from 'moment';
 class PropertiesforInspection extends Component {
     constructor(props) {
         super(props);
@@ -106,7 +106,7 @@ class PropertiesforInspection extends Component {
                                             />
 
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
-                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{item.created_at}</Text>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>{Moment(item.created_at).format('DD MMM YYYY')}{}</Text>
                                                 <TouchableOpacity style={{ flexDirection: 'row' }}
                                                     onPress={() => {
                                                         if (item.pdf_link) {
@@ -125,8 +125,8 @@ class PropertiesforInspection extends Component {
                                                 <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>Business Owner Name: {item?.prepared_for?.owner_name}</Text>
                                             </View>
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
-                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>State: {item?.property_location?.state}</Text>
                                                 <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>City: {item?.property_location?.city}</Text>
+                                                <Text style={[styles.itemTxt, { fontSize: 12, textAlign: 'center', fontWeight: "bold" }]}>State: {item?.property_location?.state}</Text>
                                             </View>
                                             {/* <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: "center", width: '90%', alignSelf: "center", marginTop: 10 }}>
 

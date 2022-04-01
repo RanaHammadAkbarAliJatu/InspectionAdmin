@@ -140,6 +140,7 @@ class ManagementContact extends Component {
       <View
         style={styles.wrapperView}>
             <Header
+            show={this?.props?.route?.params?.change ? false: true}
              leftPress={() =>{
               Alert.alert(
                   "Alert",
@@ -218,10 +219,11 @@ class ManagementContact extends Component {
         <View style={{flex:0.15 ,justifyContent:'flex-end'}}>
             <TouchableOpacity 
              onPress={() => {
+              var  that = this
               if(this?.props?.route?.params?.change){
-                if (this.isFormFilled()) {//chnge
+                if (that?.isFormFilled()) {//chnge
 
-                  this.update()
+                  that.update()
   }
               }else{
                 this.Pass()

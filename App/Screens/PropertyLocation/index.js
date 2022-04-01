@@ -54,7 +54,8 @@ class PropertyLocation extends Component {
         address2: PropertyLocationData.address2,
         state: PropertyLocationData.propstate,
         zip_code: PropertyLocationData.zip_code,
-        city: PropertyLocationData.propcity
+        city: PropertyLocationData.propcity,
+
       })
     }
   }
@@ -165,6 +166,8 @@ class PropertyLocation extends Component {
               ]
             );
           }}
+          
+          show={this?.props?.route?.params?.change ? false: true}
         />
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flex: 1, paddingHorizontal: 20, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
@@ -208,6 +211,7 @@ class PropertyLocation extends Component {
                   <SelectDropdown
                     data={countries}
                     defaultButtonText={"Select State"}
+                    value={this.state.state}
                     onSelect={(selectedItem, index) => {
                       console.log(selectedItem, index)
                       this.setState({ state: selectedItem })
@@ -231,6 +235,7 @@ class PropertyLocation extends Component {
                   value={this.state.zip_code}
                   placeholder='Zip code'
                   keyboardType='numeric'
+                  maxLength={5}
                   style={styles.TextInput}
                 />
               </ScrollView>
@@ -241,10 +246,11 @@ class PropertyLocation extends Component {
             <View style={{ flex: 0.15, justifyContent: 'flex-end' }}>
               <TouchableOpacity
                 onPress={() => {
+                  const that = this
                   if(this?.props?.route?.params?.change){
-                    if (this.isFormFilled()) {//chnge
+                    if (that?.isFormFilled()) {//chnge
 
-                      this.update()
+                      that.update()
       }
                   }else{
                     this.Pass()

@@ -77,20 +77,20 @@ class Review extends Component {
 
             image_url: TakePictureData.sendimage,
 
-            pfor_phone: PreparedByData.pforNumber,
-            pfor_email: PreparedByData.pforEmail,
-            pfor_date: PreparedByData.pforDate,
-            pfor_name: PreparedByData.pforName
+            pfor_phone: "(916) 238-0618",
+            pfor_email: 'dan@deckandbalconyinspections.com',
+            pfor_date: PreparedByData.pfor_date,
+            pfor_name: PreparedByData.pfor_name
         }
         console.log(dataToSend, "dataToSend");
         const token = this.props.userToken;
 
         await CreateInspection(token, dataToSend).then(response => {
             console.log(response, "response");
+            this.setState({ loading: false });
             if (response.status === 200 && !response.data.error) {
-                this.setState({ loading: false });
                 if (response.data.success) {
-                    this.props.callApi(response.data)
+                    // this.props.callApi(response.data,response.data.response.token.accessToken,)
                     this.props.navigation.navigate('PropertiesforInspection') 
                 }
                 else {
@@ -156,7 +156,7 @@ class Review extends Component {
                                 <Text>{PreparedForData?.city}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Zip code</Text>
+                                <Text>State</Text>
                                 <Text>{PreparedForData?.state}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
@@ -280,15 +280,15 @@ class Review extends Component {
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
                                 <Text>Business name</Text>
-                                <Text>{PreparedByData?.pfor_name}</Text>
+                                <Text>Deck and Balcony Inspection Inc.</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
                                 <Text>Contact number</Text>
                                 <Text>{PreparedByData?.pfor_phone}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Email address</Text>
-                                <Text>{PreparedByData?.pfor_email}</Text>
+                                <Text>Email address:</Text>
+                                <Text style={{fontSize: 12}}>{PreparedByData?.pfor_email}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
                                 <Text>Name</Text>
