@@ -50,8 +50,8 @@ class PreparedBy extends Component {
         TakePictureData,
         PreparedByData } = this?.props?.route?.params
       this.setState({
-        pfor_date: PreparedByData.pfor_name,
-        pfor_name: PreparedByData.pfor_date,
+        pforName: PreparedByData.pfor_name,
+        pforDate: PreparedByData.pfor_date,
       })
     }
   }
@@ -177,6 +177,8 @@ class PreparedBy extends Component {
       <View
         style={styles.wrapperView}>
         <Header
+            show={this?.props?.route?.params?.change ? false: true}
+
           leftPress={() => {
             Alert.alert(
               "Alert",
@@ -281,10 +283,11 @@ class PreparedBy extends Component {
             <View style={{ flex: 0.15, justifyContent: 'flex-end' }}>
               <TouchableOpacity
                 onPress={() => {
+                  const that = this
                   if (this?.props?.route?.params?.change) {
-                    if (this.isFormFilled()) {//chnge
+                    if (that?.isFormFilled()) {//chnge
 
-                      this.update()
+                      that.update()
       }
                   } else {
                     this.CreateInspection()
