@@ -617,6 +617,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'lightgrey',
         paddingLeft: 10,
+        color: 'black',
         borderRadius: 10,
         marginTop: 20
     },

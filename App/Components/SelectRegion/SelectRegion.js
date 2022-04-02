@@ -55,10 +55,11 @@ const SelectRegion = (props) => {
         <View style={{ flex:1}}>
              <SafeAreaView style={{flex:1, paddingVertical: 20}}>
                 <TextInput
-                    style={{ borderWidth: 1, borderColor: 'grey', height: 50, width: SCREEN.width -70, alignSelf:'center', borderRadius:15,paddingLeft:20,marginBottom:20}}
+                    style={{ color: 'black', borderWidth: 1, borderColor: 'grey', height: 50, width: SCREEN.width -70, alignSelf:'center', borderRadius:15,paddingLeft:20,marginBottom:20}}
                     value={search}
                     onChangeText={(value) => searchFilter(value)}
                     placeholder={"Seacrh Here"}
+                    
                 />
               <View style={{width:SCREEN.width-70, alignSelf:'center',height:SCREEN.height/1.3}}>
                     <FlatList

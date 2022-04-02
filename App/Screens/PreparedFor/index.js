@@ -313,6 +313,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     alignItems: 'center',
     borderRadius: 10,
+    color: 'black',
     paddingLeft: 40,
     marginBottom: 10,
 

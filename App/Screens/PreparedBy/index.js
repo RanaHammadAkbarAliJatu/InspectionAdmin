@@ -319,6 +319,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 40,
     marginBottom: 10,
+    color: 'black',
   },
   Btn: {
     width: '100%',

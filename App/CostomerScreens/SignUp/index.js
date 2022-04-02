@@ -158,7 +158,7 @@ class SignUp extends Component {
         <View style={[styles.TextInput,{marginTop: 20, paddingLeft: 10 ,flexDirection:'row'}]}>
 
         <TextInput
-        style={{ width: 30}}
+        style={{ width: 30, color: 'black'}}
         placeholder='+92'
         onChangeText={(value)=> this.setState({country_code: value})}
         // placeholderTextColor={'lightgrey'}
@@ -170,7 +170,7 @@ class SignUp extends Component {
 
 
       <TextInput
-        style={{ width: '80%', paddingLeft: 20}}
+        style={{ width: '80%', color: 'black',paddingLeft: 20}}
         placeholder='Number'
         onChangeText={(value)=> this.setState({number: value})}
         // placeholderTextColor={'lightgrey'}
@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
   TextInput:{
       width: '100%',
       height: 45,
+      color: 'black',
       borderWidth: 1,
       borderColor: 'lightgrey',
      alignItems:'center',

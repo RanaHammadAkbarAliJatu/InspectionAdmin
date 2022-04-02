@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
         width: SCREEN.width - 40,
         height: 100,
         borderWidth: 1,
+        color: 'black',
         borderColor: 'lightgrey',
         paddingLeft: 10,
         borderRadius: 10,

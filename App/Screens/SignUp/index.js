@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderWidth: 1,
     borderColor: 'lightgrey',
+    color: 'black',
     alignItems: 'center',
     borderRadius: 10,
     paddingLeft: 40
