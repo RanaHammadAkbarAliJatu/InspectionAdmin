@@ -203,7 +203,8 @@ class UpdateCurrentReport extends Component {
 
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ street_address: val })}
                                     multiline={true}
                                     numberOfLines={4}
@@ -213,7 +214,8 @@ class UpdateCurrentReport extends Component {
                             </View>
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ location_for: val })}
                                     multiline={true}
                                     numberOfLines={4}

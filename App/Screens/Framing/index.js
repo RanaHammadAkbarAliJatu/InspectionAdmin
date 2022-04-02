@@ -436,7 +436,8 @@ class Framing extends Component {
 
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ FramingFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}

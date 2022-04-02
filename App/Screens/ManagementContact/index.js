@@ -163,20 +163,23 @@ class ManagementContact extends Component {
         bounces={false}
         style={{flex:1}}>
         
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         onChangeText={(value)=> this.setState({manage_name:value})}
         value={this.state.manage_name}
         placeholder='Name'
         style={[styles.TextInput,{marginTop: 30}]}
         />
-          <TextInput
+           <TextInput
+        placeholderTextColor={'lightgrey'}
            onChangeText={(value)=> this.setState({manage_address:value})}
         value={this.state.manage_address}
         placeholder='Address'
         style={styles.TextInput}
         />
 
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
          onChangeText={(value)=> this.setState({manage_phone:value})}
         value={this.state.manage_phone}
         keyboardType='numeric'
@@ -185,7 +188,8 @@ class ManagementContact extends Component {
         />
 
   
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
          onChangeText={(value)=> this.setState({manage_email:value})}
         value={this.state.manage_email}
         placeholder='Email address'
@@ -193,7 +197,8 @@ class ManagementContact extends Component {
         />
 
 
-          <TextInput
+           <TextInput
+        placeholderTextColor={'lightgrey'}
            onChangeText={(value)=> this.setState({manage_siteContact:value})}
         value={this.state.manage_siteContact}
         placeholder='Site contact'

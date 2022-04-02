@@ -54,7 +54,8 @@ const SelectRegion = (props) => {
 
         <View style={{ flex:1}}>
              <SafeAreaView style={{flex:1, paddingVertical: 20}}>
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                     style={{ color: 'black', borderWidth: 1, borderColor: 'grey', height: 50, width: SCREEN.width -70, alignSelf:'center', borderRadius:15,paddingLeft:20,marginBottom:20}}
                     value={search}
                     onChangeText={(value) => searchFilter(value)}

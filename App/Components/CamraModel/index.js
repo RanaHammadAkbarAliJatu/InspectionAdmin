@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginVertical: 15,
-    textAlign: "center"
+    textAlign: "center",
+    color: 'black', 
   }
 });
 

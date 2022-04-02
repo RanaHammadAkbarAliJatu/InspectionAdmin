@@ -196,19 +196,22 @@ class PreparedFor extends Component {
                 bounces={false}
                 style={{ flex: 1 }}>
 
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ owner_name: value })}
                   value={this.state.owner_name}
                   placeholder='Business or owner’s name'
                   style={[styles.TextInput, { marginTop: 30 }]}
                 />
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ address: value })}
                   value={this.state.address}
                   placeholder='Address'
                   style={styles.TextInput}
                 />
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ email: value })}
                   placeholder='Email'
                   value={this.state.email}
@@ -218,7 +221,8 @@ class PreparedFor extends Component {
                   <Image
                     style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
                     source={require('../../assets/down.png')} />
-                  {/* <TextInput
+                  {/*  <TextInput
+        placeholderTextColor={'lightgrey'}
                     onChangeText={(value) => this.setState({ state: value })}
                     placeholder='State'
                     style={styles.TextInput}
@@ -238,14 +242,16 @@ class PreparedFor extends Component {
                   <Image
                     style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
                     source={require('../../assets/down.png')} />
-                  <TextInput
+                   <TextInput
+        placeholderTextColor={'lightgrey'}
                     onChangeText={(value) => this.setState({ city: value })}
                     placeholder='City'
                     value={this.state.city}
                     style={styles.TextInput}
                   />
                 </View>
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ country_code: value })}
                   value={this.state.country_code}
                   placeholder='Zip code'
@@ -253,7 +259,8 @@ class PreparedFor extends Component {
                   maxLength={5}
                   style={styles.TextInput}
                 />
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ phone: value })}
                   value={this.state.phone}
                   placeholder='00 000 0000'

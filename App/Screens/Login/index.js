@@ -125,7 +125,8 @@ class Login extends Component {
         <Image 
         style={{width: 14, height:10, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/email.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         onChangeText={(value)=> this.setState({email: value})}
         placeholder='Email address'
@@ -138,7 +139,8 @@ class Login extends Component {
         <Image 
         style={{width: 12, height:17, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/pass.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         onChangeText={(value)=> this.setState({password: value})}
         placeholder='Password'

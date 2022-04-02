@@ -326,7 +326,8 @@ class Railing extends Component {
 
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ railfin: val })}
                                     multiline={true}
                                     numberOfLines={4}

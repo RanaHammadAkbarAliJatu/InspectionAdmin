@@ -331,7 +331,8 @@ class DeckSurface extends Component {
 
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ DeckSurfaceFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}

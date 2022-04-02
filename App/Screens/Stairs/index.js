@@ -430,7 +430,8 @@ class Stairs extends Component {
 
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ StairsFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}

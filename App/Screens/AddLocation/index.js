@@ -64,7 +64,8 @@ async componentDidMount(){
                             <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                             <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>(Location of inspection here)</Text>
                         </View> */}
-                        <TextInput
+                         <TextInput
+        placeholderTextColor={'lightgrey'}
                         onChangeText={(val)=> this.setState({InspectionLocationName:val})}
                             multiline={true}
                             numberOfLines={4}

@@ -200,14 +200,16 @@ class PreparedBy extends Component {
                 bounces={false}
                 style={{ flex: 1 }}>
 
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforBusinessName: val })}
                   placeholder='Deck and Balcony Inspection Inc.'
                   value={this.state.pforBusinessName}
                   style={[styles.TextInput, { marginTop: 30 }]}
                   editable={false}
                 />
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforNumber: val })}
                   value={this.state.pforNumber}
                   placeholder='(916) 238-0618'
@@ -216,7 +218,8 @@ class PreparedBy extends Component {
 
                 />
 
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforEmail: val })}
                   value={this.state.pforEmail}
                   placeholder='dan@deckandbalconyinspections.com'
@@ -226,7 +229,8 @@ class PreparedBy extends Component {
                 />
 
 
-                <TextInput
+                 <TextInput
+        placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforName: val })}
                   value={this.state.pforName}
                   placeholder='Dan Cronk'
@@ -255,7 +259,8 @@ class PreparedBy extends Component {
                 />
                 <TouchableOpacity onPress={() => { this.setState({ open: true }) }}>
 
-                  <TextInput
+                   <TextInput
+        placeholderTextColor={'lightgrey'}
                     onChangeText={(val) => this.setState({ pforDate: val })}
                     value={this.state.pforDate ? this.state.pforDate : ''}
                     placeholder='28/12/2021'

@@ -326,7 +326,8 @@ class Flashing extends Component {
 
                             <View>
 
-                                <TextInput
+                                 <TextInput
+        placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ flashingFinding: val })}
                                     multiline={true}
                                     value={this.state.flashingFinding}

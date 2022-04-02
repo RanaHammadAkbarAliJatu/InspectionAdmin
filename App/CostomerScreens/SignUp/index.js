@@ -134,7 +134,8 @@ class SignUp extends Component {
         <Image 
         style={{width: 14, height:17, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/prof.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         placeholder='First name'
         onChangeText={(value)=> this.setState({first_name: value})}
@@ -147,7 +148,8 @@ class SignUp extends Component {
         <Image 
         style={{width: 14, height:17, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/prof.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         placeholder='Last name'
         onChangeText={(value)=> this.setState({last_name: value})}
@@ -157,7 +159,8 @@ class SignUp extends Component {
 
         <View style={[styles.TextInput,{marginTop: 20, paddingLeft: 10 ,flexDirection:'row'}]}>
 
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={{ width: 30, color: 'black'}}
         placeholder='+92'
         onChangeText={(value)=> this.setState({country_code: value})}
@@ -169,7 +172,8 @@ class SignUp extends Component {
         />
 
 
-      <TextInput
+       <TextInput
+        placeholderTextColor={'lightgrey'}
         style={{ width: '80%', color: 'black',paddingLeft: 20}}
         placeholder='Number'
         onChangeText={(value)=> this.setState({number: value})}
@@ -182,7 +186,8 @@ class SignUp extends Component {
         <Image 
         style={{width: 14, height:10.5, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/email.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         placeholder='Email'
         onChangeText={(value)=> this.setState({email: value})}
@@ -195,7 +200,8 @@ class SignUp extends Component {
         <Image 
         style={{width: 12, height:17, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/pass.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         onChangeText={(value)=> this.setState({password: value})}
         placeholder='Set password'
@@ -209,7 +215,8 @@ class SignUp extends Component {
         <Image 
         style={{width: 12, height:17, resizeMode:'contain', position:'absolute', top:17, left: 15}}
         source={require('../../assets/pass.png')}/>
-        <TextInput
+         <TextInput
+        placeholderTextColor={'lightgrey'}
         style={styles.TextInput}
         onChangeText={(value)=> this.setState({confirmPassword: value})}
         placeholder='Confirm password'
