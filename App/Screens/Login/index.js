@@ -129,7 +129,7 @@ class Login extends Component {
         style={styles.TextInput}
         onChangeText={(value)=> this.setState({email: value})}
         placeholder='Email address'
-        placeholderTextColor={'lightgrey'}
+        // placeholderTextColor={'lightgrey'}
         />
         </View>
 
@@ -143,7 +143,7 @@ class Login extends Component {
         onChangeText={(value)=> this.setState({password: value})}
         placeholder='Password'
         secureTextEntry={true}
-        placeholderTextColor={'lightgrey'}
+        // placeholderTextColor={'lightgrey'}
         />
         </View>
         <View style={{flex:1, justifyContent:'flex-end'}}>

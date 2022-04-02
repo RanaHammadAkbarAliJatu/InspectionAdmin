@@ -153,18 +153,7 @@ class PropertyLocation extends Component {
         style={styles.wrapperView}>
         <Header
           leftPress={() => {
-            Alert.alert(
-              "Alert",
-              "your current screen data will be lost, do you want to proceed",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                { text: "Yes", onPress: () => this.props.navigation.goBack() }
-              ]
-            );
+            this.props.navigation.goBack()
           }}
           
           show={this?.props?.route?.params?.change ? false: true}

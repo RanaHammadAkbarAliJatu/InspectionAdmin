@@ -146,18 +146,7 @@ class TakePicture extends Component {
         />
         <Header
           leftPress={() => {
-            Alert.alert(
-              "Alert",
-              "your current screen data will be lost, do you want to proceed",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                { text: "Yes", onPress: () => this.props.navigation.goBack() }
-              ]
-            );
+            this.props.navigation.goBack()
           }}
         />
         <ImageBackground

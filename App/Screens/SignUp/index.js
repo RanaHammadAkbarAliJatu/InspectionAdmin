@@ -136,7 +136,7 @@ class SignUp extends Component {
                     style={styles.TextInput}
                     placeholder='First name'
                     onChangeText={(value) => this.setState({ first_name: value })}
-                    placeholderTextColor={'lightgrey'}
+                    // placeholderTextColor={'lightgrey'}
                   />
                 </View>
 
@@ -149,7 +149,7 @@ class SignUp extends Component {
                     style={styles.TextInput}
                     placeholder='Last name'
                     onChangeText={(value) => this.setState({ last_name: value })}
-                    placeholderTextColor={'lightgrey'}
+                    // placeholderTextColor={'lightgrey'}
                   />
                 </View>
 
@@ -159,7 +159,7 @@ class SignUp extends Component {
                     style={{ width: 30 }}
                     placeholder='+92'
                     onChangeText={(value) => this.setState({ country_code: value })}
-                    placeholderTextColor={'lightgrey'}
+                    // placeholderTextColor={'lightgrey'}
                   />
 
                   <View
@@ -171,7 +171,7 @@ class SignUp extends Component {
                     style={{ width: '80%', paddingLeft: 20 }}
                     placeholder='Number'
                     onChangeText={(value) => this.setState({ number: value })}
-                    placeholderTextColor={'lightgrey'}
+                    // placeholderTextColor={'lightgrey'}
                   />
                 </View> */}
 
@@ -184,7 +184,7 @@ class SignUp extends Component {
                     style={styles.TextInput}
                     placeholder='Email'
                     onChangeText={(value) => this.setState({ email: value })}
-                    placeholderTextColor={' '}
+                    // placeholderTextColor={' '}
                   />
                 </View>
 
@@ -198,7 +198,7 @@ class SignUp extends Component {
                     onChangeText={(value) => this.setState({ password: value })}
                     placeholder='Set password'
                     secureTextEntry={true}
-                    placeholderTextColor={' '}
+                    // placeholderTextColor={' '}
                   />
                 </View>
 
@@ -211,7 +211,7 @@ class SignUp extends Component {
                     style={styles.TextInput}
                     onChangeText={(value) => this.setState({ confirmPassword: value })}
                     placeholder='Confirm password'
-                    placeholderTextColor={' '}
+                    // placeholderTextColor={' '}
                     secureTextEntry={true}
                   />
                 </View>
