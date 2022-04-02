@@ -47,11 +47,11 @@ class Inspection extends Component {
 
                         <Text style={[styles.itemTxt,{fontWeight:'400', marginTop: 20}]}> 
                             For an Inspection Report to be SB-721 compliant, there are 5 specific items that must be inspected at each selected elevated element. They are:
-                           {'\n'}<Text>{'\u2022'}</Text> Deck Railings – In order to ensure safety and provide protection against falls.
-                           {'\n'}<Text>{'\u2022'}</Text> Flashings and Caulking – In order to prevent moisture intrusion and reduce the likelihood of dry rot.
-                           {'\n'}<Text>{'\u2022'}</Text> Deck Surfaces – In order to ensure occupant safety.
-                           {'\n'}<Text>{'\u2022'}</Text> Framing – In order to ensure structural integrity.
-                           {'\n'}<Text>{'\u2022'}</Text> Stairs – Only exterior stairs require inspection.
+                           {'\n'}<Text style={{color: 'black'}}>{'\u2022'}</Text> Deck Railings – In order to ensure safety and provide protection against falls.
+                           {'\n'}<Text style={{color: 'black'}}>{'\u2022'}</Text> Flashings and Caulking – In order to prevent moisture intrusion and reduce the likelihood of dry rot.
+                           {'\n'}<Text style={{color: 'black'}}>{'\u2022'}</Text> Deck Surfaces – In order to ensure occupant safety.
+                           {'\n'}<Text style={{color: 'black'}}>{'\u2022'}</Text> Framing – In order to ensure structural integrity.
+                           {'\n'}<Text style={{color: 'black'}}>{'\u2022'}</Text> Stairs – Only exterior stairs require inspection.
                             It is the duty of the field inspector to evaluate and report on the condition of each of the inspected areas by individually addressing each of the 5 items. To aid the consumer with the identification and prioritization of each of the individual findings, we have developed a color-coded system that rates the urgency of each inspected item:
                         </Text>
 

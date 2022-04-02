@@ -195,10 +195,10 @@ class Stairs extends Component {
     }
 
     AddLocation() {
-        this.setState({ loading: true }, () => {
+        this.setState({ loading: true });
+        const myPromise = new Promise((resolve, reject) => {
             const { ralingData, flashingData, deckSurfaceData, framingData } = this?.props?.route?.params;
             const token = this.props.userToken;
-            console.log(token)
             const data = {
                 ...this.state.data,
             }
@@ -234,18 +234,27 @@ class Stairs extends Component {
 
                         this.props.navigation.navigate('PropertiesforInspection')
                         console.log(response, "response")
-
+                        resolve(loading)
                     }
                     else {
                         alert("Some thing Went Wrong")
                     }
                 }).catch((err) => {
+                    reject(loading)
                     console.log(err.message);
                     this.setState({ loading: false });
-
                 });
             })
         });
+        myPromise
+            .then(value => {
+                this.setState({ loading: false });
+            })
+            .catch(err => {
+                console.log(err)
+                this.setState({ loading: false });
+            });
+
 
     }
 
@@ -344,13 +353,13 @@ class Stairs extends Component {
                                             this.props.navigation.goBack()
                                         } else {
                                             this.setState({
-                                                StaircloseFImg: this.state.stairsData[this.state.stairsData.length - 1].states.StaircloseFImg,
-                                                StairLocFImg: this.state.stairsData[this.state.stairsData.length - 1].states.StairLocFImg,
-                                                sendStaircloseFImg: this.state.stairsData[this.state.stairsData.length - 1].states.sendStaircloseFImg,
-                                                sendStairLocFImg: this.state.stairsData[this.state.stairsData.length - 1].states.sendStairLocFImg,
-                                                Stairs_id: this.state.stairsData[this.state.stairsData.length - 1].states.Stairs_id,
-                                                StairsFinding: this.state.stairsData[this.state.stairsData.length - 1].states.StairsFinding,
-                                                StairsMaintaince_id: this.state.stairsData[this.state.stairsData.length - 1].states.StairsMaintaince_id
+                                                StaircloseFImg: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.StaircloseFImg,
+                                                StairLocFImg: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.StairLocFImg,
+                                                sendStaircloseFImg: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.sendStaircloseFImg,
+                                                sendStairLocFImg: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.sendStairLocFImg,
+                                                Stairs_id: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.Stairs_id,
+                                                StairsFinding: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.StairsFinding,
+                                                StairsMaintaince_id: this.state?.stairsData[this.state?.stairsData?.length - 1]?.states?.StairsMaintaince_id
                                             }, () => {
                                                 let arrayPop = [...stairsData]
                                                 arrayPop.pop()
@@ -430,8 +439,8 @@ class Stairs extends Component {
 
                             <View>
 
-                                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                                <TextInput
+                                    placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ StairsFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}

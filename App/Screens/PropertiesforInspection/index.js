@@ -139,8 +139,8 @@ class PropertiesforInspection extends Component {
                             </View> :
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ fontSize: 37, color: '#282461', fontWeight: 'bold' }}>No property found!</Text>
-                                <Text>No property has been added. Please use the</Text>
-                                <Text>Add button to get started.</Text>
+                                <Text style={{color: 'black'}}>No property has been added. Please use the</Text>
+                                <Text style={{color: 'black'}}>Add button to get started.</Text>
                             </View>}
                     </View>
                     <View style={{ justifyContent: 'flex-end', alignItems: "flex-end" }}>

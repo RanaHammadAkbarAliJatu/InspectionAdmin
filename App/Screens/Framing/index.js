@@ -152,7 +152,7 @@ class Framing extends Component {
     isFormFilled() {
         if (this.state.Framing_id === 0 || this.state.Framing_id === undefined) {
             alert('Select Framing type');
-        }else if (this.state.FramingFinding.length === 0) {
+        } else if (this.state.FramingFinding.length === 0) {
             alert('Invalid Framing Finding');
         }
         else if (this.state.closeFImg === '') {
@@ -172,64 +172,73 @@ class Framing extends Component {
     }
 
     Pass() {
-        this.setState({ loading: true }, () => {
-
-
+        this.setState({ loading: true });
             const { ralingData, flashingData, deckSurfaceData } = this?.props?.route?.params;
             if (!this.state.checkBox) {
-                if (this.isFormFilled()) {
-                    const data = this.state.data
-                    const token = this.props.userToken;
-                    var arrayData = this.state.framingData
-                    arrayData.push({
-                        "framing_id": this.state.Framing_id,
-                        "framing_maintainence_id": this.state.FramingMaintainacne_id,
-                        "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
-                        "framing_closeup": this.state.sendcloseFImg,
-                        "framing_photo": this.state.sendLocFImg
-                    })
-                    this.setState({
-                        framingData: arrayData
-                    }, () => {
+                const myPromise = new Promise((resolve, reject) => {
+                    if (this.isFormFilled()) {
+                        const data = this.state.data
+                        const token = this.props.userToken;
+                        var arrayData = this.state.framingData
+                        arrayData.push({
+                            "framing_id": this.state.Framing_id,
+                            "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                            "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                            "framing_closeup": this.state.sendcloseFImg,
+                            "framing_photo": this.state.sendLocFImg
+                        })
+                        this.setState({
+                            framingData: arrayData
+                        }, () => {
 
-                        let sendData = {
-                            "title": data.title,
-                            "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
-                            "railings": ralingData,
-                            "flashings": flashingData,
-                            "deckSurfaces": deckSurfaceData,
-                            "framings": this.state.framingData,
-                            "stairs_maintainence_id": 0,
-                            "stairs": [
-                                {
-                                    "stairs_id": 0,
-                                    "stairs_maintainence_id": 0,
-                                    "stairs_finding": 0,
-                                    "stairs_closeup": this.state.sendLocFImg,
-                                    "stairs_photo": this.state.sendLocFImg
-                                }
-                            ]
-                        }
-                        console.log(sendData, "sendData")
-                        CreateLocationInspection(sendData, token).then(response => {
-                            console.log(response, "response")
-                            this.setState({ loading: false });
-                            if (response?.status === 200 && !response.data.error) {
-
-                                this.props.navigation.navigate('PropertiesforInspection')
+                            let sendData = {
+                                "title": data.title,
+                                "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
+                                "railings": ralingData,
+                                "flashings": flashingData,
+                                "deckSurfaces": deckSurfaceData,
+                                "framings": this.state.framingData,
+                                "stairs_maintainence_id": 0,
+                                "stairs": [
+                                    {
+                                        "stairs_id": 0,
+                                        "stairs_maintainence_id": 0,
+                                        "stairs_finding": 0,
+                                        "stairs_closeup": this.state.sendLocFImg,
+                                        "stairs_photo": this.state.sendLocFImg
+                                    }
+                                ]
+                            }
+                            console.log(sendData, "sendData")
+                            CreateLocationInspection(sendData, token).then(response => {
                                 console.log(response, "response")
+                                this.setState({ loading: false });
+                                if (response?.status === 200 && !response.data.error) {
 
-                            }
-                            else {
-                                alert("Some thing Went Wrong")
-                            }
-                        }).catch((err) => {
-                            console.log(err.message, "err");
-                            this.setState({ loading: false });
+                                    this.props.navigation.navigate('PropertiesforInspection')
+                                    console.log(response, "response")
+                                    resolve()
+                                }
+                                else {
+                                    alert("Some thing Went Wrong")
+                                }
+                            }).catch((err) => {
+                                reject()
+                                console.log(err.message, "err");
+                                this.setState({ loading: false });
 
-                        });
-                    })
-                }
+                            });
+                        })
+                    }
+                });
+                myPromise
+                .then(() => {
+                    this.setState({ loading: false });
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.setState({ loading: false });
+                });
             } else {
                 if (this.isFormFilled()) {
                     var arrayData = this.state.framingData
@@ -250,7 +259,7 @@ class Framing extends Component {
 
             }
 
-        });
+    
     }
 
     getSelectedMaintainance() {
@@ -294,7 +303,7 @@ class Framing extends Component {
         }
     }
     render() {
-        console.log(this.state.framingType,"framingType")
+        console.log(this.state.framingType, "framingType")
         const { framingData } = this.state
         return (
             <View style={styles.wrapperView}>
@@ -436,8 +445,8 @@ class Framing extends Component {
 
                             <View>
 
-                                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                                <TextInput
+                                    placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ FramingFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}

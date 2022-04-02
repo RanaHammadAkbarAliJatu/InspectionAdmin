@@ -144,24 +144,24 @@ class Review extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Business or owner’s name</Text>
-                                <Text>{PreparedForData?.owner_name}</Text>
+                                <Text style={{color: 'black'}}>Business or owner’s name</Text>
+                                <Text style={{color: 'black'}}>{PreparedForData?.owner_name}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Address</Text>
-                                <Text>{PreparedForData?.address}</Text>
+                                <Text style={{color: 'black'}}>Address</Text>
+                                <Text style={{color: 'black'}}>{PreparedForData?.address}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>City</Text>
-                                <Text>{PreparedForData?.city}</Text>
+                                <Text style={{color: 'black'}}>City</Text>
+                                <Text style={{color: 'black'}}>{PreparedForData?.city}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>State</Text>
-                                <Text>{PreparedForData?.state}</Text>
+                                <Text style={{color: 'black'}}>State</Text>
+                                <Text style={{color: 'black'}}>{PreparedForData?.state}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Contact number</Text>
-                                <Text>{PreparedForData?.phone}</Text>
+                                <Text style={{color: 'black'}}>Contact number</Text>
+                                <Text style={{color: 'black'}}>{PreparedForData?.phone}</Text>
                             </View>
                         </View>
                         <View>
@@ -181,24 +181,24 @@ class Review extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Address line 1</Text>
-                                <Text>{PropertyLocationData?.address1t}</Text>
+                                <Text style={{color: 'black'}}>Address line 1</Text>
+                                <Text style={{color: 'black'}}>{PropertyLocationData?.address1t}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Address line 2</Text>
-                                <Text>{PropertyLocationData?.address2}</Text>
+                                <Text style={{color: 'black'}}>Address line 2</Text>
+                                <Text style={{color: 'black'}}>{PropertyLocationData?.address2}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>State</Text>
-                                <Text>{PropertyLocationData?.propstate}</Text>
+                                <Text style={{color: 'black'}}>State</Text>
+                                <Text style={{color: 'black'}}>{PropertyLocationData?.propstate}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>City</Text>
-                                <Text>{PropertyLocationData?.propcity}</Text>
+                                <Text style={{color: 'black'}}>City</Text>
+                                <Text style={{color: 'black'}}>{PropertyLocationData?.propcity}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Zip code</Text>
-                                <Text>{PropertyLocationData?.zip_code}</Text>
+                                <Text style={{color: 'black'}}>Zip code</Text>
+                                <Text style={{color: 'black'}}>{PropertyLocationData?.zip_code}</Text>
                             </View>
                         </View>
                         <View>
@@ -218,24 +218,24 @@ class Review extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Name</Text>
-                                <Text>{ManagementContactData?.manage_name}</Text>
+                                <Text style={{color: 'black'}}>Name</Text>
+                                <Text style={{color: 'black'}}>{ManagementContactData?.manage_name}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Address</Text>
-                                <Text>{ManagementContactData?.manage_address}</Text>
+                                <Text style={{color: 'black'}}>Address</Text>
+                                <Text style={{color: 'black'}}>{ManagementContactData?.manage_address}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Contact number</Text>
-                                <Text>{ManagementContactData?.manage_phone}</Text>
+                                <Text style={{color: 'black'}}>Contact number</Text>
+                                <Text style={{color: 'black'}}>{ManagementContactData?.manage_phone}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Email address</Text>
-                                <Text>{ManagementContactData?.manage_email}</Text>
+                                <Text style={{color: 'black'}}>Email address</Text>
+                                <Text style={{color: 'black'}}>{ManagementContactData?.manage_email}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Site contact</Text>
-                                <Text>{ManagementContactData?.manage_siteContact}</Text>
+                                <Text style={{color: 'black'}}>Site contact</Text>
+                                <Text style={{color: 'black'}}>{ManagementContactData?.manage_siteContact}</Text>
                             </View>
 
                         </View>
@@ -279,24 +279,24 @@ class Review extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Business name</Text>
-                                <Text>Deck and Balcony Inspection Inc.</Text>
+                                <Text style={{color: 'black'}}>Business name</Text>
+                                <Text style={{color: 'black'}}>Deck and Balcony Inspection Inc.</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Contact number</Text>
-                                <Text>{PreparedByData?.pfor_phone}</Text>
+                                <Text style={{color: 'black'}}>Contact number</Text>
+                                <Text style={{color: 'black'}}>{PreparedByData?.pfor_phone}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Email address:</Text>
+                                <Text style={{color: 'black'}}>Email address:</Text>
                                 <Text style={{fontSize: 12}}>{PreparedByData?.pfor_email}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Name</Text>
-                                <Text>{PreparedByData?.pfor_name}</Text>
+                                <Text style={{color: 'black'}}>Name</Text>
+                                <Text style={{color: 'black'}}>{PreparedByData?.pfor_name}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text>Date</Text>
-                                <Text>{PreparedByData?.pfor_date}</Text>
+                                <Text style={{color: 'black'}}>Date</Text>
+                                <Text style={{color: 'black'}}>{PreparedByData?.pfor_date}</Text>
                             </View>
                         </View>
                         {/* <View style={{ alignItems: 'center', flex: 1 }}>
