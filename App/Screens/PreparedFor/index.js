@@ -142,12 +142,12 @@ class PreparedFor extends Component {
   //   alert("")
   //   return true;
   // }
-  componentWillReceiveProps(nextProps) {
-    // You don't have to do this check first, but it can help prevent an unneeded render
-    if (nextProps.startTime) {
-      this.setState({ startTime: nextProps.startTime });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // You don't have to do this check first, but it can help prevent an unneeded render
+  //   // if (nextProps.startTime) {
+  //   //   this.setState({ startTime: nextProps.startTime });
+  //   // }
+  // }
   componentDidMount() {
     if (this?.props?.route?.params?.change) {
       const { PreparedForData,

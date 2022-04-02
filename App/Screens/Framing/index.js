@@ -39,7 +39,56 @@ class Framing extends Component {
             LocFImg: '',
             FramingMaintainacne_id: 0,
             Framing_id: 0,
-            framingType: '',
+            framingType: [
+                {
+                    value: 2,
+                    label: "Wood (Pressure treated) ledger and joists on post and beam construction",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 3,
+                    label: "Wood (Non treated) ledger and joists on post and beam construction",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 4,
+                    label: "Wood (Non treated) ledger with joists supported by a beam between opposing walls",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 5,
+                    label: "Wood (Pressure treated) ledger with joists supported by a beam between opposing walls",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 6,
+                    label: "Wood cantilevered joists with exposed underside",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 7,
+                    label: "Wood cantilevered joists with covered underside",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 8,
+                    label: "Steel frame attached to wall and suspended by diagonal struts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 9,
+                    label: "Other",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ],
             loading: false,
             modal: false,
             sendcloseFImg: '',
@@ -54,11 +103,11 @@ class Framing extends Component {
         const data = this?.props?.route?.params;
         console.log(data)
         this.setState({ data: data });
-        const type = []
-        data?.data?.framing && data.data.framing.forEach(el => {
-            type.push({ label: el.title, value: el.id })
-        })
-        this.setState({ framingType: type });
+        // const type = []
+        // data?.data?.framing && data.data.framing.forEach(el => {
+        //     type.push({ label: el.title, value: el.id })
+        // })
+        // this.setState({ framingType: type });
     }
     // picker(type) {
     //     ImagePicker.openCamera({
@@ -165,7 +214,7 @@ class Framing extends Component {
                         CreateLocationInspection(sendData, token).then(response => {
                             console.log(response, "response")
                             this.setState({ loading: false });
-                            if (response.status === 200 && !response.data.error) {
+                            if (response?.status === 200 && !response.data.error) {
 
                                 this.props.navigation.navigate('PropertiesforInspection')
                                 console.log(response, "response")
@@ -245,6 +294,7 @@ class Framing extends Component {
         }
     }
     render() {
+        console.log(this.state.framingType,"framingType")
         const { framingData } = this.state
         return (
             <View style={styles.wrapperView}>

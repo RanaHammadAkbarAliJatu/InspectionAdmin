@@ -40,7 +40,20 @@ class Flashing extends Component {
             flashingFinding: '',
             flashingMaintainacne_id: 0,
             flashing_id: 0,
-            flasgin_type: '',
+            flasgin_type: [
+                {
+                    value: 1,
+                    label: "flasing test type",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 2,
+                    label: "test",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ],
             modal: false,
             ImageModalVisible: false,
             type: 0,
@@ -89,11 +102,11 @@ class Flashing extends Component {
         const data = this?.props?.route?.params;
         console.log(data);
         this.setState({ data: data });
-        const type = []
-        data?.data?.flashing && data.data.flashing.forEach(el => {
-            type.push({ label: el.title, value: el.id })
-        })
-        this.setState({ flasgin_type: type });
+        // const type = []
+        // data?.data?.flashing && data.data.flashing.forEach(el => {
+        //     type.push({ label: el.title, value: el.id })
+        // })
+        // this.setState({ flasgin_type: type });
     }
     isFormFilled() {
       if (this.state.flashingFinding.length === 0) {

@@ -29,7 +29,7 @@ async getInspection(){
     const token = this.props.userToken;
         this.setState({loading: true});
         await Get_Inspection_List(token).then(response => {
-            if (response.status === 200 && !response.data.error) {
+            if (response?.status === 200 && !response.data.error) {
                 console.log(response.data)
                this.setState({data: response.data.data});
         
@@ -45,7 +45,7 @@ async insLocation(id){
     const data = new FormData();
     data.append("inspection_id", id)
     await ListLocationInspection(data,token).then(response => {
-        if (response.status === 200 && !response.data.error) {
+        if (response?.status === 200 && !response.data.error) {
            console.log("Data",response)
         } 
         else{

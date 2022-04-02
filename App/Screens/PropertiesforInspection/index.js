@@ -36,7 +36,7 @@ class PropertiesforInspection extends Component {
         const token = this.props.userToken;
         this.setState({ loading: true });
         await Get_Inspection_List(token).then(response => {
-            if (response.status === 200 && !response.data.error) {
+            if (response?.status === 200 && !response.data.error) {
                 console.log(response.data)
                 this.setState({ data: response.data.data.inspection }, () => {
                     console.log(this.state.data)

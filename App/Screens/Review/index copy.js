@@ -79,7 +79,7 @@ class Review extends Component {
         if (this.isFormFilled()) {
           await CreateInspection(token, dataToSend).then(response => {
             console.log(response, "response");
-            if (response.status === 200 && !response.data.error) {
+            if (response?.status === 200 && !response.data.error) {
               if (response.data.success) {
                 this.props.callApi(response.data)
                 this.props.navigation.navigate("Review", { dataToSend: response.data.data })

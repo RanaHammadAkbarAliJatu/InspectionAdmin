@@ -136,7 +136,7 @@ class UpdateCurrentReport extends Component {
                 await locationUpdate(sendData, token).then(response => {
                     console.log(response)
                     this.setState({ loading: false });
-                    if (response.status === 200 && !response.data.error) {
+                    if (response?.status === 200 && !response.data.error) {
 
                         console.log(response)
                         this.props.navigation.goBack()

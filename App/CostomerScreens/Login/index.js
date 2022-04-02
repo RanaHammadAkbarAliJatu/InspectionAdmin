@@ -63,7 +63,7 @@ class Login extends Component {
     };
     if (this.isFormFilled()) {
       await LoginForm(dataToSend).then(response => {
-        if (response.status === 200 && !response.data.error) {
+        if (response?.status === 200 && !response.data.error) {
 
           if(response.data.message === "This Email Address Does Not Exist In Our System."){
             alert("Email Does Not Exist")
@@ -101,7 +101,7 @@ class Login extends Component {
 
         <Text style={[styles.itemTxt,{marginTop: 30}]}>Login</Text>
         <View style={{height:2, width: 42, backgroundColor:PURPLE.dark, marginTop: 13}}/>
-        <Text style={{fontSize: 12, color: '#828282', fontWeight:'500', marginTop: 20}}>Lorem ipsum dolor sit consteur</Text>
+        <Text style={{fontSize: 12, color: '#828282', fontWeight:'500', marginTop: 20}}></Text>
         
         <View style={{marginTop: 20}}>
         <Image 

@@ -85,7 +85,7 @@ class SignUp extends Component {
     if (this.isFormFilled()) {
       await SignUpform(dataToSend).then(response => {
         console.log(response);
-        if (response.status === 200 && !response.data.error) {
+        if (response?.status === 200 && !response.data.error) {
           this.props.callApi(
             response.data.user,
             response.data.response.token.accessToken,
@@ -119,7 +119,7 @@ class SignUp extends Component {
 
             <Text style={[styles.itemTxt, { marginTop: 30 }]}>{role == 1 ?  "Inspection" : "Customer"} Sign Up</Text>
             <View style={{ height: 2, width: 42, backgroundColor: PURPLE.dark, marginTop: 13 }} />
-            <Text style={{ fontSize: 12, color: '#828282', fontWeight: '500', marginTop: 20 }}>Lorem ipsum dolor sit consteur</Text>
+            <Text style={{ fontSize: 12, color: '#828282', fontWeight: '500', marginTop: 20 }}></Text>
 
 
 

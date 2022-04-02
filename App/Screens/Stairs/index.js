@@ -41,7 +41,80 @@ class Stairs extends Component {
             Stairs_id: 0,
             StairsFinding: '',
             StairsMaintaince_id: 0,
-            StairType: '',
+            StairType: [
+                {
+                    value: 2,
+                    label: "Wood stringers, treads and risers with metal railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 3,
+                    label: "Wood stringers, treads and risers with wood railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 4,
+                    label: "Wood stringers, treads, open risers, with metal railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 5,
+                    label: "Wood stringers, treads, open risers, with wood railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 6,
+                    label: "Wood stringers, treads and risers with metal railings attached to metal posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 7,
+                    label: "Wood stringers, treads, open risers, with metal railings attached to metal posts ",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 8,
+                    label: "Single metal stringer, concrete steps, metal risers with metal railings attached to metal posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 9,
+                    label: "Single metal stringer, concrete steps, open risers with metal railings attached to metal posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 10,
+                    label: "All metal, stringers, treads, risers, and railings",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 11,
+                    label: "All metal stringers, treads, and railings with open risers",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 12,
+                    label: "Metal pull-down emergency fire escape",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 13,
+                    label: "Other",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ],
             loading: false,
             modal: false,
             checkBox: false,
@@ -55,11 +128,11 @@ class Stairs extends Component {
         const data = this?.props?.route?.params;
         console.log(data);
         this.setState({ data: data });
-        const type = []
-        data?.data?.stairs && data.data.stairs.forEach(el => {
-            type.push({ label: el.title, value: el.id })
-        })
-        this.setState({ StairType: type });
+        // const type = []
+        // data?.data?.stairs && data.data.stairs.forEach(el => {
+        //     type.push({ label: el.title, value: el.id })
+        // })
+        // this.setState({ StairType: type });
     }
     // picker(type) {
     //     ImagePicker.openCamera({
@@ -157,7 +230,7 @@ class Stairs extends Component {
                 CreateLocationInspection(sendData, token).then(response => {
                     console.log(response)
                     this.setState({ loading: false });
-                    if (response.status === 200 && !response.data.error) {
+                    if (response?.status === 200 && !response.data.error) {
 
                         this.props.navigation.navigate('PropertiesforInspection')
                         console.log(response, "response")

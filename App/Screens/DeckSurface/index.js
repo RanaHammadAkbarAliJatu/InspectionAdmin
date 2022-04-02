@@ -41,7 +41,50 @@ class DeckSurface extends Component {
             LocFImg: '',
             DeckSurfaceMaintainance_id: 0,
             DeckSurface_id: 0,
-            DeckSurfaceType: '',
+            DeckSurfaceType: [
+                {
+                    value: 2,
+                    label: "Redwood planks spaced for drainage",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 3,
+                    label: "Pressure treated planks spaced for drainage",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 4,
+                    label: "Composite planks spaced for drainage",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 5,
+                    label: "Concrete over plywood substrate",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 6,
+                    label: "Concrete over steel pan deck",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 7,
+                    label: "Polymer over plywood substrate",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 8,
+                    label: "Other",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ],
             loading: false,
             modal: false,
             ImageModalVisible: false,
@@ -54,11 +97,11 @@ class DeckSurface extends Component {
         const data = this?.props?.route?.params;
         console.log(data, "one")
         this.setState({ data: data });
-        const type = []
-        data?.data?.deckSurface.forEach(el => {
-            type.push({ label: el.title, value: el.id })
-        })
-        this.setState({ DeckSurfaceType: type });
+        // const type = []
+        // data?.data?.deckSurface && data?.data?.deckSurface.forEach(el => {
+        //     type.push({ label: el.title, value: el.id })
+        // })
+        // this.setState({ DeckSurfaceType: type });
     }
 
     picker(type) {

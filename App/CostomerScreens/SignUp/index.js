@@ -92,7 +92,7 @@ class SignUp extends Component {
     };
     if (this.isFormFilled()) {
       await SignUpform(dataToSend).then(response => {
-        if (response.status === 200 && !response.data.error) {
+        if (response?.status === 200 && !response.data.error) {
           // this.props.callApi(
           //   response.data.user,
           //   response.data.access_token,

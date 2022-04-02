@@ -40,7 +40,48 @@ class Railing extends Component {
             LocFImg: '',
             loading: false,
             modal: false,
-            railingType: '',
+            railingType: [
+                {
+                    "label": "Wood posts with wood rails and horizontal wood slats",
+                    "value": 3
+                },
+                {
+                    "label": "Wood posts with wood rails and vertical wood balusters",
+                    "value": 4
+                },
+                {
+                    "label": "Wood posts with metal rails and vertical metal balusters",
+                    "value": 5
+                },
+                {
+                    "label": "Metal posts with metal rails and vertical metal balusters",
+                    "value": 6
+                },
+                {
+                    "label": "Metal posts with metal rails and wood horizontal slats",
+                    "value": 7
+                },
+                {
+                    "label": "Wood framed with wood siding on outside only",
+                    "value": 8
+                },
+                {
+                    "label": "Wood framed with wood siding on both sides",
+                    "value": 9
+                },
+                {
+                    "label": "Wood framed with stucco siding on outside only",
+                    "value": 10
+                },
+                {
+                    "label": "Wood framed with stucco siding on both sides",
+                    "value": 11
+                },
+                {
+                    "label": "Other",
+                    "value": 12
+                }
+            ],
             railingMaintainance_id: 0,
             railing_id: 0,
             ImageModalVisible: false,
@@ -56,11 +97,12 @@ class Railing extends Component {
         const data = this?.props?.route?.params;
         console.log(data)
         this.setState({ data: data });
-        const type = []
-        data.data.railing && data.data.railing.forEach(el => {
-            type.push({ label: el.title, value: el.id })
-        })
-        this.setState({ railingType: type });
+        // const type = []
+        // console.log(data,"datadatadatadatadatadata")
+        // data.data.railing && data.data.railing.forEach(el => {
+        //     type.push({ label: el.title, value: el.id })
+        // })
+        // this.setState({ railingType: type });
     }
     isFormFilled() {
         console.log(this.state.railing_id)
@@ -142,7 +184,6 @@ class Railing extends Component {
     }
     render() {
         const { ralingData } = this.state
-        console.log(ralingData)
         return (
             <View style={styles.wrapperView}>
                 <CamraModel

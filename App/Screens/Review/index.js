@@ -88,7 +88,7 @@ class Review extends Component {
         await CreateInspection(token, dataToSend).then(response => {
             console.log(response, "response");
             this.setState({ loading: false });
-            if (response.status === 200 && !response.data.error) {
+            if (response?.status === 200 && !response.data.error) {
                 if (response.data.success) {
                     // this.props.callApi(response.data,response.data.response.token.accessToken,)
                     this.props.navigation.navigate('PropertiesforInspection') 
