@@ -18,6 +18,42 @@ import FastImage from 'react-native-fast-image'
 import { FlatList } from 'react-native-gesture-handler';
 
 class DeckSurface extends Component {
+    getSelectedMaintainanceColor(railingMaintainance_id) {
+
+        if (railingMaintainance_id == 1) {
+            return "#EB5757"
+
+        } else if (railingMaintainance_id == 2) {
+            return "#F2994A"
+
+        } else if (railingMaintainance_id == 3) {
+            return "#2F80ED"
+
+        } else if (railingMaintainance_id == 4) {
+            return "#219653"
+
+        } else {
+            return "black"
+        }
+    }
+    getSelectedMaintainanceText(railingMaintainance_id) {
+
+        if (railingMaintainance_id == 1) {
+            return "Immediate action is required."
+
+        } else if (railingMaintainance_id == 2) {
+            return "Repairs are required as soon as possible."
+
+        } else if (railingMaintainance_id == 3) {
+            return "Maintenance is required as soon as possible."
+
+        } else if (railingMaintainance_id == 4) {
+            return "No problems were found."
+
+        } else {
+            return "black"
+        }
+    }
     render() {
         const data = this.props.route.params.dataToSend
         return (
@@ -72,8 +108,8 @@ class DeckSurface extends Component {
                                         <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#828282' }}>Deck surface findings</Text>
 
                                         <View style={{ flexDirection: 'row' }}>
-                                            <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} />
-                                            <Text style={[styles.itemTxt, { fontWeight: '400', color: item?.maintenance?.level ? item?.maintenance?.level : '#EB5757' }]}>{item?.maintenance?.maintainence_title}</Text>
+                                            {/* <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} /> */}
+                                            <Text style={[styles.itemTxt, { fontWeight: '400', color: this.getSelectedMaintainanceColor(item?.maintainence_id) }]}>{this.getSelectedMaintainanceText(item?.maintainence_id)}</Text>
                                         </View>
                                     </View>
                                     <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.deck_surface_finding}</Text>
