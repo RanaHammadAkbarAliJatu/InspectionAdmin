@@ -18,6 +18,55 @@ import FastImage from 'react-native-fast-image'
 import { FlatList } from 'react-native-gesture-handler';
 
 class DeckSurface extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            DeckSurfaceType: [
+                {
+                    value: 2,
+                    label: "Redwood planks spaced for drainage",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 3,
+                    label: "Pressure treated planks spaced for drainage",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 4,
+                    label: "Composite planks spaced for drainage",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 5,
+                    label: "Concrete over plywood substrate",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 6,
+                    label: "Concrete over steel pan deck",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 7,
+                    label: "Polymer over plywood substrate",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 8,
+                    label: "Other",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ]
+        };
+    }
     getSelectedMaintainanceColor(railingMaintainance_id) {
 
         if (railingMaintainance_id == 1) {
@@ -78,7 +127,7 @@ class DeckSurface extends Component {
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Deck surface</Text>
 
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Deck surface type</Text>
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.location_id}</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.deck_surface_id ? this.state.DeckSurfaceType[item?.deck_surface_id].label : ''}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                         <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                         <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>

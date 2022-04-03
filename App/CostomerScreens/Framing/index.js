@@ -18,6 +18,61 @@ import { FONT, SCREEN } from '../../helper/Constant';
 import { FlatList } from 'react-native-gesture-handler';
 
 class Framing extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            framingType: [
+                {
+                    value: 2,
+                    label: "Wood (Pressure treated) ledger and joists on post and beam construction",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 3,
+                    label: "Wood (Non treated) ledger and joists on post and beam construction",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 4,
+                    label: "Wood (Non treated) ledger with joists supported by a beam between opposing walls",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 5,
+                    label: "Wood (Pressure treated) ledger with joists supported by a beam between opposing walls",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 6,
+                    label: "Wood cantilevered joists with exposed underside",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 7,
+                    label: "Wood cantilevered joists with covered underside",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 8,
+                    label: "Steel frame attached to wall and suspended by diagonal struts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 9,
+                    label: "Other",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ]
+        };
+    }
     getSelectedMaintainanceColor(railingMaintainance_id) {
 
         if (railingMaintainance_id == 1) {
@@ -97,7 +152,7 @@ class Framing extends Component {
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Framing</Text>
 
                                 <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Framing type</Text>
-                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.framing_id}</Text>
+                                <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.framing_id ? this.state.framingType[item?.framing_id].label : ''}</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                     <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                     <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>

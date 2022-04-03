@@ -18,6 +18,54 @@ import { FONT, SCREEN } from '../../helper/Constant';
 import { FlatList } from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image'
 class Railing extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            railingType: [
+                {
+                    "label": "Wood posts with wood rails and horizontal wood slats",
+                    "value": 3
+                },
+                {
+                    "label": "Wood posts with wood rails and vertical wood balusters",
+                    "value": 4
+                },
+                {
+                    "label": "Wood posts with metal rails and vertical metal balusters",
+                    "value": 5
+                },
+                {
+                    "label": "Metal posts with metal rails and vertical metal balusters",
+                    "value": 6
+                },
+                {
+                    "label": "Metal posts with metal rails and wood horizontal slats",
+                    "value": 7
+                },
+                {
+                    "label": "Wood framed with wood siding on outside only",
+                    "value": 8
+                },
+                {
+                    "label": "Wood framed with wood siding on both sides",
+                    "value": 9
+                },
+                {
+                    "label": "Wood framed with stucco siding on outside only",
+                    "value": 10
+                },
+                {
+                    "label": "Wood framed with stucco siding on both sides",
+                    "value": 11
+                },
+                {
+                    "label": "Other",
+                    "value": 12
+                }
+            ]
+        };
+    }
+
     getSelectedMaintainanceColor(railingMaintainance_id) {
 
         if (railingMaintainance_id == 1) {
@@ -80,7 +128,7 @@ class Railing extends Component {
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Railing</Text>
 
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Railing type</Text>
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.railing_id}</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.railing_id ? this.state.railingType[item?.railing_id].label: ''}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                         <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                         <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>

@@ -18,6 +18,85 @@ import { FONT, SCREEN } from '../../helper/Constant';
 import { FlatList } from 'react-native-gesture-handler';
 
 class Stairs extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            StairType: [
+                {
+                    value: 2,
+                    label: "Wood stringers, treads and risers with metal railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 3,
+                    label: "Wood stringers, treads and risers with wood railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 4,
+                    label: "Wood stringers, treads, open risers, with metal railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 5,
+                    label: "Wood stringers, treads, open risers, with wood railings attached to wood posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 6,
+                    label: "Wood stringers, treads and risers with metal railings attached to metal posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 7,
+                    label: "Wood stringers, treads, open risers, with metal railings attached to metal posts ",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 8,
+                    label: "Single metal stringer, concrete steps, metal risers with metal railings attached to metal posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 9,
+                    label: "Single metal stringer, concrete steps, open risers with metal railings attached to metal posts",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 10,
+                    label: "All metal, stringers, treads, risers, and railings",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 11,
+                    label: "All metal stringers, treads, and railings with open risers",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 12,
+                    label: "Metal pull-down emergency fire escape",
+                    "created_at": null,
+                    "updated_at": null
+                },
+                {
+                    value: 13,
+                    label: "Other",
+                    "created_at": null,
+                    "updated_at": null
+                }
+            ]
+        };
+    }
     getSelectedMaintainanceColor(railingMaintainance_id) {
 
         if (railingMaintainance_id == 1) {
@@ -96,7 +175,7 @@ class Stairs extends Component {
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
 
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.stairs_id}</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.stairs_id ? this.state.StairType[item?.stairs_id].label : ''}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                         <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                         <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>

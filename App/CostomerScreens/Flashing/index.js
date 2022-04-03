@@ -78,8 +78,8 @@ class Flashing extends Component {
                                 <View>
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Flashing/Caulking</Text>
 
-                                    <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Flashing/Caulking findings type</Text>
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.flashing_id}</Text>
+                                    {/* <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Flashing/Caulking findings type</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.flashing_id}</Text> */}
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                         <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                         <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
