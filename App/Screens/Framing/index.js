@@ -303,7 +303,6 @@ class Framing extends Component {
         }
     }
     render() {
-        console.log(this.state.framingType, "framingType")
         const { framingData } = this.state
         return (
             <View style={styles.wrapperView}>

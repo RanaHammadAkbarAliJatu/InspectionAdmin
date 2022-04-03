@@ -11,6 +11,8 @@ class App extends Component {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
+      // mediaType: 'photo',
+      compressImageQuality: 0.5
     }).then(image => {
       this.savePicture(image.path)
       this.props.sendImage(type, image)
@@ -20,6 +22,8 @@ class App extends Component {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
+      // mediaType: 'photo',
+      compressImageQuality: 0.3
     }).then(image => {
       this.savePicture(image.path)
       this.props.sendImage(type, image)
