@@ -172,7 +172,7 @@ class Framing extends Component {
     }
 
     Pass() {
-        this.setState({ loading: true });
+      
             const { ralingData, flashingData, deckSurfaceData } = this?.props?.route?.params;
             if (!this.state.checkBox) {
                 const myPromise = new Promise((resolve, reject) => {
@@ -180,6 +180,7 @@ class Framing extends Component {
                         const data = this.state.data
                         const token = this.props.userToken;
                         var arrayData = this.state.framingData
+                        this.setState({ loading: true });
                         arrayData.push({
                             "framing_id": this.state.Framing_id,
                             "framing_maintainence_id": this.state.FramingMaintainacne_id,

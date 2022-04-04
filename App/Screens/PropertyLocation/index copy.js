@@ -116,15 +116,15 @@ class PropertyLocation extends Component {
                 bounces={false}
                 style={{ flex: 1 }}>
 
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ address1: value })}
                   value={this.state.address1}
                   placeholder='Address line 1'
                   style={[styles.TextInput, { marginTop: 30 }]}
                 />
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ address2: value })}
                   value={this.state.address2}
                   placeholder='Address line 2'
@@ -134,12 +134,6 @@ class PropertyLocation extends Component {
                   <Image
                     style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
                     source={require('../../assets/down.png')} />
-                  {/*  <TextInput
-        placeholderTextColor={'lightgrey'}
-         onChangeText={(value)=> this.setState({state: value})}
-        placeholder='State'
-        style={styles.TextInput}
-        /> */}
                   <SelectDropdown
                     data={countries}
                     defaultButtonText={"Select State"}
@@ -154,16 +148,16 @@ class PropertyLocation extends Component {
                   <Image
                     style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
                     source={require('../../assets/down.png')} />
-                   <TextInput
-        placeholderTextColor={'lightgrey'}
+                  <TextInput
+                    placeholderTextColor={'lightgrey'}
                     onChangeText={(value) => this.setState({ city: value })}
-                  value={this.state.city}
-                  placeholder='City'
+                    value={this.state.city}
+                    placeholder='City'
                     style={styles.TextInput}
                   />
                 </View>
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ zip_code: value })}
                   value={this.state.zip_code}
                   placeholder='Zip code'

@@ -112,7 +112,7 @@ class DeckSurface extends Component {
         if (this.state.DeckSurface_id === 0 || this.state.DeckSurface_id === undefined) {
             alert('Select Deck Surface Type');
         } else if (this.state.DeckSurfaceFinding.length === 0) {
-            alert('Invalid Railing Finding');
+            alert('Invalid  Deck Surface Finding');
         }
         else if (this.state.closeFImg === '') {
             alert('Invlalid Close Image');

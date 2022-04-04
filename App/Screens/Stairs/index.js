@@ -175,87 +175,99 @@ class Stairs extends Component {
 
         if (this.state.Stairs_id === 0 || this.state.Stairs_id === undefined) {
             alert('Select Stairs type');
+            return false
         } else if (this.state.StairsFinding.length === 0) {
-            alert('Invalid Railing Finding');
+            alert('Invalid Stairs Finding');
+            return false
+
         }
-        else if (this.state.closeFImg === '') {
+        else if (this.state.StaircloseFImg === '') {
             alert('Invlalid Close Image');
+            return false
+
         }
-        else if (this.state.LocFImg === '') {
+        else if (this.state.sendStairLocFImg === '') {
             alert('Invlalid Location Image');
+            return false
+
         }
         else if (this.state.StairsMaintaince_id === 0) {
             alert('Invalid Maintainance Id');
+            return false
+
         }
 
         else {
             return true
         }
-
+ 
     }
 
     AddLocation() {
-        this.setState({ loading: true });
-        const myPromise = new Promise((resolve, reject) => {
-            const { ralingData, flashingData, deckSurfaceData, framingData } = this?.props?.route?.params;
-            const token = this.props.userToken;
-            const data = {
-                ...this.state.data,
-            }
-            var arrayData = this.state.stairsData
-            arrayData.push({
-                "stairs_id": this.state.Stairs_id,
-                "stairs_maintainence_id": this.state.StairsMaintaince_id,
-                "stairs_finding": this.state.StairsFinding,
-                "stairs_closeup": this.state.sendStaircloseFImg,
-                "stairs_photo": this.state.sendStairLocFImg
-            })
-            this.setState({
-                stairsData: arrayData
-            }, () => {
-                this.setState({ modal: false })
-                console.log(this.state.arrayData)
-                let sendData = {
-                    "title": data.title,
-                    "inspection_id": this?.props?.route?.params?.inspectionId,
-                    "railings": ralingData,
-                    "flashings": flashingData,
-                    "deckSurfaces": deckSurfaceData,
-                    "framings": framingData,
-                    "stairs_maintainence_id": this.state.StairsMaintaince_id,
-                    "stairs": this.state.stairsData
+        if (this.isFormFilled()) {
+            const myPromise = new Promise((resolve, reject) => {
+                this.setState({ loading: true });
+
+                const { ralingData, flashingData, deckSurfaceData, framingData } = this?.props?.route?.params;
+                const token = this.props.userToken;
+                const data = {
+                    ...this.state.data,
                 }
-                console.log(sendData, "sendData")
+                var arrayData = this.state.stairsData
+                arrayData.push({
+                    "stairs_id": this.state.Stairs_id,
+                    "stairs_maintainence_id": this.state.StairsMaintaince_id,
+                    "stairs_finding": this.state.StairsFinding,
+                    "stairs_closeup": this.state.sendStaircloseFImg,
+                    "stairs_photo": this.state.sendStairLocFImg
+                })
+                this.setState({
+                    stairsData: arrayData
+                }, () => {
+                    this.setState({ modal: false })
+                    console.log(this.state.arrayData)
+                    let sendData = {
+                        "title": data.title,
+                        "inspection_id": this?.props?.route?.params?.inspectionId,
+                        "railings": ralingData,
+                        "flashings": flashingData,
+                        "deckSurfaces": deckSurfaceData,
+                        "framings": framingData,
+                        "stairs_maintainence_id": this.state.StairsMaintaince_id,
+                        "stairs": this.state.stairsData
+                    }
+                    console.log(sendData, "sendData")
 
-                CreateLocationInspection(sendData, token).then(response => {
-                    console.log(response)
+                    CreateLocationInspection(sendData, token).then(response => {
+                        console.log(response)
+                        this.setState({ loading: false });
+                        if (response?.status === 200 && !response.data.error) {
+
+                            this.props.navigation.navigate('PropertiesforInspection')
+                            console.log(response, "response")
+                            resolve(loading)
+                        }
+                        else {
+                            alert("Some thing Went Wrong")
+                        }
+                    }).catch((err) => {
+                        reject(loading)
+                        console.log(err.message);
+                        this.setState({ loading: false });
+                    });
+                })
+            });
+            myPromise
+                .then(value => {
                     this.setState({ loading: false });
-                    if (response?.status === 200 && !response.data.error) {
-
-                        this.props.navigation.navigate('PropertiesforInspection')
-                        console.log(response, "response")
-                        resolve(loading)
-                    }
-                    else {
-                        alert("Some thing Went Wrong")
-                    }
-                }).catch((err) => {
-                    reject(loading)
-                    console.log(err.message);
+                })
+                .catch(err => {
+                    console.log(err)
                     this.setState({ loading: false });
                 });
-            })
-        });
-        myPromise
-            .then(value => {
-                this.setState({ loading: false });
-            })
-            .catch(err => {
-                console.log(err)
-                this.setState({ loading: false });
-            });
 
 
+        }
     }
 
     getSelectedMaintainance() {
@@ -525,7 +537,13 @@ class Stairs extends Component {
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
-                                    onPress={() => this.AddLocation()}
+                                    onPress={() => {
+                                        if (this.isFormFilled()) {
+
+                                            this.AddLocation()
+                                        }
+                                    }
+                                    }
                                     style={[styles.Btn, { width: '100%' }]}>
                                     <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>Finish</Text>
                                 </TouchableOpacity>

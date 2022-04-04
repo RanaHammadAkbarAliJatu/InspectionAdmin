@@ -155,8 +155,8 @@ class PropertyLocation extends Component {
           leftPress={() => {
             this.props.navigation.goBack()
           }}
-          
-          show={this?.props?.route?.params?.change ? false: true}
+
+          show={this?.props?.route?.params?.change ? false : true}
         />
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flex: 1, paddingHorizontal: 20, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
@@ -176,30 +176,37 @@ class PropertyLocation extends Component {
                 bounces={false}
                 style={{ flex: 1 }}>
 
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ address1: value })}
                   value={this.state.address1}
                   placeholder='Address line 1'
                   style={[styles.TextInput, { marginTop: 30 }]}
                 />
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ address2: value })}
                   value={this.state.address2}
                   placeholder='Address line 2'
                   style={styles.TextInput}
                 />
+               
                 <View>
-                  <Image
+                  {/* <Image
                     style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
-                    source={require('../../assets/down.png')} />
-                  {/*  <TextInput
-        placeholderTextColor={'lightgrey'}
-         onChangeText={(value)=> this.setState({state: value})}
-        placeholder='State'
-        style={styles.TextInput}
-        /> */}
+                    source={require('../../assets/down.png')} /> */}
+                  <TextInput
+                    placeholderTextColor={'lightgrey'}
+                    onChangeText={(value) => this.setState({ city: value })}
+                    value={this.state.city}
+                    placeholder='City'
+                    style={styles.TextInput}
+                  />
+                </View>
+                <View>
+                  {/* <Image
+                    style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
+                    source={require('../../assets/down.png')} /> */}
                   <SelectDropdown
                     data={countries}
                     defaultButtonText={"Select State"}
@@ -211,20 +218,8 @@ class PropertyLocation extends Component {
                     buttonStyle={styles.TextInput}
                   />
                 </View>
-                <View>
-                  <Image
-                    style={{ height: 20, width: 10, resizeMode: 'contain', position: 'absolute', right: 20, top: 12 }}
-                    source={require('../../assets/down.png')} />
-                   <TextInput
-        placeholderTextColor={'lightgrey'}
-                    onChangeText={(value) => this.setState({ city: value })}
-                    value={this.state.city}
-                    placeholder='City'
-                    style={styles.TextInput}
-                  />
-                </View>
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(value) => this.setState({ zip_code: value })}
                   value={this.state.zip_code}
                   placeholder='Zip code'
@@ -241,16 +236,16 @@ class PropertyLocation extends Component {
               <TouchableOpacity
                 onPress={() => {
                   const that = this
-                  if(this?.props?.route?.params?.change){
+                  if (this?.props?.route?.params?.change) {
                     if (that?.isFormFilled()) {//chnge
 
                       that.update()
-      }
-                  }else{
+                    }
+                  } else {
                     this.Pass()
                   }
-                              
-                            }}
+
+                }}
                 style={[styles.Btn, { flexDirection: 'row', paddingHorizontal: 20, justifyContent: 'space-between' }]}>
                 <Text style={[styles.itemTxt, { fontSize: 12, color: 'white' }]}>{this?.props?.route?.params?.change ? "Update" : "Next"}</Text>
 

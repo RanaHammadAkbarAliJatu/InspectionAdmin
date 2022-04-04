@@ -189,13 +189,14 @@ class Review extends Component {
                                 <Text style={{color: 'black'}}>{PropertyLocationData?.address2}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
-                                <Text style={{color: 'black'}}>State</Text>
-                                <Text style={{color: 'black'}}>{PropertyLocationData?.propstate}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
                                 <Text style={{color: 'black'}}>City</Text>
                                 <Text style={{color: 'black'}}>{PropertyLocationData?.propcity}</Text>
                             </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text style={{color: 'black'}}>State</Text>
+                                <Text style={{color: 'black'}}>{PropertyLocationData?.propstate}</Text>
+                            </View>
+                           
                             <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
                                 <Text style={{color: 'black'}}>Zip code</Text>
                                 <Text style={{color: 'black'}}>{PropertyLocationData?.zip_code}</Text>
@@ -258,7 +259,7 @@ class Review extends Component {
                             <FastImage
                                 style={{ width: '100%', height: SCREEN.height / 2, marginTop: 30, borderRadius: 10 }}
                                 source={TakePictureData?.image?.uri ? { uri: TakePictureData?.image?.uri } : require('../../assets/pic3.png')}
-                                resizeMode={FastImage.resizeMode.contain}
+                                resizeMode={FastImage.resizeMode.cover}
                             />
                         </View>
 
