@@ -6,10 +6,12 @@ const SET_INS_ID = 'SET_INS_ID'
 const SET_BOTTOM_TAB_BAR = 'SET_BOTTOM_TAB_BAR';
 const SET_BOTTOM_TAB_BAR_INDEX = 'SET_BOTTOM_TAB_BAR_INDEX';
 const SET_LANGUAGE = 'SET_LANGUAGE';
+const get_all_Types = 'get_all_Types';
 
 export {
   SET_USER,
   ALTER_USER,
+  get_all_Types,
   ALTER_JUST_USER,
   SET_TOKEN,
   SET_BOTTOM_TAB_BAR,

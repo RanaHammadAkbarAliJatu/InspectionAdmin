@@ -39,6 +39,7 @@ class Framing extends Component {
             LocFImg: '',
             FramingMaintainacne_id: 0,
             Framing_id: 0,
+            Framing_id_other: "",
             framingType: [
                 {
                     value: 2,
@@ -172,67 +173,74 @@ class Framing extends Component {
     }
 
     Pass() {
-      
-            const { ralingData, flashingData, deckSurfaceData } = this?.props?.route?.params;
-            if (!this.state.checkBox) {
-                const myPromise = new Promise((resolve, reject) => {
-                    if (this.isFormFilled()) {
-                        const data = this.state.data
-                        const token = this.props.userToken;
-                        var arrayData = this.state.framingData
-                        this.setState({ loading: true });
-                        arrayData.push({
-                            "framing_id": this.state.Framing_id,
-                            "framing_maintainence_id": this.state.FramingMaintainacne_id,
-                            "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
-                            "framing_closeup": this.state.sendcloseFImg,
-                            "framing_photo": this.state.sendLocFImg
-                        })
-                        this.setState({
-                            framingData: arrayData
-                        }, () => {
 
-                            let sendData = {
-                                "title": data.title,
-                                "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
-                                "railings": ralingData,
-                                "flashings": flashingData,
-                                "deckSurfaces": deckSurfaceData,
-                                "framings": this.state.framingData,
-                                "stairs_maintainence_id": 0,
-                                "stairs": [
-                                    {
-                                        "stairs_id": 0,
-                                        "stairs_maintainence_id": 0,
-                                        "stairs_finding": 0,
-                                        "stairs_closeup": this.state.sendLocFImg,
-                                        "stairs_photo": this.state.sendLocFImg
-                                    }
-                                ]
-                            }
-                            console.log(sendData, "sendData")
-                            CreateLocationInspection(sendData, token).then(response => {
+        const { ralingData, flashingData, deckSurfaceData } = this?.props?.route?.params;
+        if (!this.state.checkBox) {
+            const myPromise = new Promise((resolve, reject) => {
+                if (this.isFormFilled()) {
+                    const data = this.state.data
+                    const token = this.props.userToken;
+                    var arrayData = this.state.framingData
+                    this.setState({ loading: true });
+                    arrayData.push({
+                        "framing_id": this.state.Framing_id,
+                        "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                        "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                        "framing_closeup": this.state.sendcloseFImg,
+                        "framing_photo": this.state.sendLocFImg,
+                        "other_type": this.state.Framing_id_other,
+
+
+                    })
+                    this.setState({
+                        framingData: arrayData
+                    }, () => {
+
+                        let sendData = {
+                            "title": data.title,
+                            "inspection_id": this?.props?.route?.params?.inspectionId ? this?.props?.route?.params?.inspectionId : 0,
+                            "railings": ralingData,
+                            "flashings": flashingData,
+                            "deckSurfaces": deckSurfaceData,
+                            "framings": this.state.framingData,
+                            "stairs_maintainence_id": 0,
+                            "other_type": this.state.Framing_id_other,
+
+                            "stairs": [
+                                {
+                                    "stairs_id": 0,
+                                    "stairs_maintainence_id": 0,
+                                    "stairs_finding": 0,
+                                    "stairs_closeup": this.state.sendLocFImg,
+                                    "stairs_photo": this.state.sendLocFImg,
+                                    "other_type": this.state.Framing_id_other,
+
+                                }
+                            ]
+                        }
+                        console.log(sendData, "sendData")
+                        CreateLocationInspection(sendData, token).then(response => {
+                            console.log(response, "response")
+                            this.setState({ loading: false });
+                            if (response?.status === 200 && !response.data.error) {
+
+                                this.props.navigation.navigate('PropertiesforInspection')
                                 console.log(response, "response")
-                                this.setState({ loading: false });
-                                if (response?.status === 200 && !response.data.error) {
+                                resolve()
+                            }
+                            else {
+                                alert("Some thing Went Wrong")
+                            }
+                        }).catch((err) => {
+                            reject()
+                            console.log(err.message, "err");
+                            this.setState({ loading: false });
 
-                                    this.props.navigation.navigate('PropertiesforInspection')
-                                    console.log(response, "response")
-                                    resolve()
-                                }
-                                else {
-                                    alert("Some thing Went Wrong")
-                                }
-                            }).catch((err) => {
-                                reject()
-                                console.log(err.message, "err");
-                                this.setState({ loading: false });
-
-                            });
-                        })
-                    }
-                });
-                myPromise
+                        });
+                    })
+                }
+            });
+            myPromise
                 .then(() => {
                     this.setState({ loading: false });
                 })
@@ -240,27 +248,29 @@ class Framing extends Component {
                     console.log(err)
                     this.setState({ loading: false });
                 });
-            } else {
-                if (this.isFormFilled()) {
-                    var arrayData = this.state.framingData
-                    arrayData.push({
-                        "framing_id": this.state.Framing_id,
-                        "framing_maintainence_id": this.state.FramingMaintainacne_id,
-                        "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
-                        "framing_closeup": this.state.sendcloseFImg,
-                        "framing_photo": this.state.sendLocFImg
-                    })
-                    this.setState({
-                        framingData: arrayData,
-                        loading: false
-                    }, () => {
-                        this.props.navigation.navigate('Stairs', { ...this.state.data, framingData: this.state.framingData, ralingData, flashingData, deckSurfaceData, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
-                    })
-                }
+        } else {
+            if (this.isFormFilled()) {
+                var arrayData = this.state.framingData
+                arrayData.push({
+                    "framing_id": this.state.Framing_id,
+                    "framing_maintainence_id": this.state.FramingMaintainacne_id,
+                    "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
+                    "framing_closeup": this.state.sendcloseFImg,
+                    "framing_photo": this.state.sendLocFImg,
+                    "other_type": this.state.Framing_id_other,
 
+                })
+                this.setState({
+                    framingData: arrayData,
+                    loading: false
+                }, () => {
+                    this.props.navigation.navigate('Stairs', { ...this.state.data, framingData: this.state.framingData, ralingData, flashingData, deckSurfaceData, Framing_id: this.state.Framing_id, FramingMaintainacne_id: this.state.FramingMaintainacne_id, FramingFinding: this.state.FramingFinding, FramingCloseImg: this.state.sendcloseFImg, FramingLocImg: this.state.sendLocFImg, inspectionId: this?.props?.route?.params?.inspectionId })
+                })
             }
 
-    
+        }
+
+
     }
 
     getSelectedMaintainance() {
@@ -437,10 +447,24 @@ class Framing extends Component {
                                         this.setState({ Framing_id: itemValue });
                                     }}
                                     pickerProps={{ numberOfLines: 8 }}
-                                    items={this.state.framingType}
+                                    items={this.props.get_all_types}
                                 />
                             </View>
-
+                            {this.props.get_all_types[this.props.get_all_types.length - 1].value == this.state.Framing_id && <TextInput
+                                placeholderTextColor={'lightgrey'}
+                                // multiline={true}
+                                value={this.state.Framing_id_other}
+                                onChangeText={(val) => this.setState({ Framing_id_other: val })}
+                                placeholder='Add Other'
+                                style={{
+                                    borderWidth: 1,
+                                    paddingLeft: 10,
+                                    height: 30,
+                                    borderRadius: 6,
+                                    color: 'black',
+                                    marginTop: 20
+                                }}
+                            />}
                             <Text style={[styles.greytxt, { marginTop: 30 }]}>Framing findings {framingData?.length + 1}</Text>
 
                             <View>
@@ -587,9 +611,13 @@ class Framing extends Component {
                                                 "framing_finding": this.state.FramingFinding ? this.state.FramingFinding : "2",
                                                 "framing_closeup": this.state.sendcloseFImg,
                                                 "framing_photo": this.state.sendLocFImg,
+                                                "other_type": this.state.Framing_id_other,
+
                                                 states: {
                                                     closeFImg: this.state.closeFImg,
                                                     LocFImg: this.state.LocFImg,
+                                                    other_type: this.state.Framing_id_other,
+
                                                     FramingMaintainacne_id: this.state.FramingMaintainacne_id,
                                                     sendcloseFImg: this.state.sendcloseFImg,
                                                     sendLocFImg: this.state.sendLocFImg,
@@ -603,6 +631,7 @@ class Framing extends Component {
                                                 Framing_id: 0,
                                                 loading: false,
                                                 modal: false,
+                                                Framing_id_other: "",
                                                 sendcloseFImg: '',
                                                 sendLocFImg: '',
                                                 checkBox: false,
@@ -676,6 +705,7 @@ function mapStateToProps(state, props) {
         userDetail: state.user.userDetail,
         userToken: state.user.userToken,
         role: state.user.role,
+        get_all_types: state.get_all_Types.types.framing,
     };
 }
 const mapDispatchToProps = dispatch => {

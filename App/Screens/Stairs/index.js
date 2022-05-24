@@ -39,6 +39,7 @@ class Stairs extends Component {
             sendStaircloseFImg: '',
             sendStairLocFImg: '',
             Stairs_id: 0,
+            Stairs_id_other: "",
             StairsFinding: '',
             StairsMaintaince_id: 0,
             StairType: [
@@ -219,7 +220,9 @@ class Stairs extends Component {
                     "stairs_maintainence_id": this.state.StairsMaintaince_id,
                     "stairs_finding": this.state.StairsFinding,
                     "stairs_closeup": this.state.sendStaircloseFImg,
-                    "stairs_photo": this.state.sendStairLocFImg
+                    "stairs_photo": this.state.sendStairLocFImg,
+                "other_type": this.state.Stairs_id_other,
+
                 })
                 this.setState({
                     stairsData: arrayData
@@ -234,7 +237,9 @@ class Stairs extends Component {
                         "deckSurfaces": deckSurfaceData,
                         "framings": framingData,
                         "stairs_maintainence_id": this.state.StairsMaintaince_id,
-                        "stairs": this.state.stairsData
+                        "stairs": this.state.stairsData,
+                "other_type": this.state.Stairs_id_other,
+
                     }
                     console.log(sendData, "sendData")
 
@@ -444,9 +449,24 @@ class Stairs extends Component {
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Stairs_id: itemValue });
                                     }}
-                                    items={this.state.StairType}
+                                    items={this.props.get_all_types}
                                 />
                             </View>
+                            {this.props.get_all_types[this.props.get_all_types.length -1].value == this.state.Stairs_id && <TextInput
+                                placeholderTextColor={'lightgrey'}
+                                // multiline={true}
+                                onChangeText={(val) => this.setState({ Stairs_id_other: val })}
+                                value={this.state.Stairs_id_other}
+                                placeholder='Add Other'
+                                style={{
+                                    borderWidth: 1,
+                                    paddingLeft: 10,
+                                    height: 30,
+                                    borderRadius: 6,
+                                    color: 'black',
+                                    marginTop: 20
+                                }}
+                            />}
                             <Text style={[styles.greytxt, { marginTop: 30 }]}>Stairs findings {stairsData?.length + 1}</Text>
 
                             <View>
@@ -582,6 +602,8 @@ class Stairs extends Component {
                                                 "stairs_finding": this.state.StairsFinding,
                                                 "stairs_closeup": this.state.sendStaircloseFImg,
                                                 "stairs_photo": this.state.sendStairLocFImg,
+                "other_type": this.state.Stairs_id_other,
+
                                                 states: {
                                                     StaircloseFImg: this.state.StaircloseFImg,
                                                     StairLocFImg: this.state.StairLocFImg,
@@ -590,6 +612,8 @@ class Stairs extends Component {
                                                     Stairs_id: this.state.Stairs_id,
                                                     StairsFinding: this.state.StairsFinding,
                                                     StairsMaintaince_id: this.state.StairsMaintaince_id,
+                "other_type": this.state.Stairs_id_other,
+
                                                 }
                                             })
                                             this.setState({
@@ -601,7 +625,8 @@ class Stairs extends Component {
                                                 StairsFinding: '',
                                                 StairsMaintaince_id: 0,
                                                 loading: false,
-                                                modal: false,
+                                                Stairs_id_other: '',
+                modal: false,
                                                 checkBox: false,
                                                 ImageModalVisible: false,
                                                 type: 0,
@@ -672,7 +697,9 @@ function mapStateToProps(state, props) {
     return {
         userDetail: state.user.userDetail,
         userToken: state.user.userToken,
-        Ins_id: state.user.Ins_id
+        Ins_id: state.user.Ins_id,
+        get_all_types: state.get_all_Types.types.stairs,
+
     };
 }
 const mapDispatchToProps = dispatch => {

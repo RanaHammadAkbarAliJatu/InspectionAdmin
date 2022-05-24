@@ -21,6 +21,7 @@ import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import { Get_Inspection_List, ListLocationInspection } from '../../helper/api';
 import FastImage from 'react-native-fast-image'
+import {getAllTypes} from "../../redux/store"
 import Moment from 'moment';
 class PropertiesforInspection extends Component {
     constructor(props) {
@@ -50,7 +51,9 @@ class PropertiesforInspection extends Component {
         this.setState({ loading: false });
     }
     componentDidMount() {
-
+        const token = this.props.userToken;
+        this.props.getAllTypes(token)
+console.log(token,"token")
         this.getInspection()
         this.focusListener = this.props.navigation.addListener('focus', () => {
             this.getInspection()
@@ -196,6 +199,8 @@ const mapDispatchToProps = dispatch => {
     return {
         callApi: (user, access_token, role) =>
             dispatch(userActions.setUser({ user, access_token, role })),
+            getAllTypes: (token) => dispatch(getAllTypes(token))
+
     };
 };
 

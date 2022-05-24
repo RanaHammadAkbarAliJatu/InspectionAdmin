@@ -41,6 +41,8 @@ class DeckSurface extends Component {
             LocFImg: '',
             DeckSurfaceMaintainance_id: 0,
             DeckSurface_id: 0,
+            DeckSurface_id_other: "",
+
             DeckSurfaceType: [
                 {
                     value: 2,
@@ -139,6 +141,7 @@ class DeckSurface extends Component {
                 "deck_surface_finding": this.state.DeckSurfaceFinding,
                 "deck_maintainence_id": this.state.DeckSurfaceMaintainance_id,
                 "deck_surface_closeup": this.state.sendcloseFImg,
+                "other_type": this.state.DeckSurface_id_other,
                 "deck_surface_photo": this.state.sendLocFImg
             })
             this.setState({
@@ -324,15 +327,31 @@ class DeckSurface extends Component {
                                         this.setState({ DeckSurface_id: itemValue });
                                     }}
                                     pickerProps={{ numberOfLines: 8 }}
-                                    items={this.state.DeckSurfaceType}
+                                    items={this.props.get_all_types}
                                 />
                             </View>
+                            {this.props.get_all_types[this.props.get_all_types.length - 1].value == this.state.DeckSurface_id && <TextInput
+                                placeholderTextColor={'lightgrey'}
+                                // multiline={true}
+                                value={this.state.DeckSurface_id_other}
+                                onChangeText={(val) => this.setState({ DeckSurface_id_other: val })}
+
+                                placeholder='Add Other'
+                                style={{
+                                    borderWidth: 1,
+                                    paddingLeft: 10,
+                                    height: 30,
+                                    borderRadius: 6,
+                                    color: 'black',
+                                    marginTop: 20
+                                }}
+                            />}
                             <Text style={[styles.greytxt, { marginTop: 30 }]}>Deck surface findings {deckSurfaceData?.length + 1}</Text>
 
                             <View>
 
-                                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                                <TextInput
+                                    placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ DeckSurfaceFinding: val })}
                                     multiline={true}
                                     numberOfLines={4}
@@ -455,6 +474,7 @@ class DeckSurface extends Component {
                                                 "deck_surface_finding": this.state.DeckSurfaceFinding,
                                                 "deck_maintainence_id": this.state.DeckSurfaceMaintainance_id,
                                                 "deck_surface_closeup": this.state.sendcloseFImg,
+                                                "other_type": this.state.DeckSurface_id_other,
                                                 "deck_surface_photo": this.state.sendLocFImg,
                                                 states: {
                                                     DeckSurfaceFinding: this.state.DeckSurfaceFinding,
@@ -464,6 +484,8 @@ class DeckSurface extends Component {
                                                     LocFImg: this.state.LocFImg,
                                                     DeckSurfaceMaintainance_id: this.state.DeckSurfaceMaintainance_id,
                                                     DeckSurface_id: this.state.DeckSurface_id,
+                                                    "other_type": this.state.DeckSurface_id_other,
+
                                                 }
                                             })
                                             this.setState({
@@ -471,6 +493,7 @@ class DeckSurface extends Component {
                                                 closeFImg: '',
                                                 sendcloseFImg: '',
                                                 sendLocFImg: '',
+                                                DeckSurface_id_other: "",
                                                 LocFImg: '',
                                                 DeckSurfaceMaintainance_id: 0,
                                                 DeckSurface_id: 0,
@@ -546,6 +569,7 @@ function mapStateToProps(state, props) {
         userDetail: state.user.userDetail,
         userToken: state.user.userToken,
         role: state.user.role,
+        get_all_types: state.get_all_Types.types.deckSurface,
     };
 }
 const mapDispatchToProps = dispatch => {

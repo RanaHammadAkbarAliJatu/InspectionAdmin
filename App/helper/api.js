@@ -44,7 +44,7 @@ export async function LoginForm(data) {
   return GetResponse;
 }
 
-export async function get_all_Types(token) {
+export async function get_all_Types_api(token) {
   var config = {
     method: 'GET',
     url: `${Server}/api/get-all-types/`,

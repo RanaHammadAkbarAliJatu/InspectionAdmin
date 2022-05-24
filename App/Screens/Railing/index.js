@@ -84,6 +84,7 @@ class Railing extends Component {
             ],
             railingMaintainance_id: 0,
             railing_id: 0,
+            railing_id_other: "",
             ImageModalVisible: false,
             type: 0,
             ralingData: []
@@ -135,7 +136,9 @@ class Railing extends Component {
                 "railing_finding": this.state.railfin,
                 "railing_maintainence_id": this.state.railingMaintainance_id,
                 "railing_closeup": this.state.sendcloseFImg,
-                "railing_photo": this.state.sendLocFImg
+                "railing_photo": this.state.sendLocFImg,
+                "other_type": this.state.railing_id_other,
+
             })
             this.setState({
                 ralingData: arrayData
@@ -184,6 +187,7 @@ class Railing extends Component {
     }
     render() {
         const { ralingData } = this.state
+        console.log(this.props.get_all_types)
         return (
             <View style={styles.wrapperView}>
                 <CamraModel
@@ -255,7 +259,7 @@ class Railing extends Component {
                                                     ralingData: arrayPop
                                                 })
                                             })
-                                          
+
                                         }
                                     }
                                 }
@@ -319,15 +323,30 @@ class Railing extends Component {
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ railing_id: itemValue });
                                     }}
-                                    items={this.state.railingType}
+                                    items={this.props.get_all_types}
                                 />
                             </View>
+                            {this.props.get_all_types[this.props.get_all_types.length -1].value == this.state.railing_id && <TextInput
+                                placeholderTextColor={'lightgrey'}
+                                
+                                value={this.state.railing_id_other}
+                                    onChangeText={(val) => this.setState({ railing_id_other: val })}
+                                    placeholder='Add Other'
+                                style={{
+                                    borderWidth: 1,
+                                    paddingLeft: 10,
+                                    height: 30,
+                                    borderRadius: 6,
+                                    color: 'black',
+                                    marginTop: 20
+                                }}
+                            />}
                             <Text style={[styles.greytxt, { marginTop: 30 }]}>Railing findings {ralingData?.length + 1}</Text>
 
                             <View>
 
-                                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                                <TextInput
+                                    placeholderTextColor={'lightgrey'}
                                     onChangeText={(val) => this.setState({ railfin: val })}
                                     multiline={true}
                                     numberOfLines={4}
@@ -456,6 +475,7 @@ class Railing extends Component {
                                                 "railing_maintainence_id": this.state.railingMaintainance_id,
                                                 "railing_closeup": this.state.sendcloseFImg,
                                                 "railing_photo": this.state.sendLocFImg,
+                                                "other_type": this.state.railing_id_other,
                                                 states: {
                                                     railing_id: this.state.railing_id,
                                                     railingMaintainance_id: this.state.railingMaintainance_id,
@@ -463,7 +483,8 @@ class Railing extends Component {
                                                     sendLocFImg: this.state.sendLocFImg,
                                                     railfin: this.state.railfin,
                                                     closeFImg: this.state.closeFImg,
-                                                    LocFImg: this.state.LocFImg
+                                                    LocFImg: this.state.LocFImg,
+                                                    other_type: this.state.railing_id_other
                                                 }
                                             })
                                             this.setState({
@@ -474,6 +495,7 @@ class Railing extends Component {
                                                 sendLocFImg: '',
                                                 railfin: '',
                                                 closeFImg: '',
+                                                other_type: "",
                                                 LocFImg: '',
                                                 loading: false,
                                                 modal: false,
@@ -512,6 +534,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#282461',
     },
+    textInputOther: {
+        borderWidth: 1,
+        paddingLeft: 10,
+        height: 30,
+        borderRadius: 6,
+        color: 'black',
+        marginTop: 20
+    },
     textInput: {
         width: SCREEN.width - 40,
         height: 100,
@@ -546,6 +576,7 @@ function mapStateToProps(state, props) {
         userDetail: state.user.userDetail,
         userToken: state.user.userToken,
         Ins_id: state.user.Ins_id,
+        get_all_types: state.get_all_Types.types.railing,
     };
 }
 const mapDispatchToProps = dispatch => {

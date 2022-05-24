@@ -175,7 +175,7 @@ class Stairs extends Component {
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
 
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.stairs_id ? this.state.StairType[item?.stairs_id].label : ''}</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.other_type ? item.other_type :  this.props?.get_all_types[item?.stairs_id]?.label}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                         <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                         <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
@@ -271,6 +271,7 @@ function mapStateToProps(state, props) {
         userDetail: state.user.userDetail,
         userToken: state.user.userToken,
         role: state.user.role,
+        get_all_types: state.get_all_Types.types.stairs,
     };
 }
 const mapDispatchToProps = dispatch => {
