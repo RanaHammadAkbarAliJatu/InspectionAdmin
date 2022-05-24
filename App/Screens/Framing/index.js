@@ -219,24 +219,39 @@ class Framing extends Component {
                             ]
                         }
                         console.log(sendData, "sendData")
-                        CreateLocationInspection(sendData, token).then(response => {
-                            console.log(response, "response")
-                            this.setState({ loading: false });
-                            if (response?.status === 200 && !response.data.error) {
-
-                                this.props.navigation.navigate('PropertiesforInspection')
-                                console.log(response, "response")
-                                resolve()
-                            }
-                            else {
-                                alert("Some thing Went Wrong")
-                            }
-                        }).catch((err) => {
-                            reject()
-                            console.log(err.message, "err");
-                            this.setState({ loading: false });
-
-                        });
+                        Alert.alert(
+                            "Alert",
+                            "are you sure want to finish",
+                            [
+                                {
+                                    text: "Cancel",
+                                    onPress: () => this.setState({ loading: false }),
+                                    style: "cancel"
+                                },
+                                {
+                                    text: "Yes", onPress: () => {
+                                        CreateLocationInspection(sendData, token).then(response => {
+                                            console.log(response, "response")
+                                            this.setState({ loading: false });
+                                            if (response?.status === 200 && !response.data.error) {
+                
+                                                this.props.navigation.navigate('PropertiesforInspection')
+                                                console.log(response, "response")
+                                                resolve()
+                                            }
+                                            else {
+                                                alert("Some thing Went Wrong")
+                                            }
+                                        }).catch((err) => {
+                                            reject()
+                                            console.log(err.message, "err");
+                                            this.setState({ loading: false });
+                
+                                        });
+                                    }
+                                }
+                            ]
+                        );
                     })
                 }
             });

@@ -201,7 +201,7 @@ class Stairs extends Component {
         else {
             return true
         }
- 
+
     }
 
     AddLocation() {
@@ -221,7 +221,7 @@ class Stairs extends Component {
                     "stairs_finding": this.state.StairsFinding,
                     "stairs_closeup": this.state.sendStaircloseFImg,
                     "stairs_photo": this.state.sendStairLocFImg,
-                "other_type": this.state.Stairs_id_other,
+                    "other_type": this.state.Stairs_id_other,
 
                 })
                 this.setState({
@@ -238,28 +238,43 @@ class Stairs extends Component {
                         "framings": framingData,
                         "stairs_maintainence_id": this.state.StairsMaintaince_id,
                         "stairs": this.state.stairsData,
-                "other_type": this.state.Stairs_id_other,
+                        "other_type": this.state.Stairs_id_other,
 
                     }
                     console.log(sendData, "sendData")
+                    Alert.alert(
+                        "Alert",
+                        "are you sure want to finish",
+                        [
+                            {
+                                text: "Cancel",
+                                onPress: () => this.setState({ loading: false }),
+                                style: "cancel"
+                            },
+                            {
+                                text: "Yes", onPress: () => {
+                                    CreateLocationInspection(sendData, token).then(response => {
+                                        console.log(response)
+                                        this.setState({ loading: false });
+                                        if (response?.status === 200 && !response.data.error) {
 
-                    CreateLocationInspection(sendData, token).then(response => {
-                        console.log(response)
-                        this.setState({ loading: false });
-                        if (response?.status === 200 && !response.data.error) {
+                                            this.props.navigation.navigate('PropertiesforInspection')
+                                            console.log(response, "response")
+                                            resolve(loading)
+                                        }
+                                        else {
+                                            alert("Some thing Went Wrong")
+                                        }
+                                    }).catch((err) => {
+                                        reject(loading)
+                                        console.log(err.message);
+                                        this.setState({ loading: false });
+                                    });
+                                }
+                            }
+                        ]
+                    );
 
-                            this.props.navigation.navigate('PropertiesforInspection')
-                            console.log(response, "response")
-                            resolve(loading)
-                        }
-                        else {
-                            alert("Some thing Went Wrong")
-                        }
-                    }).catch((err) => {
-                        reject(loading)
-                        console.log(err.message);
-                        this.setState({ loading: false });
-                    });
                 })
             });
             myPromise
@@ -452,7 +467,7 @@ class Stairs extends Component {
                                     items={this.props.get_all_types}
                                 />
                             </View>
-                            {this.props.get_all_types[this.props.get_all_types.length -1].value == this.state.Stairs_id && <TextInput
+                            {this.props.get_all_types[this.props.get_all_types.length - 1].value == this.state.Stairs_id && <TextInput
                                 placeholderTextColor={'lightgrey'}
                                 // multiline={true}
                                 onChangeText={(val) => this.setState({ Stairs_id_other: val })}
@@ -602,7 +617,7 @@ class Stairs extends Component {
                                                 "stairs_finding": this.state.StairsFinding,
                                                 "stairs_closeup": this.state.sendStaircloseFImg,
                                                 "stairs_photo": this.state.sendStairLocFImg,
-                "other_type": this.state.Stairs_id_other,
+                                                "other_type": this.state.Stairs_id_other,
 
                                                 states: {
                                                     StaircloseFImg: this.state.StaircloseFImg,
@@ -612,7 +627,7 @@ class Stairs extends Component {
                                                     Stairs_id: this.state.Stairs_id,
                                                     StairsFinding: this.state.StairsFinding,
                                                     StairsMaintaince_id: this.state.StairsMaintaince_id,
-                "other_type": this.state.Stairs_id_other,
+                                                    "other_type": this.state.Stairs_id_other,
 
                                                 }
                                             })
@@ -626,7 +641,7 @@ class Stairs extends Component {
                                                 StairsMaintaince_id: 0,
                                                 loading: false,
                                                 Stairs_id_other: '',
-                modal: false,
+                                                modal: false,
                                                 checkBox: false,
                                                 ImageModalVisible: false,
                                                 type: 0,
