@@ -52,6 +52,7 @@ class Review extends Component {
             PropertyLocationData,
             ManagementContactData,
             TakePictureData,
+            propertyType,
             PreparedByData } = this?.props?.route?.params?.dataToSend
         this.setState({ loading: true });
         const dataToSend = {
@@ -67,7 +68,7 @@ class Review extends Component {
             property_city: PropertyLocationData.propcity,
             property_state: PropertyLocationData.propstate,
             property_zip_code: PropertyLocationData.zip_code,
-
+            propertyType: propertyType,
             management_name: ManagementContactData.manage_name,
             management_address: ManagementContactData.manage_address,
             management_phone: ManagementContactData.manage_phone,

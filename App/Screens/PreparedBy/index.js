@@ -20,6 +20,7 @@ import * as userActions from '../../redux/actions/user';
 import { BLACK, GREY, ORANGE, PURPLE, RED, WHITE } from '../../helper/Color';
 import { FONT, isIphoneXorAbove, SCREEN } from '../../helper/Constant';
 import DatePicker from 'react-native-date-picker'
+import Icon from 'react-native-vector-icons/Fontisto'
 import Header from '../../Components/Headder/header';
 import Validations from '../../helper/Validations';
 class PreparedBy extends Component {
@@ -34,7 +35,8 @@ class PreparedBy extends Component {
       pforName: '',
       loading: false,
       date: new Date(),
-      open: false
+      open: false,
+      propertyType: { Sb721: true, Sb326: false }
     };
   }
 
@@ -137,6 +139,7 @@ class PreparedBy extends Component {
       PropertyLocationData: this?.props?.route?.params?.data?.PropertyLocationData,
       ManagementContactData: this?.props?.route?.params?.data?.ManagementContactData,
       TakePictureData: this?.props?.route?.params?.data?.TakePictureData,
+      propertyType: this.state.propertyType,
       PreparedByData: {
         pfor_buisness_name: this.state.pforBusinessName,
         pfor_phone: this.state.pforNumber,
@@ -177,7 +180,7 @@ class PreparedBy extends Component {
       <View
         style={styles.wrapperView}>
         <Header
-            show={this?.props?.route?.params?.change ? false: true}
+          show={this?.props?.route?.params?.change ? false : true}
 
           leftPress={() => {
             this.props.navigation.goBack()
@@ -200,16 +203,16 @@ class PreparedBy extends Component {
                 bounces={false}
                 style={{ flex: 1 }}>
 
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforBusinessName: val })}
                   placeholder='Deck and Balcony Inspection Inc.'
                   value={this.state.pforBusinessName}
                   style={[styles.TextInput, { marginTop: 30 }]}
                   editable={false}
                 />
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforNumber: val })}
                   value={this.state.pforNumber}
                   placeholder='(916) 238-0618'
@@ -218,8 +221,8 @@ class PreparedBy extends Component {
 
                 />
 
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforEmail: val })}
                   value={this.state.pforEmail}
                   placeholder='dan@deckandbalconyinspections.com'
@@ -229,8 +232,8 @@ class PreparedBy extends Component {
                 />
 
 
-                 <TextInput
-        placeholderTextColor={'lightgrey'}
+                <TextInput
+                  placeholderTextColor={'lightgrey'}
                   onChangeText={(val) => this.setState({ pforName: val })}
                   value={this.state.pforName}
                   placeholder='Dan Cronk'
@@ -259,8 +262,8 @@ class PreparedBy extends Component {
                 />
                 <TouchableOpacity onPress={() => { this.setState({ open: true }) }}>
 
-                   <TextInput
-        placeholderTextColor={'lightgrey'}
+                  <TextInput
+                    placeholderTextColor={'lightgrey'}
                     onChangeText={(val) => this.setState({ pforDate: val })}
                     value={this.state.pforDate ? this.state.pforDate : ''}
                     placeholder='28/12/2021'
@@ -270,9 +273,42 @@ class PreparedBy extends Component {
 
                 </TouchableOpacity>
 
+                <View style={{ justifyContent: 'space-around', flexDirection: 'row' }}>
+                  <TouchableOpacity onPress={() =>{
+                    let obj = this.state.propertyType
+                    obj.Sb326 = false
+                    obj.Sb721 = true
+                    this.setState({propertyType: obj})
+                  }} style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ marginRight: 12 }}>Sb 721</Text>
+                    {this.state.propertyType.Sb721 ? <Icon name="radio-btn-active"
+                      color={'black'}
+                      size={20} />
+                      :
+                      <Icon name="radio-btn-passive"
+                        color={'black'}
+                        size={20} />}
+                  </TouchableOpacity>
+                  <TouchableOpacity  
+                  onPress={() =>{
+                    let obj = this.state.propertyType
+                    obj.Sb326 = true
+                    obj.Sb721 = false
+                    this.setState({propertyType: obj})
+                  }} 
+                   style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ marginRight: 12 }}>Sb 326</Text>
+                    {this.state.propertyType.Sb326 ? <Icon name="radio-btn-active"
+                      color={'black'}
+                      size={20} />
+                      :
+                      <Icon name="radio-btn-passive"
+                        color={'black'}
+                        size={20} />}
+                  </TouchableOpacity>
+                </View>
               </ScrollView>
             </View>
-
 
             <View style={{ flex: 0.15, justifyContent: 'flex-end' }}>
               <TouchableOpacity
@@ -282,7 +318,7 @@ class PreparedBy extends Component {
                     if (that?.isFormFilled()) {//chnge
 
                       that.update()
-      }
+                    }
                   } else {
                     this.CreateInspection()
                   }

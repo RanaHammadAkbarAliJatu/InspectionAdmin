@@ -175,7 +175,7 @@ class Stairs extends Component {
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginTop: 20, color: '#828282' }}>Stairs</Text>
 
                                     <Text style={{ fontSize: 12, fontWeight: 'bold', marginTop: 20, color: '#828282' }}>Stairs type</Text>
-                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.other_type ? item.other_type :  this.props?.get_all_types[item?.stairs_id]?.label}</Text>
+                                    <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item?.other_type ? item.other_type : this.props?.get_all_types[item?.stairs_id]?.label}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, alignSelf: 'center' }}>
                                         <Image style={{ width: 11, height: 14, marginRight: 5 }} source={require('../../assets/location.png')} />
                                         <Text style={{ fontSize: 12, textAlign: 'center', fontWeight: '700', color: '#828282' }}>{data?.title}</Text>
@@ -206,7 +206,7 @@ class Stairs extends Component {
 
                                         <View style={{ flexDirection: 'row' }}>
                                             {/* <Image style={{ width: 14, height: 12.2, marginRight: 7 }} source={require('../../assets/redSign.png')} /> */}
-                                            <Text style={[styles.itemTxt, { fontWeight: '400', color:this.getSelectedMaintainanceColor(item?.maintainence_id) }]}>{this.getSelectedMaintainanceText(item?.maintainence_id)}</Text>
+                                            <Text style={[styles.itemTxt, { fontWeight: '400', color: this.getSelectedMaintainanceColor(item?.maintainence_id) }]}>{this.getSelectedMaintainanceText(item?.maintainence_id)}</Text>
                                         </View>
                                     </View>
                                     <Text style={[styles.itemTxt, { fontWeight: '400', marginTop: 5 }]}>{item.stairs_finding}</Text>
