@@ -280,7 +280,7 @@ class PreparedBy extends Component {
                     obj.Sb721 = true
                     this.setState({propertyType: obj})
                   }} style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ marginRight: 12 }}>Sb 721</Text>
+                    <Text style={{ marginRight: 12 }}>SB-721</Text>
                     {this.state.propertyType.Sb721 ? <Icon name="radio-btn-active"
                       color={'black'}
                       size={20} />
@@ -297,7 +297,7 @@ class PreparedBy extends Component {
                     this.setState({propertyType: obj})
                   }} 
                    style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ marginRight: 12 }}>Sb 326</Text>
+                    <Text style={{ marginRight: 12 }}>SB-326</Text>
                     {this.state.propertyType.Sb326 ? <Icon name="radio-btn-active"
                       color={'black'}
                       size={20} />

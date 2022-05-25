@@ -244,7 +244,7 @@ class Stairs extends Component {
                     console.log(sendData, "sendData")
                     Alert.alert(
                         "Alert",
-                        "are you sure want to finish",
+                        "Are you sure you want to end the inspection?",
                         [
                             {
                                 text: "Cancel",
@@ -476,7 +476,8 @@ class Stairs extends Component {
                                 style={{
                                     borderWidth: 1,
                                     paddingLeft: 10,
-                                    height: 30,
+                                    height: 40,
+                                    paddingVertical: 5,
                                     borderRadius: 6,
                                     color: 'black',
                                     marginTop: 20
