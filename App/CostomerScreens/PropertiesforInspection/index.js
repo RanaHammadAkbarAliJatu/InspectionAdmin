@@ -84,11 +84,11 @@ class PropertiesforInspection extends Component {
                             </View>}
                     </View>
                     <View style={{ justifyContent: 'flex-end', alignItems: "flex-end" }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => this.props.navigation.navigate("PreparedFor")}
                             style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: PURPLE.dark, height: 65, width: 65, borderRadius: 40, marginRight: 12, marginBottom: 12 }}>
                             <Image style={{ width: 20, height: 20 }} source={require('../../assets/plus.png')} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
 
                     </View>
