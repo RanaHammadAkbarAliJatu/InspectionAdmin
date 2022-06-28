@@ -204,7 +204,7 @@ class Stairs extends Component {
 
     }
 
-    AddLocation() {
+    AddLocation =() => {
         if (this.isFormFilled()) {
             const myPromise = new Promise((resolve, reject) => {
                 this.setState({ loading: true });
@@ -459,12 +459,12 @@ class Stairs extends Component {
                                         label: 'Stair Type',
 
                                     }}
-                                    pickerProps={{ numberOfLines: 8 }}
+                                    pickerProps={{ numberOfLines: 12 }}
                                     value={this.state.Stairs_id}
                                     onValueChange={(itemValue, itemIndex) => {
                                         this.setState({ Stairs_id: itemValue });
                                     }}
-                                    items={this.props.get_all_types}
+                                    items={[...this.props.get_all_types,{"label": "", "value": false}]}
                                 />
                             </View>
                             {this.props.get_all_types[this.props.get_all_types.length - 1].value == this.state.Stairs_id && <TextInput

@@ -151,8 +151,8 @@ class TakePicture extends Component {
         />
         <ImageBackground
           // source={{ uri: "https://reactjs.org/logo-og.png" }}
-          source={this.state.state ? require('../../assets/Pic.png') : { uri: this.state.showImage.uri }}
-          resizeMode="cover"
+          source={this.state.state ? require('../../assets/logoscreen.png') : { uri: this.state.showImage.uri }}
+          resizeMode={this.state.state ? "contain" : "cover"}
           style={{ flex: 1, justifyContent: 'space-between', width: SCREEN.width, height: SCREEN.height, resizeMode: "contain", paddingVertical: 12 }}>
           <View style={{ alignItems: "center" }}>
 

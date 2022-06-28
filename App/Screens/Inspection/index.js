@@ -37,7 +37,7 @@ class Inspection extends Component {
     }
 
     render() {
-        const { location,pdf_link } = this.props.route.params.dataToSend
+        const { location, pdf_link } = this.props.route.params.dataToSend
         return (
             <View style={styles.wrapperView}>
                 <SafeAreaView style={{ flex: 1 }}>
@@ -51,7 +51,7 @@ class Inspection extends Component {
                                     source={require('../../assets/back.png')} />
                             </TouchableOpacity>
 
-                            <Text style={[styles.itemTxt, { fontSize:16}]}>Inspection Locations</Text>
+                            <Text style={[styles.itemTxt, { fontSize: 16 }]}>Inspection Locations</Text>
                         </View>
 
                         <Text style={{ fontSize: 12, fontWeight: '700', color: '#828282', marginTop: 20 }}>Inspections</Text>
@@ -83,30 +83,36 @@ class Inspection extends Component {
                 <Image style={{width: 14, height: 10.5}} source={require('../../assets/eye.png')}/>
             </View>
             </View> */}
-                        {location.length > 0 ? location.map((item, i) => (
-                            <View style={[styles.itemView, { marginTop: 10 }]}>
-                                <View style={styles.round}>
-                                    <Text style={styles.itemTxt}>{i + 1}</Text>
-                                </View>
-                                <Text style={[styles.itemTxt, { marginRight: 20 }]}>{item.title}</Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                    {/* <View style={[styles.oval, { marginRight: 12 }]}>
-                                        <Image style={{ width: 10, height: 13 }} source={require('../../assets/document.png')} />
-                                    </View> */}
-                                    <TouchableOpacity
-                                        onPress={() => this.props.navigation.navigate("CRailing", { dataToSend: item })}>
-                                        <View style={styles.oval}>
-                                            <Image style={{ width: 14, height: 10.5 }} source={require('../../assets/eye.png')} />
+                        <View style={{ flex: 8, marginBottom: "13%" }}>
+                            {location.length > 0 ?
+                                <FlatList
+                                    data={location}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item, index }) => (
+                                        <View style={[styles.itemView, { marginTop: 10 }]}>
+                                            <View style={styles.round}>
+                                                <Text style={styles.itemTxt}>{index + 1}</Text>
+                                            </View>
+                                            <Text style={[styles.itemTxt, { marginRight: 20 }]}>{item.title}</Text>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                {/* <View style={[styles.oval, { marginRight: 12 }]}>
+                                                <Image style={{ width: 10, height: 13 }} source={require('../../assets/document.png')} />
+                                            </View> */}
+                                                <TouchableOpacity
+                                                    onPress={() => this.props.navigation.navigate("CRailing", { dataToSend: item })}>
+                                                    <View style={styles.oval}>
+                                                        <Image style={{ width: 14, height: 10.5 }} source={require('../../assets/eye.png')} />
+                                                    </View>
+                                                </TouchableOpacity>
+
+                                            </View>
                                         </View>
-                                    </TouchableOpacity>
+                                    )}
+                                /> : <View style={[styles.itemView, { justifyContent: 'center' }]}>
+                                    <Text style={[styles.itemTxt]}>No Location of inspections found</Text>
 
-                                </View>
-                            </View>
-                        )) : <View style={[styles.itemView, { justifyContent: 'center' }]}>
-                            <Text style={[styles.itemTxt]}>No Location of inspections found</Text>
-
-                        </View>}
-
+                                </View>}
+                        </View>
 
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             {/* <TouchableOpacity
@@ -118,12 +124,13 @@ class Inspection extends Component {
                                     source={require('../../assets/eye.png')} />
                             </TouchableOpacity> */}
                             <TouchableOpacity style={[styles.itemView, { backgroundColor: '#c9c8db', paddingHorizontal: 15, height: 45 }]}
-                                onPress={() => {if(pdf_link){
-                                    Linking.openURL(pdf_link) 
-                                }else{
-                                    alert("no pdf found")
-                                }
-                            }}>
+                                onPress={() => {
+                                    if (pdf_link) {
+                                        Linking.openURL(pdf_link)
+                                    } else {
+                                        alert("no pdf found")
+                                    }
+                                }}>
                                 <Text style={styles.itemTxt}>Save complete pdf report</Text>
                                 <Image
                                     style={{ width: 18, height: 23 }}

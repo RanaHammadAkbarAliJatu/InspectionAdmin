@@ -39,8 +39,8 @@ class PropertiesforInspection extends Component {
         await Get_Inspection_List(token).then(response => {
             if (response?.status === 200 && !response.data.error) {
                 console.log(response.data)
-                this.setState({ data: response.data.data.inspection }, () => {
-                    console.log(this.state.data)
+                this.setState({ data: response.data.data.inspection.reverse() }, () => {
+                    console.log(this.state.data,"this.state.data")
                 });
 
             }

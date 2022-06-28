@@ -146,6 +146,7 @@ class PreparedBy extends Component {
         pfor_email: this.state.pforEmail,
         pfor_date: this.state.pforDate,
         pfor_name: this.state.pforName,
+        propertyType: this.state.propertyType,
       }
     }
     console.log(dataToSend, "dataToSend");
@@ -272,15 +273,15 @@ class PreparedBy extends Component {
                   />
 
                 </TouchableOpacity>
-
-                <View style={{ justifyContent: 'space-around', flexDirection: 'row' }}>
-                  <TouchableOpacity onPress={() =>{
+                  <Text style={{ alignItems: 'center', fontWeight: 'bold', alignSelf: 'center', fontSize: 16 }}>Property Type:</Text>
+                <View style={{ justifyContent: "space-between", flexDirection: 'row' }}>
+                  <TouchableOpacity onPress={() => {
                     let obj = this.state.propertyType
                     obj.Sb326 = false
                     obj.Sb721 = true
-                    this.setState({propertyType: obj})
+                    this.setState({ propertyType: obj })
                   }} style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ marginRight: 12 }}>SB-721</Text>
+                    <Text style={{ marginRight: 12, fontSize: 16 }}>SB-721</Text>
                     {this.state.propertyType.Sb721 ? <Icon name="radio-btn-active"
                       color={'black'}
                       size={20} />
@@ -289,15 +290,15 @@ class PreparedBy extends Component {
                         color={'black'}
                         size={20} />}
                   </TouchableOpacity>
-                  <TouchableOpacity  
-                  onPress={() =>{
-                    let obj = this.state.propertyType
-                    obj.Sb326 = true
-                    obj.Sb721 = false
-                    this.setState({propertyType: obj})
-                  }} 
-                   style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ marginRight: 12 }}>SB-326</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      let obj = this.state.propertyType
+                      obj.Sb326 = true
+                      obj.Sb721 = false
+                      this.setState({ propertyType: obj })
+                    }}
+                    style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ marginRight: 12,  fontSize: 16}}>SB-326</Text>
                     {this.state.propertyType.Sb326 ? <Icon name="radio-btn-active"
                       color={'black'}
                       size={20} />

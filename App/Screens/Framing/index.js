@@ -172,7 +172,7 @@ class Framing extends Component {
 
     }
 
-    Pass() {
+    Pass =()=> {
 
         const { ralingData, flashingData, deckSurfaceData } = this?.props?.route?.params;
         if (!this.state.checkBox) {
@@ -462,7 +462,7 @@ class Framing extends Component {
                                         this.setState({ Framing_id: itemValue });
                                     }}
                                     pickerProps={{ numberOfLines: 8 }}
-                                    items={this.props.get_all_types}
+                                    items={[...this.props.get_all_types,{"label": "", "value": false}]}
                                 />
                             </View>
                             {this.props.get_all_types[this.props.get_all_types.length - 1].value == this.state.Framing_id && <TextInput

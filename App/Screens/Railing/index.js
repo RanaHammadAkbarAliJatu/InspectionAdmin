@@ -309,21 +309,20 @@ class Railing extends Component {
                                         placeholder: {
                                             color: '#282461',
                                             fontWeight: 'bold'
-
                                         },
                                     }}
                                     placeholder={{
                                         label: 'Rail Types',
-
                                     }}
                                     // textInputProps={{multiline: true}}
                                     pickerProps={{ numberOfLines: 8 }}
                                     // useNativeAndroidPickerStyle={false}
                                     value={this.state.railing_id}
                                     onValueChange={(itemValue, itemIndex) => {
+                                        console.log(itemValue)
                                         this.setState({ railing_id: itemValue });
                                     }}
-                                    items={this.props.get_all_types}
+                                    items={[...this.props.get_all_types,{"label": "", "value": false}]}
                                 />
                             </View>
                             {this.props.get_all_types[this.props.get_all_types.length -1].value == this.state.railing_id && <TextInput

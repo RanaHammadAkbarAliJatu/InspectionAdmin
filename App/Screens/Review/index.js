@@ -300,6 +300,10 @@ class Review extends Component {
                                 <Text style={{color: 'black'}}>Date</Text>
                                 <Text style={{color: 'black'}}>{PreparedByData?.pfor_date}</Text>
                             </View>
+                            <View style={{ flexDirection: 'row', marginTop: 12, justifyContent: 'space-between' }}>
+                                <Text style={{color: 'black'}}>Property Type: </Text>
+                                <Text style={{color: 'black'}}>{PreparedByData?.propertyType?.Sb721 ? "SB-721":"SB-326" }</Text>
+                            </View>
                         </View>
                         {/* <View style={{ alignItems: 'center', flex: 1 }}>
 
